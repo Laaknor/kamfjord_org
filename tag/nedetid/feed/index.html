@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Nedetid &#8211; Lars Åges tanker</title>
+	<atom:link href="https://kamfjord.org/tag/nedetid/feed/" rel="self" type="application/rss+xml" />
+	<link>https://kamfjord.org/</link>
+	<description>Politikk og teknologi</description>
+	<lastBuildDate>Sun, 19 Jun 2011 20:57:07 +0000</lastBuildDate>
+	<language>nb-NO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.4.2</generator>
+	<item>
+		<title>Endelig gikk Telenor ned!</title>
+		<link>https://kamfjord.org/2011/06/19/endelig-gikk-telenor-ned/</link>
+					<comments>https://kamfjord.org/2011/06/19/endelig-gikk-telenor-ned/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Sun, 19 Jun 2011 20:57:07 +0000</pubDate>
+				<category><![CDATA[IT-politikk]]></category>
+		<category><![CDATA[Teknisk]]></category>
+		<category><![CDATA[Nedetid]]></category>
+		<category><![CDATA[Samfunnssikkerhet]]></category>
+		<category><![CDATA[Telenor]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=242</guid>
+
+					<description><![CDATA[Ingenting er så lite perfekt som datasystemer. Ja, de effektiviserer mye, men sikkerheten (først og fremst samfunnssikkerheten, ikke datasikkerheten) er elendig. Alle datasystemer har en stor risiko for at ting går til helvette. Telenor-problemet som var forrige uke var ikke uventet. &#8230; <a href="https://kamfjord.org/2011/06/19/endelig-gikk-telenor-ned/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Ingenting er så lite perfekt som datasystemer. Ja, de effektiviserer mye, men sikkerheten (først og fremst samfunnssikkerheten, ikke datasikkerheten) er elendig. Alle datasystemer har en stor risiko for at ting går til helvette.</p>
+<p>Telenor-problemet som var <a href="http://www.vg.no/nyheter/innenriks/artikkel.php?artid=10095156">forrige uke</a> var ikke uventet. Selv har jeg hver gang jeg har vurdert kritisk mobilutstyr (f.eks. system for å sende ut SMS-melding/ringe alle på avdelingen dersom datarommet går ned), vurdert løsninger med støtte for to eller flere SIM-kort, og dermed mulighet for å bruke både Telenor og Netcom. At direktoratet med ansvar for samfunnssikkerhet ikke har <a href="http://tb.no/nyheter/mobilbrudd-blottla-nasjonalt-beredskapshull-1.6297740">tatt den risikovurderingen</a> er derfor mildt sagt skremmende, og i mine øyne innebærer det at de har hatt litt for få personer med teknologisk innsikt når de har satt opp beredskapsplanleggingen sin. Alle nødsentralene (brann/politi/ambulanse) har flere redundante backupløsninger for telefonsystemene, noe som DSB også bør ha.</p>
+<p>Problemet med teknologien er ikke først og fremst at ting blir ødelagt &#8211; det går det ann å beskytte seg for relativt lett med å ha to eller tre enheter som er i stand til å ta over &#8211; enten manuelt (ved at man skrur på enheten når den første dør) eller automatisk. Problemet med slike løsninger er dog at kompleksiteten på systemet øker når man skal ha redundans. Og som en følge av kompleksiteten, øker også muligheten for de vanligste feilene &#8211; brukerfeil (i dette tilfellet burde det kanskje være greit å spesifisere at jeg anser brukeren som IT-konsulenten som sitter å jobber med å gjøre en eller annen endring på systemet). De aller fleste feil som skjer i datasystemer er det et eller annet menneske som er årssaken til, og ikke datamaskinen i seg selv.</p>
+<p>Som et eksempel på feil jeg selv har gjort  (mer enn en gang), som har medført nedetid, kan jeg nevne en veldig vanlig feil på datanettverk. Litt avanserte switcher settes gjerne opp med tilgang til flere forskjellige nettverk (f.eks. med forskjellige sikkerhetsnivåer) på samme switchen. For å fordele riktige nettverk til riktige switcher setter man opp begrensninger på hvilke nettverk som får lov til å gå fra en switch til en annen. På Cisco-switcher (som er en av de vanligste leverandørene) skrives denne konfigurasjonen slik:</p>
+<p><em>switchport trunk allowed vlan 2,4,6,8</em></p>
+<p>Dette tillater nettverk 2, 4, 6 og 8. Dersom man skal legge til nettverk 5 skrives det slik:</p>
+<p><em>switchport trunk allowed vlan add 5</em></p>
+<p>Altså legger til &laquo;add 5&raquo;. Dersom man glemmer å legge til &laquo;add&raquo;, vil man i stedenfor få følgende konfigurasjon:</p>
+<p><em>switchport trunk allowed vlan 5</em></p>
+<p>Eller med andre ord, nettverk 2,4,6 og 8 vil slutte å virke (siden man erstatter hele linja slik den var), og kun nettverk 5 vil stå igjen&#8230;</p>
+<p>Vi vil aldri kunne beskytte oss 100% mot alle mulige feil &#8211; det vil alltid være en viss margin for at ting slutter å virke. Samfunnssikkerheten er i stor grad avhengig av hurtigst mulig respons når noe skjer, og når noe skjer, er det stor sannsynlighet for at ting har sluttet å virke. Det er vanskelig å  forutse hva som skal til, men jeg tror ikke vi kan ta som utgangspunkt i at Telenor Mobil skal kunne løse samfunnets problemer for sikkerhet &#8211; en enkelt aktør er ikke i stand til å løse det &#8211; uansett hvor mange milliarder du putter inn i det. Det er derimot en fordel med fri konkurranse, i stedenfor at alle bruker samme leverandør.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2011/06/19/endelig-gikk-telenor-ned/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

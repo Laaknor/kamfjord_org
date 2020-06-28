@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="nb-NO"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"><title>Hvordan vi har satt opp Zimbra | </title><title>Hvordan vi har satt opp Zimbra – Lars Åges tanker</title><link rel="dns-prefetch" href="//fonts.googleapis.com"><link rel="dns-prefetch" href="//s.w.org"><link rel="stylesheet" id="wp-block-library-css" href="https://kamfjord.org/wp-includes/css/dist/block-library/style.min.css" type="text/css" media="all"><link rel="stylesheet" id="wordpress-popular-posts-css-css" href="https://kamfjord.org/wp-content/plugins/wordpress-popular-posts/assets/css/wpp.css" type="text/css" media="all"><link rel="stylesheet" id="yoko-fonts-css" href="//fonts.googleapis.com/css?family=Droid+Sans%3A400%2C700%7CDroid+Serif%3A400%2C700%2C400italic%2C700italic&subset=latin%2Clatin-ext" type="text/css" media="all"><link rel="stylesheet" id="yoko-style-css" href="https://kamfjord.org/wp-content/themes/yoko/style.css" type="text/css" media="all"><script type="text/javascript">
+/* <![CDATA[ */
+var wpp_params = {"sampling_active":"0","sampling_rate":"100","ajax_url":"https:\/\/kamfjord.org\/wp-json\/wordpress-popular-posts\/v1\/popular-posts","ID":"94","token":"5e91d1139c","debug":""};
+/* ]]> */
+</script><script type="text/javascript" src="https://kamfjord.org/wp-content/plugins/wordpress-popular-posts/assets/js/wpp-5.0.0.min.js"></script><script type="text/javascript" src="https://kamfjord.org/wp-includes/js/jquery/jquery.js"></script><script type="text/javascript" src="https://kamfjord.org/wp-includes/js/jquery/jquery-migrate.min.js"></script><script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script><style type="text/css">
+        .entry-content img {max-width: 100000%; /* override */}
+    </style><style type="text/css" id="yoko-themeoptions-css">
+		a {color: #009BC2;}
+		#content .single-entry-header h1.entry-title {color: #009BC2!important;}
+		input#submit:hover {background-color: #009BC2!important;}
+		#content .page-entry-header h1.entry-title {color: #009BC2!important;}
+		.searchsubmit:hover {background-color: #009BC2!important;}
+	</style></head><body class="post-template-default single single-post postid-94 single-format-standard">
+<div id="page" class="clearfix">
+<header id="branding"><nav id="mainnav" class="clearfix"><div class="menu-toppmeny-container"><ul id="menu-toppmeny" class="menu"><li id="menu-item-259" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-259"><a href="https://kamfjord.org/">Hjem</a></li>
+<li id="menu-item-261" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-261"><a href="https://kamfjord.org/category/politikk/">Politikk</a></li>
+<li id="menu-item-262" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-262"><a href="https://kamfjord.org/category/teknisk/">Teknisk</a></li>
+<li id="menu-item-263" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-263"><a href="https://kamfjord.org/category/wiki/">Wikimedia</a></li>
+<li id="menu-item-371" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-371"><a href="https://kamfjord.org/prosjekter/">Prosjekter</a></li>
+</ul></div> </nav><hgroup id="site-title"><h1><a href="https://kamfjord.org/" title="Lars Åges tanker">Lars Åges tanker</a></h1>
+<h2 id="site-description">Politikk og teknologi</h2>
+</hgroup><img alt="" src="https://kamfjord.org/wp-content/uploads/2011/07/blogg-header-bilde1.jpg" class="headerimage" width="1102" height="350"><nav id="subnav"></nav></header><div id="wrap">
+<div id="main">
+<div id="content">
+<article id="post-94" class="post-94 post type-post status-publish format-standard hentry category-jobb category-teknisk tag-edirectory tag-netmail tag-php tag-zimbra"><header class="single-entry-header"><h1 class="entry-title">Hvordan vi har satt opp Zimbra</h1>
+<p><span class="entry-date">juni 26, 2009</span> <span class="entry-author">av Lars Åge Kamfjord</span> | <a href="https://kamfjord.org/2009/06/26/hvordan-vi-har-satt-opp-zimbra/#comments">2 kommentarer</a></p>
+</header><div class="single-entry-content">
+<p>Nok en uke har gått, og i løpet av uka har jeg primært jobbet med å sette <a href="http://www.zimbra.com">Zimbra</a> i produksjon som nytt gruppevaresystem for skolene i Tønsberg og Nøtterøy kommuner. Vi kjører fra før av Novell eDirectory som katalogtjeneste og Novell NetMail som mailserver via IMAP, og vi måtte derfor ha på plass to ting.</p>
+<ul><li>Synkronisering av brukerdatabase fra eDirectory til Zimbra, siden Zimbra har sin egen OpenLDAP-database</li>
+<li>Migrering av epost fra NetMail til Zimbra</li>
+</ul><p>Den første biten gjorde jeg ganske enkel, med et PHP-script som går igjennom hele LDAP-katalogen og lager kommandoer som kan brukes til zmprov:</p>
+<pre><?php
+
+$defaultpassword = 'defaultpassword_for_user';
+
+$ldap1_con = ldap_connect("ldap://10.5.48.10");
+
+if($ldap1_con) $ldap1_bind = ldap_bind($ldap1_con, 'cn=admin,o=VESTFOLD', 'very_secret_password');
+
+if(!$ldap1_bind) die("LDAP1-bind failed...(".ldap_error($ldap1_con).")");
+
+$findattrs = array("cn", 'description',  'fullName', 'sn', 'mail', 'givenName', 'title', 'company');
+
+$search = ldap_search($ldap1_con, 'o=VESTFOLD', '(&(objectClass=Person)(|(title=Elev)(title=Laerer)(company=IKT)))', $findattrs);
+
+if(!$search) {
+ // Search failed.
+ echo "LDAP-errno: ". ldap_errno($ldap1_con)."\n";
+ echo "LDAP-Error: " . ldap_error($ldap1_con)."\n";
+}
+$ldap = ldap_get_entries($ldap1_con, $search);
+$output = NULL;
+for($i=0;$i<$ldap['count'];$i++) {
+ $mail = $ldap[$i]['mail'][0];
+ $splitmail = split("@", $mail);
+ if(strpos($mail, "nottkom.no")) $kommune = 'Notteroy';
+ elseif(strpos($mail, "notteroy.kommune.no")) $kommune = 'Notteroy';
+ elseif(strpos($mail, "tbgskole.no")) $kommune = 'Tonsberg';
+ elseif(strpos($mail, "tonsberg.kommune.no")) $kommune = 'Tonsberg';
+
+ if($kommune == 'Tonsberg') $maildomain = 'tbgskole.no';
+ elseif($kommune == 'Notteroy') $maildomain = 'nottkom.no';
+
+ if($ldap[$i]['company'][0] == 'IKT') $policy = 'iktpolicy'; // IKTpolicy
+ elseif($ldap[$i]['title'][0] == 'Laerer') $policy = 'laererpolicy'; // Laererpolicy
+ elseif($ldap[$i]['title'][0] == 'Elev') $policy = 'elevpolicy'; // Elevpolicy
+ else $policy = 'default';
+
+ $username = $ldap[$i]['cn'][0]."@".$maildomain;
+if(strpos($mail, $ldap[$i]['cn'][0])) $createalias = 0; // Mail contains username, do not create alias
+ else $createalias = 1;
+
+ $output .= "ca ".$username." $defaultpassword\n"; // Create account
+ $output .= "ma ".$username." displayName '".$ldap[$i]['givenname'][0]." ".$ldap[$i]['sn'][0]."'\n";
+ $output .= "ma ".$username." zimbraNotes 'Migrated ".date("Ymd H:i")."'\n";
+ $output .= "ma ".$username." sn '".$ldap[$i]['sn'][0]."'\n";
+ $output .= "ma ".$username." givenName '".$ldap[$i]['givenname'][0]."'\n";
+ $output .= "ma ".$username." ou '".$ldap[$i]['company'][0]."'\n";
+ $output .= "sac ".$username." '".$policy."'\n";
+ if($createalias) {
+ $output .= "aaa ".$username." ".$splitmail[0]."@".$maildomain."\n";
+ $output .= "ma ".$username." zimbraPrefFromAddress '".$splitmail[0]."@".$maildomain."\n";
+ }
+ $output .= "ma ".$username." zimbraPrefLocale no\n"; // Set default language to norwegian
+
+#       $output .= "aal -s SADM-MAIL02.ped.local ".$username." zimbra.soap debug\n";
+#       echo $ldap[$i]['cn'][0]."\n";
+}
+
+echo $output;</pre>
+<p>Lagre dette scriptet som eDir2Zimbra.php, og kjør det med php på kommandolinje (eller kjør det via en webserver og lagre teksten som kommer et sted på Zimbra-serveren</p>
+<pre>php eDir2Zimbra > /tmp/add_zimbraaccounts</pre>
+<p>Deretter kan den fila brukes som input til zmprov</p>
+<pre>su - zimbra -c 'zmprov < /tmp/add_zimbraaccounts'</pre>
+<p>Har ikke lagt inn muligheten for å deaktivere kontoer automatisk i Zimbra ennå, men scriptet kan trygt kjøres mange ganger. Må vel oppdatere scriptet rett over sommeren, når en god del av lærere og elever har sluttet «offisielt» i kildesystemene mine, slik at kontoene blir disablet i eDirectory.</p>
+<h3>Migrering av e-post</h3>
+<p>Denne biten trodde jeg at jeg hadde rimelig klar. NetMail kjører all mailen i <a href="https://en.wikipedia.org/wiki/Mbox">mbox-format</a>, og jeg tenkte derfor orginalt å kjøre denne metoden:</p>
+<ul><li>Konvertere mbox til maildir via et av mange script for å gjøre det</li>
+<li>Deaktivere autentisering mot eDirectory for domenet, og dermed ha standardpassordet definert i scriptet over på alle brukerne</li>
+<li>Kjøre et av mange script for å flytte fra maildir til remote IMAP-server</li>
+</ul><p>Fikk dette til å fungere rimelig greit, men oppdaget når jeg testet med et par elever, som i hovedsak hadde fått masseutsendte eposter, at NetMail for å spare plass flytter ut mailer som er over 4k og sendt til flere enn 5 mottagere til et eget felleslager. Alle referansene i mbox-fila til dette felleslageret skapte problemer, og mailene kunne ikke (i hvertfall ikke lett) flyttes over.</p>
+<p>Fordi NetMail lagret mailen i så sært format, så fant jeg ut at jeg for enkelthets skyld skulle bruke IMAP2IMAP-synkronisering. Testet litt med<a href="http://freshmeat.net/projects/imapsync/"> IMAPsync</a>, og den fungerte rimelig greit, men jeg måtte ha passordet til alle brukerne for å foreta migreringen. Jeg vurderte det til at jeg kunne nullstille passordet til alle 8000 brukere, men vi har akkurat hatt en sak med elever som har fått tilgang til læreres passord, og byttet sine egne karakterer/fravær, og en slik prosess må nødvendigvis gjøres ekstremt kontrollert. Bestemte meg derfor at jeg ville forsøke å sniffe passordet til alle brukerne i stedenfor… (Yeah, I know: ugly som bare det, men jeg har i hvertfall fått det til å fungere).</p>
+<p>Jeg kunne gjøre det på flere måter</p>
+<ul><li>Sniffe brukernavn og passord på IMAP med ethercap mot den gamle NetWare-servere</li>
+<li>Sniffe brukernavn og passord på IMAP med ethercap mot den nye Zimbra-serveren</li>
+<li>Prøve å få Zimbra/webmailen til å gjøre passordet til brukeren tilgjengelig på en eller annen måte</li>
+</ul><p>Å prøve å sniffe passordet via NetWare-serveren slo jeg ganske fort fra meg. Hovedønske er å få alle brukerne over på nytt system, og det ville være vanskelig å få bytta over brukerne til nytt system, hvis de må logge seg inn på det gamle, og noen skal flyttes over til det nye «etterhvert».</p>
+<p>Å sniffe passordet mot IMAP på Zimbra-serveren kunne vært en mulighet, men jeg prioriterte det ned som løsning, da jeg ikke ønsker at brukerne skal bruke den gamle webmailen (integrert del av LMS-systemet vårt), men det nye å flotte webgrensesnittet til Zimbra. Det ville da være unaturlig å be brukerne om å «bruk den gamle et par ganger, og så benytt den nye etterpå».</p>
+<p>Jeg begynte først å leke litt med muligheten for å lage en Zimlet som foretar import av mail fra den gamle serveren, men fant ikke noen gode howtoer på området, og jeg ikke orket å bruke lang tid på prosjektet, for å lære meg å kode Zimlet’er. Lekte også litt med å legge inn en javascript-prosess tok i mot passordet man logget på med, og sendte det videre til et separat system. Greide her ikke å bli fortrolig med kodestilen til Zimbras JSP-kode, så slo det også fra meg.</p>
+<p>Gikk til slutt videre med å titte på <a href="http://wiki.zimbra.com/index.php?title=Log_Files#mailbox.log_categories">debug-loggene</a> man kunne aktivere på en bruker, for å se om de hadde mulighet til å logge passordet til brukeren. Hverken IMAP eller POP-så ut til å logge passordene, men SOAP-interfacet logget disse ved pålogging på webmailen. Brukte derfor scriptet over til å lage en kommando fo å aktivere logging på alle brukere:</p>
+<pre><pre> $output .= "aal -s SADM-MAIL02.ped.local ".$username." zimbra.soap debug\n";</pre>
+<p>Dette skal også kjøres via zmprov som over-</p>
+<p>Etter dette, skrev jeg et kjapt script for å lete igjennom loggene etter brukernavn og passord, logge dette til en database, og så kjøre sletting av loggingen på den aktuelle brukeren. Fra databasen lagde jeg et nytt separat script som startet opp imapsync med riktig brukernavn og passord, og da var det bare for brukerne å logge inn, og vente til den gamle mailen dems var flyttet over til det nye flotte gruppevaresystemet vårt.</p>
+			<div class="clear"></div>
+			
+								
+		
+	<footer class="single-entry-meta"><p>			Kategorier: <a href="https://kamfjord.org/category/jobb/" rel="category tag">Jobb</a>, <a href="https://kamfjord.org/category/teknisk/" rel="category tag">Teknisk</a> | 
+									Merkelapper: <a href="https://kamfjord.org/tag/edirectory/" rel="tag">eDirectory</a>, <a href="https://kamfjord.org/tag/netmail/" rel="tag">NetMail</a>, <a href="https://kamfjord.org/tag/php/" rel="tag">PHP</a>, <a href="https://kamfjord.org/tag/zimbra/" rel="tag">Zimbra</a> | 
+						<a href="https://kamfjord.org/2009/06/26/hvordan-vi-har-satt-opp-zimbra/">Permalenke</a>
+			</p>
+	</footer></pre></div>
+
+</article><div class="clear"></div>				
+			
+<div id="comments" class="clearfix">
+
+			<h3 id="comments-title">2 kommentarer</h3>
+			<p class="write-comment-link"><a href="#respond">Gi en tilbakemelding →</a></p>
+		
+			<ol class="commentlist"><li class="post pingback">
+		<p>Tilbaketråkk: <a href="http://blogg.friprog.no/2010/03/godbiter-fra-goopen-programmet-2010/" rel="external nofollow ugc" class="url">Friprogsenteret – Godbiter fra GoOpen-programmet 2010</a></p>
+	</li>
+	<li class="comment even thread-even depth-1" id="li-comment-448">
+		<div id="comment-448">
+		<div class="comment-gravatar"><img alt="" src="https://secure.gravatar.com/avatar/efc98b6b0ddc90dfbf512efcb1dcdd44?s=65&d=mm&r=g" srcset="https://secure.gravatar.com/avatar/efc98b6b0ddc90dfbf512efcb1dcdd44?s=130&d=mm&r=g 2x" class="avatar avatar-65 photo" height="65" width="65"></div>
+
+		<div class="comment-body">
+		<div class="comment-meta commentmetadata">
+		<cite class="fn"><a href="http://tbgskole.no" rel="external nofollow ugc" class="url">Fred Kirkevold</a></cite><br><a href="https://kamfjord.org/2009/06/26/hvordan-vi-har-satt-opp-zimbra/#comment-448">
+			april 12, 2012, kl. 3:43 pm</a>		</div>
+
+		<p>Hvordan setter vi opp eposten mot vår andriod telefon? IMAP</p>
+
+		
+		<div class="reply">
+					</div>
+
+		</div>
+		
+
+	</div>
+
+	</li>
+			</ol><div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Legg igjen en kommentar <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2009/06/26/hvordan-vi-har-satt-opp-zimbra/#respond" style="display:none;">Avbryt svar</a></small></h3><form action="https://kamfjord.org/wp-comments-post.php" method="post" id="commentform" class="comment-form"><p class="comment-notes">Påkrevde felter er merket <span class="required">*</span>.</p><p class="comment-form-comment"><label for="comment">Melding <span class="requis">*</span></label><br><textarea id="comment" name="comment" rows="8"></textarea></p><p class="comment-form-author"><label for="author">Navn <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" required="required"></p>
+<p class="comment-form-email"><label for="email">E-post <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" maxlength="100" required="required"></p>
+<p class="comment-form-url"><label for="url">Nettsted</label> <input id="url" name="url" type="text" value="" size="30" maxlength="200"></p>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"><label for="wp-comment-cookies-consent">Lagre mitt navn, e-post og nettside i denne nettleseren for neste gang jeg kommenterer.</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Publiser kommentar"><input type="hidden" name="comment_post_ID" value="94" id="comment_post_ID"><input type="hidden" name="comment_parent" id="comment_parent" value="0"></p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="cec9e81038"></p><p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="154"></p></form>	</div>
+	</div>
+				
+			<nav id="nav-below"><div class="nav-previous"><a href="https://kamfjord.org/2009/06/30/internett-takler-ikke-nyheter/" rel="next">← Forrige innlegg</a></div>
+				<div class="nav-next"><a href="https://kamfjord.org/2009/06/18/avgifter-er-ikke-l%c3%b8sningen-pa-kommersielt-problem-med-fildeling/" rel="prev">Neste innlegg  →</a></div>
+			</nav></div>
+	
+
+<div id="secondary" class="widget-area" role="complementary">
+							
+					</div>
+</div>
+
+		<div id="tertiary" class="widget-area" role="complementary">
+					<aside id="recent-posts-2" class="widget widget_recent_entries"><h3 class="widget-title">Siste innlegg</h3>		<ul><li>
+					<a href="https://kamfjord.org/2017/06/01/horingssvar-midlertidig-forskrift-om-forbud-mot-vannscooter-i-tjome-og-notteroy/">Høringssvar midlertidig forskrift om forbud mot vannscooter i Tjøme og Nøtterøy</a>
+									</li>
+											<li>
+					<a href="https://kamfjord.org/2016/09/22/sccm-sql-query-list-of-computers-with-top-users-in-a-collection/">SCCM SQL query list of computers with top users in a collection</a>
+									</li>
+											<li>
+					<a href="https://kamfjord.org/2016/03/27/psychic-challenge-pa-polar-party-21/">Psychic Challenge på Polar Party 21</a>
+									</li>
+											<li>
+					<a href="https://kamfjord.org/2015/10/05/psychic-challenge-pa-polar-party-23/">Psychic Challenge på Polar Party 23</a>
+									</li>
+											<li>
+					<a href="https://kamfjord.org/2015/10/04/psychic-challenge-pa-polar-party-24/">Psychic Challenge på Polar Party 24</a>
+									</li>
+					</ul></aside><aside id="wpp-2" class="widget popular-posts"><h3 class="widget-title">Populære innlegg</h3>
+
+
+<ul class="wpp-list"><li>
+<a href="https://kamfjord.org/2010/05/16/mikrolan-hjelper-verden/" class="wpp-post-title" target="_self">Mikrolån hjelper verden</a>
+</li>
+<li>
+<a href="https://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/" class="wpp-post-title" target="_self">Monitoring Citrix Presentation Server/XenApp load in Nagios</a>
+</li>
+<li>
+<a href="https://kamfjord.org/2017/06/01/horingssvar-midlertidig-forskrift-om-forbud-mot-vannscooter-i-tjome-og-notteroy/" class="wpp-post-title" target="_self">Høringssvar midlertidig forskrift om forbud mot vannscooter i Tjøme og Nøtterøy</a>
+</li>
+<li>
+<a href="https://kamfjord.org/2009/01/19/sprakdebatt-i-wikipedia-norge/" class="wpp-post-title" target="_self">Språkdebatt i Wikipedia-Norge</a>
+</li>
+<li>
+<a href="https://kamfjord.org/2009/04/17/open-source-er-kapitalistisk/" class="wpp-post-title" target="_self">Open source er kapitalistisk!</a>
+</li>
+<li>
+<a href="https://kamfjord.org/2009/12/28/automatisk-oversetting-mellom-nynorsk-og-bokmal/" class="wpp-post-title" target="_self">Automatisk oversetting mellom nynorsk og bokmål</a>
+</li>
+</ul></aside><aside id="recent-comments-3" class="widget widget_recent_comments"><h3 class="widget-title">Siste kommentarer</h3><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link">folstad</span> til <a href="https://kamfjord.org/2009/12/28/automatisk-oversetting-mellom-nynorsk-og-bokmal/comment-page-1/#comment-7338">Automatisk oversetting mellom nynorsk og bokmål</a></li><li class="recentcomments"><span class="comment-author-link">May-Britt</span> til <a href="https://kamfjord.org/2009/12/28/automatisk-oversetting-mellom-nynorsk-og-bokmal/comment-page-1/#comment-6544">Automatisk oversetting mellom nynorsk og bokmål</a></li><li class="recentcomments"><span class="comment-author-link">hannah</span> til <a href="https://kamfjord.org/2009/12/28/automatisk-oversetting-mellom-nynorsk-og-bokmal/comment-page-1/#comment-6529">Automatisk oversetting mellom nynorsk og bokmål</a></li><li class="recentcomments"><span class="comment-author-link"><a href="http://kaffebaronen.blogg.no" rel="external nofollow ugc" class="url">Ludvig / Kaffebaronen</a></span> til <a href="https://kamfjord.org/2015/10/05/psychic-challenge-pa-polar-party-23/comment-page-1/#comment-6511">Psychic Challenge på Polar Party 23</a></li><li class="recentcomments"><span class="comment-author-link">Christian Bull Gjertsen</span> til <a href="https://kamfjord.org/2015/10/04/psychic-challenge-pa-polar-party-24/comment-page-1/#comment-6510">Psychic Challenge på Polar Party 24</a></li></ul></aside><aside id="text-2" class="widget widget_text"><div class="textwidget"><a href="https://www.openhub.net/accounts/135084?ref=Detailed" target="_top" rel="noopener noreferrer">
+<img alt="Openhub profile for Lars Åge Kamfjord" border="0" height="35" src="https://www.openhub.net/accounts/135084/widgets/account_detailed.gif" width="191"></a>
+</div>
+		</aside></div>
+</div>
+
+	<footer id="colophon" class="clearfix"><p>Proudly powered by <a href="https://wordpress.org/">WordPress</a><span class="sep"> | </span>Tema: Yoko av <a href="http://www.elmastudio.de/en/themes/">Elmastudio</a> | Norsk oversettelse: <a href="http://www.getzit.no">Julius Getz Mørk</a>.</p>
+		<a href="#page" class="top">Topp</a>
+	</footer></div>
+
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+			ga('create', 'UA-26315088-1', 'auto');
+			ga('send', 'pageview');
+		</script><script type="text/javascript">
+            (function(){
+                document.addEventListener('DOMContentLoaded', function(){
+                    let wpp_widgets = document.querySelectorAll('.popular-posts-sr');
+
+                    if ( wpp_widgets ) {
+                        for (let i = 0; i < wpp_widgets.length; i++) {
+                            let wpp_widget = wpp_widgets[i];
+                            WordPressPopularPosts.theme(wpp_widget);
+                        }
+                    }
+                });
+            })();
+        </script><script>
+            var WPPImageObserver = null;
+
+            function wpp_load_img(img) {
+                if ( ! 'imgSrc' in img.dataset || ! img.dataset.imgSrc )
+                    return;
+
+                img.src = img.dataset.imgSrc;
+
+                if ( 'imgSrcset' in img.dataset ) {
+                    img.srcset = img.dataset.imgSrcset;
+                    img.removeAttribute('data-img-srcset');
+                }
+
+                img.classList.remove('wpp-lazyload');
+                img.removeAttribute('data-img-src');
+                img.classList.add('wpp-lazyloaded');
+            }
+
+            function wpp_observe_imgs(){
+                let wpp_images = document.querySelectorAll('img.wpp-lazyload'),
+                    wpp_widgets = document.querySelectorAll('.popular-posts-sr');
+
+                if ( wpp_images.length || wpp_widgets.length ) {
+                    if ( 'IntersectionObserver' in window ) {
+                        WPPImageObserver = new IntersectionObserver(function(entries, observer) {
+                            entries.forEach(function(entry) {
+                                if (entry.isIntersecting) {
+                                    let img = entry.target;
+                                    wpp_load_img(img);
+                                    WPPImageObserver.unobserve(img);
+                                }
+                            });
+                        });
+
+                        if ( wpp_images.length ) {
+                            wpp_images.forEach(function(image) {
+                                WPPImageObserver.observe(image);
+                            });
+                        }
+
+                        if ( wpp_widgets.length ) {
+                            for (var i = 0; i < wpp_widgets.length; i++) {
+                                let wpp_widget_images = wpp_widgets[i].querySelectorAll('img.wpp-lazyload');
+
+                                if ( ! wpp_widget_images.length && wpp_widgets[i].shadowRoot ) {
+                                    wpp_widget_images = wpp_widgets[i].shadowRoot.querySelectorAll('img.wpp-lazyload');
+                                }
+
+                                if ( wpp_widget_images.length ) {
+                                    wpp_widget_images.forEach(function(image) {
+                                        WPPImageObserver.observe(image);
+                                    });
+                                }
+                            }
+                        }
+                    } /** Fallback for older browsers */
+                    else {
+                        if ( wpp_images.length ) {
+                            for (var i = 0; i < wpp_images.length; i++) {
+                                wpp_load_img(wpp_images[i]);
+                                wpp_images[i].classList.remove('wpp-lazyloaded');
+                            }
+                        }
+
+                        if ( wpp_widgets.length ) {
+                            for (var j = 0; j < wpp_widgets.length; j++) {
+                                let wpp_widget = wpp_widgets[j],
+                                    wpp_widget_images = wpp_widget.querySelectorAll('img.wpp-lazyload');
+
+                                if ( ! wpp_widget_images.length && wpp_widget.shadowRoot ) {
+                                    wpp_widget_images = wpp_widget.shadowRoot.querySelectorAll('img.wpp-lazyload');
+                                }
+
+                                if ( wpp_widget_images.length ) {
+                                    for (var k = 0; k < wpp_widget_images.length; k++) {
+                                        wpp_load_img(wpp_widget_images[k]);
+                                        wpp_widget_images[k].classList.remove('wpp-lazyloaded');
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                wpp_observe_imgs();
+
+                // When an ajaxified WPP widget loads,
+                // Lazy load its images
+                document.addEventListener('wpp-onload', function(){
+                    wpp_observe_imgs();
+                });
+            });
+        </script><script type="text/javascript" src="https://kamfjord.org/wp-content/themes/yoko/js/smoothscroll.js"></script><script async="async" type="text/javascript" src="https://kamfjord.org/wp-content/plugins/akismet/_inc/form.js"></script></body></html>

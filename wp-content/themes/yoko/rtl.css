@@ -1,0 +1,23 @@
+@import url("rtl-original.css");
+#branding #mainnav ul ul {right: 0pt;}
+#site-title h1, #site-title h2 {float: right;}
+#site-title div#site-name {float: right;margin: 0pt 0pt 0pt 10px;}
+#site-title div#site-description {float: right;}
+#secondary {margin-right: 4.331%;margin-left: 0%;}
+#tertiary {margin-right: 0pt;}
+div.two-columns-one {float: right;margin-left: 4%;margin-right: 0%;}
+div.two-columns-one.last {margin-left: 0%;clear: left;}
+#content .single-entry-content blockquote {margin: 20px 20px 10px;}
+#content img.alignleft, #content .wp-caption.alignleft {margin: 10px 20px 10px 0pt;}
+#content img.alignright, #content .wp-caption.alignright {margin: 10px 0pt 10px 20px;}
+#content .post ol, #content .page ol {padding: 7px 30px 7px 0px !important;}
+.alignright {float: right;}
+.alignleft {float: left;}
+.widget_sociallinks a.rss {background-position: right center;}
+.widget_sociallinks a.twitter {background-position: right center;}
+.widget_sociallinks a.facebook {background-position: right center;}
+.widget_sociallinks a.googleplus {background-position: right center;}
+.widget_sociallinks a.flickr {background-position: right center;}
+.widget_sociallinks a.vimeo {background-position: right center;}
+.widget_sociallinks a.linkedin {background-position: right center;}
+.widget_sociallinks a.delicious {background-position: right center;}

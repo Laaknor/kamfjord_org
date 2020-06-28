@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Teknisk &#8211; Lars Åges tanker</title>
+	<atom:link href="https://kamfjord.org/category/teknisk/feed/" rel="self" type="application/rss+xml" />
+	<link>https://kamfjord.org/</link>
+	<description>Politikk og teknologi</description>
+	<lastBuildDate>Thu, 22 Sep 2016 08:53:45 +0000</lastBuildDate>
+	<language>nb-NO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.4.2</generator>
+	<item>
+		<title>SCCM SQL query list of computers with top users in a collection</title>
+		<link>https://kamfjord.org/2016/09/22/sccm-sql-query-list-of-computers-with-top-users-in-a-collection/</link>
+					<comments>https://kamfjord.org/2016/09/22/sccm-sql-query-list-of-computers-with-top-users-in-a-collection/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Thu, 22 Sep 2016 08:32:58 +0000</pubDate>
+				<category><![CDATA[Teknisk]]></category>
+		<category><![CDATA[2012]]></category>
+		<category><![CDATA[license review]]></category>
+		<category><![CDATA[Microsoft]]></category>
+		<category><![CDATA[primary user]]></category>
+		<category><![CDATA[SCCM]]></category>
+		<category><![CDATA[SQL]]></category>
+		<guid isPermaLink="false">https://kamfjord.org/?p=545</guid>
+
+					<description><![CDATA[My old employer (local goverment) got a message from Microsoft about an audit. Since they have an education and an enterprise agreement, they need to get a list of all computers that can go under education-agreement (since that is the &#8230; <a href="https://kamfjord.org/2016/09/22/sccm-sql-query-list-of-computers-with-top-users-in-a-collection/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>My old employer (local goverment) got a message from Microsoft about an audit. Since they have an education and an enterprise agreement, they need to get a list of all computers that can go under education-agreement (since that is the cheapest ) and everything else that goes under the enterprise agreement. When I was working there, I would have used which IP subnet the machine is from to sort the machines, but since they now have a lot of machines only reporting their IP from a shared wireless subnet, that&#8217;s harder. Instead, I figured out that we could use top console user to get a list, in addition to the AD Site.</p>
+<p>Created a user collection with all users that are considered educational (department groups or other access groups). The collection got the name CEN00XXX.</p>
+<p>&nbsp;</p>
+<p>Ran the following SQL-query to get a list of systems that had been online for the last 2 months.</p>
+<p>SELECT sys.Netbios_Name0,<br />
+um.TopConsoleUser0,<br />
+[Last_Logon_Timestamp0],<br />
+(SELECT CASE WHEN TopConsoleUser0 IS NULL THEN &#8216;False&#8217; ELSE &#8216;True&#8217; END AS IsSkole FROM <strong>_RES_COLL_CEN00XXX</strong> WHERE SMSID = um.TopConsoleUser0 ) AS userIsEdu,<br />
+CASE WHEN [AD_Site_Name0] LIKE &#8216;<strong>EducationSite</strong>&#8216; THEN &#8216;True&#8217; ELSE &#8216;False&#8217; END AS SiteIsEdu,</p>
+<p>FROM v_R_System sys<br />
+LEFT OUTER JOIN v_GS_SYSTEM_CONSOLE_USAGE_MAXGROUP um<br />
+ON um.ResourceID = sys.ResourceID<br />
+WHERE Last_Logon_Timestamp0 IS NOT NULL<br />
+AND Last_Logon_Timestamp0 &gt; DATEADD(<strong>month, -2</strong>, GETDATE())<br />
+ORDER BY Last_Logon_Timestamp0</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2016/09/22/sccm-sql-query-list-of-computers-with-top-users-in-a-collection/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Monitoring Citrix Presentation Server/XenApp load in Nagios</title>
+		<link>https://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/</link>
+					<comments>https://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Wed, 18 Dec 2013 20:28:36 +0000</pubDate>
+				<category><![CDATA[Nagios]]></category>
+		<category><![CDATA[Citrix]]></category>
+		<category><![CDATA[Icinga]]></category>
+		<category><![CDATA[load]]></category>
+		<category><![CDATA[Presentation Server]]></category>
+		<category><![CDATA[qfarm]]></category>
+		<category><![CDATA[qfarm /load]]></category>
+		<category><![CDATA[XenApp]]></category>
+		<guid isPermaLink="false">http://kamfjord.org/?p=459</guid>
+
+					<description><![CDATA[I&#8217;m currently running two diffrent Citrix farms, one on Presentation Server 4, and one on XenApp 6.5. Since I&#8217;m currently in the process of moving from one farm to another, I have to have very good control over how many &#8230; <a href="https://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>I&#8217;m currently running two diffrent Citrix farms, one on Presentation Server 4, and one on XenApp 6.5. Since I&#8217;m currently in the process of moving from one farm to another, I have to have very good control over how many servers I have in each farm, to always have enough resources on both farms. I really love qfarm /load and use it all the time, but I needed to automate it with our monitoring solution Nagios/Icinga. To do this, I&#8217;ve created the following powershellscript to monitor my farms, and get to know whenever there are missing resources.</p>
+<p>&nbsp;</p>
+<p><strong>citrix_load.ps1</strong></p>
+<p>(Put in c:\program files\nsclient++\scripts\ )</p>
+<pre># Copyright Lars Age Kamfjord &lt;lars(at)kamfjord.org&gt;
+
+# The latest version of this can be found on <a href="http://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/">http://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/</a>
+
+$object = Get-WmiObject -Namespace "root\citrix" -Class MetaFrame_Server_LoadLevel | Select-Object LoadLevel
+if($object.LoadLevel -ge 9000) {
+ Write-Host "Error: Extremly high load: "$object.LoadLevel
+ exit 2
+}
+
+ElseIf ($object.LoadLevel -gt 7500) {
+ Write-Host "Warning: High load: "$object.LoadLevel
+ exit 1
+}
+
+ElseIf($object.LoadLevel -lt 1) {
+ Write-Host "Unknown: Server not in production?"$object.LoadLevel
+ exit 3
+}
+
+else {
+ Write-Host "OK: Load "$object.LoadLevel
+ exit 0
+}
+&nbsp;
+</pre>
+<p><strong>NSclient.ini</strong></p>
+<p>(Add line in nsclient.ini under NRPE/external scripts)</p>
+<pre>check_citrix_load=cmd /c echo scripts\citrix_load.ps1; exit($lastexitcode) | powershell.exe -command -
+</pre>
+<p><strong>nagios service-definition</strong></p>
+<pre>define service {
+use generic-service
+hostgroups admnett-windows-terminal-servers
+service_description Citrix Load
+check_command check_nrpe!check_citrix_load
+check_interval 5
+max_check_attempts 3
+}
+</pre>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Howto recompile Openbravopos to remove select customer-button</title>
+		<link>https://kamfjord.org/2013/09/29/howto-recompile-openbravopos-to-remove-select-customer-button/</link>
+					<comments>https://kamfjord.org/2013/09/29/howto-recompile-openbravopos-to-remove-select-customer-button/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Sun, 29 Sep 2013 10:15:45 +0000</pubDate>
+				<category><![CDATA[Teknisk]]></category>
+		<category><![CDATA[Årsmøte]]></category>
+		<category><![CDATA[OpenBravo. POS]]></category>
+		<category><![CDATA[select customer]]></category>
+		<guid isPermaLink="false">http://kamfjord.org/?p=454</guid>
+
+					<description><![CDATA[I&#8217;m running OpenBravo POS, and need to remove the select customer-button, so that only customers swiping their card can but debt on their account in OpenBravo POS. To do this, I have to remove the button in source code. This &#8230; <a href="https://kamfjord.org/2013/09/29/howto-recompile-openbravopos-to-remove-select-customer-button/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>I&#8217;m running OpenBravo POS, and need to remove the select customer-button, so that only customers swiping their card can but debt on their account in OpenBravo POS. To do this, I have to remove the button in source code. This is my howto:</p>
+<p>Install JDK 1.6</p>
+<p>Install Apache ANT</p>
+<p>Add the bin-directory of ANT to %PATH%</p>
+<p>Set %JAVA_HOME% to the JDK directory</p>
+<p>Set %ANT_HOME% to the ANT directory</p>
+<p>reboot</p>
+<p>Download source code of OpenBravo POS</p>
+<p>Go to the src-pos\com\openbravo\pos\sales\JPanelTicket.java file</p>
+<p>Around line 1226 (version 2.30) You&#8217;l find:</p>
+<p>btnCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource(&laquo;/com/openbravo/images/kuser.png&raquo;))); // NOI18N<br />
+btnCustomer.setFocusPainted(false);<br />
+btnCustomer.setFocusable(false);<br />
+btnCustomer.setMargin(new java.awt.Insets(8, 14, 8, 14));<br />
+btnCustomer.setRequestFocusEnabled(false);<br />
+btnCustomer.addActionListener(new java.awt.event.ActionListener() {<br />
+public void actionPerformed(java.awt.event.ActionEvent evt) {<br />
+btnCustomerActionPerformed(evt);<br />
+}<br />
+});<br />
+m_jButtons.add(btnCustomer);</p>
+<p>&nbsp;</p>
+<p>Set a comment before m_jButtons.add(btnCustomer); so that it looks like this:</p>
+<p>btnCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource(&laquo;/com/openbravo/images/kuser.png&raquo;))); // NOI18N<br />
+btnCustomer.setFocusPainted(false);<br />
+btnCustomer.setFocusable(false);<br />
+btnCustomer.setMargin(new java.awt.Insets(8, 14, 8, 14));<br />
+btnCustomer.setRequestFocusEnabled(false);<br />
+btnCustomer.addActionListener(new java.awt.event.ActionListener() {<br />
+public void actionPerformed(java.awt.event.ActionEvent evt) {<br />
+btnCustomerActionPerformed(evt);<br />
+}<br />
+});<br />
+//m_jButtons.add(btnCustomer);</p>
+<p>&nbsp;</p>
+<p>Start cmd, and go to the openbravopos root folder, type &laquo;ant dist&raquo;</p>
+<p>New .jar-file is in build\jar-folder, but into installed openbravopos-folder</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2013/09/29/howto-recompile-openbravopos-to-remove-select-customer-button/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Hjelp Wikipedia ved å ta bilder i ditt nærmiljø!</title>
+		<link>https://kamfjord.org/2011/12/13/hjelp-wikipedia-ved-a-ta-bilder-i-ditt-naermiljo/</link>
+					<comments>https://kamfjord.org/2011/12/13/hjelp-wikipedia-ved-a-ta-bilder-i-ditt-naermiljo/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Tue, 13 Dec 2011 09:49:31 +0000</pubDate>
+				<category><![CDATA[Teknisk]]></category>
+		<category><![CDATA[Wikimedia]]></category>
+		<guid isPermaLink="false">http://kamfjord.org/?p=375</guid>
+
+					<description><![CDATA[Etter at Hans-Petter hadde et Wikipedia-prosjekt for å finne bilder som manglet i Oslo, hvor han lagde en KML-fil og satte opp Google Maps som en oversikt og arbeidsliste for alle som deltar, har jeg hatt lyst til å automatisere &#8230; <a href="https://kamfjord.org/2011/12/13/hjelp-wikipedia-ved-a-ta-bilder-i-ditt-naermiljo/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Etter at <a href="http://no.wikipedia.org/wiki/Bruker:Atluxity">Hans-Petter</a> hadde et Wikipedia-prosjekt for å finne bilder som <a href="http://no.wikipedia.org/wiki/Wikipedia:Underprosjekter/Oslobilder">manglet i Oslo</a>, hvor han lagde en KML-fil og satte opp <a href="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=http:%2F%2Fno.wikipedia.org%2Fw%2Findex.php%3Ftitle%3DWikipedia:Underprosjekter%2FOslobilder.kml%26action%3Draw&amp;sll=59.940448,10.785484&amp;sspn=0.177473,0.511551&amp;ie=UTF8&amp;ll=59.935236,10.759735&amp;spn=0.088751,0.255775&amp;z=12">Google Maps</a> som en oversikt og arbeidsliste for alle som deltar, har jeg hatt lyst til å automatisere denne jobben litt. Siden jeg har lesetilgang til databasene til Wikipedia skulle det i utgangspunktet være lett å få hentet ut informasjon om alle kartkoordinatene, og hvorvidt artikkelen har noen bilder.</p>
+<p>Prosjektet er nå endelig klar for offentligheten: <a title="Wikipedia-artikler som trenger bilde" href="http://kamfjord.org/wikipedia-artikler-som-trenger-bilde/">Wikipedia-artikler som trenger bilder</a>.</p>
+<p>&nbsp;</p>
+<p>Jeg bruker følgende spørring mot wikipedia-databasen for no.wikipedia:</p>
+<blockquote><p>SELECT p.page_id,p.page_title,e.el_to,(SELECT COUNT(*) FROM imagelinks i WHERE i.il_from=p.page_id AND i.il_to NOT LIKE &#8216;%.svg&#8217;) AS antall FROM page p JOIN externallinks e ON p.page_id=e.el_from WHERE e.el_to LIKE &#8216;http://toolserver.org/~geohack/geohack.php%&#8217; AND p.page_namespace=0  AND p.page_title NOT IN (&#8216;Grunnlinje&#8217;) AND p.page_title NOT LIKE &#8216;Liste%&#8217; AND page_title NOT LIKE &#8216;Tettsteder%&#8217; LIMIT 0,20000</p></blockquote>
+<p>&nbsp;</p>
+<p>Jeg henter i utgangspunktet ut alle sider som lenker til http://toolserver.org/~geohack/geohack.php, siden det er lenken som brukes i malen <a href="http://no.wikipedia.org/wiki/Mal:Koord">Koord</a> som brukes bl.a. for å formatere koordinater riktig. Trolig hadde det vært bedre å finne alle de artikler som bruker malen <a href="http://no.wikipedia.org/wiki/Mal:Koord/vis/tittel">Koord/vis/tittel</a>, siden det er denne som faktisk viser koordinatene øverst til høyre på artiklene, men det får bli til en senere anledning (det blir en mye tyngre SQL-spørring, som tar vesentlig lenger tid å kjøre).</p>
+<p>For å kompensere for at jeg ikke bruker vis/tittel-malen, har jeg ekskludert alle artikler som begynner på &laquo;Liste&raquo; eller &laquo;Tettsteder&raquo;, siden disse artiklene har ganske mange koordinater, uten at det behøver å være et bilde i artikkelen.</p>
+<p>Når det gjelder bilder, så ekskluderer jeg bruk av SVG-bilder som &laquo;aktuelle&raquo; for at artikkelen har et bilde, siden dette ofte er kommunevåpen brukt i maler, eller kart over stedet &#8211; ingen av delene er gode representantive bilder for de forskjellige artiklene.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2011/12/13/hjelp-wikipedia-ved-a-ta-bilder-i-ditt-naermiljo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Laget en morsom liten Android-app</title>
+		<link>https://kamfjord.org/2011/10/19/laget-en-morsom-liten-android-app/</link>
+					<comments>https://kamfjord.org/2011/10/19/laget-en-morsom-liten-android-app/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Wed, 19 Oct 2011 21:27:01 +0000</pubDate>
+				<category><![CDATA[Teknisk]]></category>
+		<guid isPermaLink="false">http://kamfjord.org/?p=316</guid>
+
+					<description><![CDATA[&#160; I forbindelse med PolarParty 20 lagde jeg en liten app med AppInventor, og fikk til en aldri så liten app. Sendte den inn i wild-compoen som et programmeringsbidrag, og fikk 2. plass. Veldig gøy. &#160; Her er et bilde av &#8230; <a href="https://kamfjord.org/2011/10/19/laget-en-morsom-liten-android-app/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>&nbsp;</p>
+<p>I forbindelse med <a href="http://www.polarparty.no/pp20/">PolarParty 20</a> lagde jeg en liten app med <a href="http://www.appinventorbeta.com">AppInventor</a>, og fikk til en aldri så liten app. Sendte den inn i wild-compoen som et programmeringsbidrag, og fikk 2. plass. Veldig gøy.</p>
+<p><a href="http://kamfjord.org/wp-content/uploads/2011/10/screenshot1.png"><img class="size-full wp-image-321 alignnone" title="screenshot1" src="http://kamfjord.org/wp-content/uploads/2011/10/screenshot1.png" alt="" width="320" height="480" srcset="https://kamfjord.org/wp-content/uploads/2011/10/screenshot1.png 320w, https://kamfjord.org/wp-content/uploads/2011/10/screenshot1-200x300.png 200w" sizes="(max-width: 320px) 100vw, 320px" /></a></p>
+<p>&nbsp;</p>
+<p>Her er et bilde av hvordan koden ser ut i AppInventor (ikke spesielt vanskelig?)</p>
+<p><a href="http://kamfjord.org/wp-content/uploads/2011/10/Kildekode.png"><img class=" wp-image-318 alignleft" title="AdminMash Kildekode" src="http://kamfjord.org/wp-content/uploads/2011/10/Kildekode-150x150.png" alt="" width="300" height="300" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Selve appen kan lastes ned herfra: <a href="http://dl.dropbox.com/u/488826/AppInventor/AdminMash.apk">AdminMash</a></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2011/10/19/laget-en-morsom-liten-android-app/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Endelig gikk Telenor ned!</title>
+		<link>https://kamfjord.org/2011/06/19/endelig-gikk-telenor-ned/</link>
+					<comments>https://kamfjord.org/2011/06/19/endelig-gikk-telenor-ned/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Sun, 19 Jun 2011 20:57:07 +0000</pubDate>
+				<category><![CDATA[IT-politikk]]></category>
+		<category><![CDATA[Teknisk]]></category>
+		<category><![CDATA[Nedetid]]></category>
+		<category><![CDATA[Samfunnssikkerhet]]></category>
+		<category><![CDATA[Telenor]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=242</guid>
+
+					<description><![CDATA[Ingenting er så lite perfekt som datasystemer. Ja, de effektiviserer mye, men sikkerheten (først og fremst samfunnssikkerheten, ikke datasikkerheten) er elendig. Alle datasystemer har en stor risiko for at ting går til helvette. Telenor-problemet som var forrige uke var ikke uventet. &#8230; <a href="https://kamfjord.org/2011/06/19/endelig-gikk-telenor-ned/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Ingenting er så lite perfekt som datasystemer. Ja, de effektiviserer mye, men sikkerheten (først og fremst samfunnssikkerheten, ikke datasikkerheten) er elendig. Alle datasystemer har en stor risiko for at ting går til helvette.</p>
+<p>Telenor-problemet som var <a href="http://www.vg.no/nyheter/innenriks/artikkel.php?artid=10095156">forrige uke</a> var ikke uventet. Selv har jeg hver gang jeg har vurdert kritisk mobilutstyr (f.eks. system for å sende ut SMS-melding/ringe alle på avdelingen dersom datarommet går ned), vurdert løsninger med støtte for to eller flere SIM-kort, og dermed mulighet for å bruke både Telenor og Netcom. At direktoratet med ansvar for samfunnssikkerhet ikke har <a href="http://tb.no/nyheter/mobilbrudd-blottla-nasjonalt-beredskapshull-1.6297740">tatt den risikovurderingen</a> er derfor mildt sagt skremmende, og i mine øyne innebærer det at de har hatt litt for få personer med teknologisk innsikt når de har satt opp beredskapsplanleggingen sin. Alle nødsentralene (brann/politi/ambulanse) har flere redundante backupløsninger for telefonsystemene, noe som DSB også bør ha.</p>
+<p>Problemet med teknologien er ikke først og fremst at ting blir ødelagt &#8211; det går det ann å beskytte seg for relativt lett med å ha to eller tre enheter som er i stand til å ta over &#8211; enten manuelt (ved at man skrur på enheten når den første dør) eller automatisk. Problemet med slike løsninger er dog at kompleksiteten på systemet øker når man skal ha redundans. Og som en følge av kompleksiteten, øker også muligheten for de vanligste feilene &#8211; brukerfeil (i dette tilfellet burde det kanskje være greit å spesifisere at jeg anser brukeren som IT-konsulenten som sitter å jobber med å gjøre en eller annen endring på systemet). De aller fleste feil som skjer i datasystemer er det et eller annet menneske som er årssaken til, og ikke datamaskinen i seg selv.</p>
+<p>Som et eksempel på feil jeg selv har gjort  (mer enn en gang), som har medført nedetid, kan jeg nevne en veldig vanlig feil på datanettverk. Litt avanserte switcher settes gjerne opp med tilgang til flere forskjellige nettverk (f.eks. med forskjellige sikkerhetsnivåer) på samme switchen. For å fordele riktige nettverk til riktige switcher setter man opp begrensninger på hvilke nettverk som får lov til å gå fra en switch til en annen. På Cisco-switcher (som er en av de vanligste leverandørene) skrives denne konfigurasjonen slik:</p>
+<p><em>switchport trunk allowed vlan 2,4,6,8</em></p>
+<p>Dette tillater nettverk 2, 4, 6 og 8. Dersom man skal legge til nettverk 5 skrives det slik:</p>
+<p><em>switchport trunk allowed vlan add 5</em></p>
+<p>Altså legger til &laquo;add 5&raquo;. Dersom man glemmer å legge til &laquo;add&raquo;, vil man i stedenfor få følgende konfigurasjon:</p>
+<p><em>switchport trunk allowed vlan 5</em></p>
+<p>Eller med andre ord, nettverk 2,4,6 og 8 vil slutte å virke (siden man erstatter hele linja slik den var), og kun nettverk 5 vil stå igjen&#8230;</p>
+<p>Vi vil aldri kunne beskytte oss 100% mot alle mulige feil &#8211; det vil alltid være en viss margin for at ting slutter å virke. Samfunnssikkerheten er i stor grad avhengig av hurtigst mulig respons når noe skjer, og når noe skjer, er det stor sannsynlighet for at ting har sluttet å virke. Det er vanskelig å  forutse hva som skal til, men jeg tror ikke vi kan ta som utgangspunkt i at Telenor Mobil skal kunne løse samfunnets problemer for sikkerhet &#8211; en enkelt aktør er ikke i stand til å løse det &#8211; uansett hvor mange milliarder du putter inn i det. Det er derimot en fordel med fri konkurranse, i stedenfor at alle bruker samme leverandør.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2011/06/19/endelig-gikk-telenor-ned/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Tester iPad for elektroniske sakspapirer til politikere</title>
+		<link>https://kamfjord.org/2011/05/06/tester-ipad-for-elektroniske-sakspapirer-til-politikere/</link>
+					<comments>https://kamfjord.org/2011/05/06/tester-ipad-for-elektroniske-sakspapirer-til-politikere/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Fri, 06 May 2011 08:38:07 +0000</pubDate>
+				<category><![CDATA[Jobb]]></category>
+		<category><![CDATA[Teknisk]]></category>
+		<category><![CDATA[Apple]]></category>
+		<category><![CDATA[iPad]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/2011/05/06/tester-ipad-for-elektroniske-sakspapirer-til-politikere/</guid>
+
+					<description><![CDATA[Driver å tester ut iPad for tiden, for muligens å bruke for elektronisk utsending av saksdokumenter for politikerne i kommunen, og må si meg veldig fornøyd. Den er god å jobbe på (med det unntaket at jeg kunne tenke meg &#8230; <a href="https://kamfjord.org/2011/05/06/tester-ipad-for-elektroniske-sakspapirer-til-politikere/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Driver å tester ut iPad for tiden, for muligens å bruke for elektronisk utsending av saksdokumenter for politikerne i kommunen, og må si meg veldig fornøyd. Den er god å jobbe på (med det unntaket at jeg kunne tenke meg et ordentlig tastatur for å kjenne/føle tastene, og dermed skrive fortere), har en god skjerm, god levedtid på batteriet, kjapp på surfing (i hvertfall på trådløst). Den er også mye bedre å kunne ha med seg inn i møter enn en bærbar PC.</p>
+<p>For å få den til å fungere slik jeg ser for meg at løsningen bør fungere, så bør vi derimot ha inn noen ting:<br />
+* støtte for PDF med mulighet til å gjøre egne endringer (merke tekst som er viktig f.eks.)<br />
+* støtte for at politisk sekretariat kan laste opp dokumenter direkte til brettene (slik at man ikke behøver å overlate til brukeren å lagre et vedlegg fra en epost et eller annet sted på brettet. Mange greier ikke å lage en ordentlig mappestruktur som fungerer, eller å lagre dokumentet i stedenfor å åpne).<br />
+* ordning med remote wipe.</p>
+<p>Alt dette tror jeg at bør være mulig å få til med iPad/iPad2, så dette tror jeg kan bli et spennende prosjekt å jobbe videre med.</p>
+<p>(dette innlegget var egentlig mest for å teste blogging fra iPaden&#8230;)</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2011/05/06/tester-ipad-for-elektroniske-sakspapirer-til-politikere/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Norske språkfiler på Zimbra</title>
+		<link>https://kamfjord.org/2010/05/05/norske-sprakfiler-pa-zimbra/</link>
+					<comments>https://kamfjord.org/2010/05/05/norske-sprakfiler-pa-zimbra/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Wed, 05 May 2010 13:23:01 +0000</pubDate>
+				<category><![CDATA[Zimbra]]></category>
+		<category><![CDATA[oversettelse]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=174</guid>
+
+					<description><![CDATA[Dessverre har ikke de norske språkfilene til Zimbra blitt tatt med i den offisielle versjonen av Zimbra ennå, men de eksisterer takket være Philip Gabrielsen og Roy Sigurd Karlsbakk. De siste oppdateringene er gjort av Roy Sigurd, og Philip har &#8230; <a href="https://kamfjord.org/2010/05/05/norske-sprakfiler-pa-zimbra/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Dessverre har ikke de norske språkfilene til <a href="http://www.zimbra.com">Zimbra</a> blitt tatt med i den offisielle versjonen av Zimbra ennå, men de eksisterer takket være <a href="http://flums.net/">Philip Gabrielsen</a> og <a href="http://karlsbakk.net/src/zimbra/nb_NO/">Roy Sigurd Karlsbakk</a>. De siste oppdateringene er gjort av Roy Sigurd, og Philip har tilgang til SVN-repositoryet til <a href="http://zimbra-xtras.sourceforge.net/">Zimbra-xtras på SourceForge</a></p>
+<p>For å laste ned språkfilene første gangen har jeg gjort følgende på min server:</p>
+<blockquote><p><em>mkdir -p /opt/ZmTranslations<br />
+cd /opt/ZmTranslations<br />
+svn co https://zimbra-xtras.svn.sourceforge.net/svnroot/zimbra-xtras/trunk/ZimbraTranslations/data/Norwegian_no/messages SVN_NO</em></p></blockquote>
+<p>Deretter at jeg lagt inn følgende script i /opt/ZmTranslations/update_translations.sh</p>
+<blockquote><p><em>#!/bin/bash<br />
+cd SVN_NO<br />
+svn update<br />
+#cp *.properties /opt/zimbra/jetty-6.1.5/webapps/zimbra/WEB-INF/classes/messages/<br />
+#cp *.properties /opt/zimbra/jetty-6.1.5/webapps/zimbraAdmin/WEB-INF/classes/messages/<br />
+#cp ZsMsg*.properties /opt/zimbra/conf/msgs/</em></p>
+<p><em>cp *Msg*.properties /opt/zimbra/jetty/webapps/zimbra/WEB-INF/classes/messages/<br />
+cp *Msg*.properties /opt/zimbra/jetty/webapps/zimbraAdmin/WEB-INF/classes/messages/<br />
+#cp *Keys*.properties /opt/zimbra/jetty/webapps/zimbra/WEB-INF/classes/keys/<br />
+#cp *Keys*.properties /opt/zimbra/jetty/webapps/zimbraAdmin/WEB-INF/classes/keys/<br />
+#cp *ZsMsg*.properties /opt/zimbra/conf/msgs/</em></p>
+<p><em>su &#8211; zimbra -c &#8216;zmprov fc locale&#8217;<br />
+su &#8211; zimbra -c &#8216;zmprov fc config&#8217;<br />
+su &#8211; zimbra -c &#8216;zmprov fc domain&#8217;<br />
+su &#8211; zimbra -c &#8216;zmprov fc server&#8217;<br />
+su &#8211; zimbra -c &#8216;zmprov fc skin&#8217;<br />
+su &#8211; zimbra -c &#8216;zmprov fc zimlet&#8217;<br />
+</em></p></blockquote>
+<p>Hver gang jeg kjører dette scriptet, så oppdateres oversettelsene til siste versjon, filene kopieres ut i riktige mapper, og det kjøres en flush av oversettelsescachen på serveren (merk at jeg kjører flushcache på flere ting enn bare locale, siden jeg kjører dette scriptet manuelt hver gang jeg trenger å gjøre flush av noen av enkeltkomponentene som jeg gjør endringer på).</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/05/05/norske-sprakfiler-pa-zimbra/feed/</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Foredraget mitt fra GoOpen 2010 om Zimbra</title>
+		<link>https://kamfjord.org/2010/04/20/foredraget-mitt-fra-goopen-2010-om-zimbra/</link>
+					<comments>https://kamfjord.org/2010/04/20/foredraget-mitt-fra-goopen-2010-om-zimbra/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Tue, 20 Apr 2010 19:57:11 +0000</pubDate>
+				<category><![CDATA[Zimbra]]></category>
+		<category><![CDATA[Presentasjon]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=168</guid>
+
+					<description><![CDATA[Da var foredraget mitt om Zimbra i Tønsberg og Nøtterøy kommuner gjennomført på GoOpen (nervene begynner å gi seg nå, 7 timer etterpå&#8230; Første gangen jeg har holdt et så stort foredrag) Film fra foredraget ligger ute hos Vimeo Selve &#8230; <a href="https://kamfjord.org/2010/04/20/foredraget-mitt-fra-goopen-2010-om-zimbra/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Da var foredraget mitt om <a href="http://www.zimbra.com">Zimbra</a> i Tønsberg og Nøtterøy kommuner gjennomført på <a href="http://www.goopen.no/foredragsholdere/zimbra-pa-8500-brukere/">GoOpen</a> (nervene begynner å gi seg nå, 7 timer etterpå&#8230; Første gangen jeg har holdt et så stort foredrag)</p>
+<p>Film fra foredraget ligger ute hos <a href="http://vimeo.com/11080790">Vimeo</a></p>
+<p>Selve foredraget har jeg gjort tilgjengelig her i <a href="http://blog.kamfjord.org/wp-content/uploads/2010/04/Presentasjon-på-GoOpen-2010-Zimbra.odp">ODF</a> og <a href="http://blog.kamfjord.org/wp-content/uploads/2010/04/Presentasjon-på-GoOpen-2010-Zimbra.pdf">PDF</a>-format. Selvfølgelig er det CC-BY-SA <img src="https://s.w.org/images/core/emoji/12.0.0-1/72x72/1f609.png" alt="😉" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Her er også et lite bilde av meg på scenen (Takk til kollega Lars Eik )</p>
+<p><a href="http://blog.kamfjord.org/wp-content/uploads/2010/04/IMG_3060.jpg"><img class="size-full wp-image-167 alignleft" title="Jeg holder foredrag om Zimbra på GoOpen 2010" src="http://blog.kamfjord.org/wp-content/uploads/2010/04/IMG_3060.jpg" alt="Foto: Lars Eik" width="451" height="299" /></a></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/04/20/foredraget-mitt-fra-goopen-2010-om-zimbra/feed/</wfw:commentRss>
+			<slash:comments>6</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>F&#229;tt meg ny netbook</title>
+		<link>https://kamfjord.org/2010/02/16/ftt-meg-ny-netbook/</link>
+					<comments>https://kamfjord.org/2010/02/16/ftt-meg-ny-netbook/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Tue, 16 Feb 2010 14:39:00 +0000</pubDate>
+				<category><![CDATA[Jobb]]></category>
+		<category><![CDATA[Programvaretesting]]></category>
+		<category><![CDATA[netbook]]></category>
+		<category><![CDATA[Office]]></category>
+		<category><![CDATA[PC]]></category>
+		<category><![CDATA[Windows 7]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/2010/02/16/ftt-meg-ny-netbook/</guid>
+
+					<description><![CDATA[Kom tilfeldigvis over et greit tilbud på netbook i romjula, og har nå (endelig) fått tak i den. Det er en DELL Inspirion mini, med bl.a. 160GB disk, greit tastatur, 10,1” skjerm, 1,6GHz Atom-prosessor og 1GB RAM (men RAMen tror &#8230; <a href="https://kamfjord.org/2010/02/16/ftt-meg-ny-netbook/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Kom tilfeldigvis over et greit tilbud på netbook i romjula, og har nå (endelig) fått tak i den. Det er en DELL Inspirion mini, med bl.a. 160GB disk, greit tastatur, 10,1” skjerm, 1,6GHz Atom-prosessor og 1GB RAM (men RAMen tror jeg må oppgraderes…).</p>
+<p>Tenkte jeg skulle ta å forsøke å lære meg å bruke litt nyere Windows og Office-versjoner også, siden jeg hverken har prøvd Vista eller Windows 7 ennå, og har brukt OpenOffice som eneste kontorstøttesystem siden ~ 2004. Har fått inn Windows 7 nå, og har installert Office 2007 og Visio 2007 (beste produktet Microsoft noensinne har kjøpt er Visio!).</p>
+<p>Nå sitter jeg å tester litt på Windows Live Writer for å skrive blogg-innlegg, og får vel teste litt på Office i løpet av kvelden.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/02/16/ftt-meg-ny-netbook/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

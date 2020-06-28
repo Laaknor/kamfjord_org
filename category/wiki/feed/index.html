@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Wikimedia &#8211; Lars Åges tanker</title>
+	<atom:link href="https://kamfjord.org/category/wiki/feed/" rel="self" type="application/rss+xml" />
+	<link>https://kamfjord.org/</link>
+	<description>Politikk og teknologi</description>
+	<lastBuildDate>Tue, 13 Dec 2011 09:49:31 +0000</lastBuildDate>
+	<language>nb-NO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.4.2</generator>
+	<item>
+		<title>Hjelp Wikipedia ved å ta bilder i ditt nærmiljø!</title>
+		<link>https://kamfjord.org/2011/12/13/hjelp-wikipedia-ved-a-ta-bilder-i-ditt-naermiljo/</link>
+					<comments>https://kamfjord.org/2011/12/13/hjelp-wikipedia-ved-a-ta-bilder-i-ditt-naermiljo/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Tue, 13 Dec 2011 09:49:31 +0000</pubDate>
+				<category><![CDATA[Teknisk]]></category>
+		<category><![CDATA[Wikimedia]]></category>
+		<guid isPermaLink="false">http://kamfjord.org/?p=375</guid>
+
+					<description><![CDATA[Etter at Hans-Petter hadde et Wikipedia-prosjekt for å finne bilder som manglet i Oslo, hvor han lagde en KML-fil og satte opp Google Maps som en oversikt og arbeidsliste for alle som deltar, har jeg hatt lyst til å automatisere &#8230; <a href="https://kamfjord.org/2011/12/13/hjelp-wikipedia-ved-a-ta-bilder-i-ditt-naermiljo/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Etter at <a href="http://no.wikipedia.org/wiki/Bruker:Atluxity">Hans-Petter</a> hadde et Wikipedia-prosjekt for å finne bilder som <a href="http://no.wikipedia.org/wiki/Wikipedia:Underprosjekter/Oslobilder">manglet i Oslo</a>, hvor han lagde en KML-fil og satte opp <a href="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=http:%2F%2Fno.wikipedia.org%2Fw%2Findex.php%3Ftitle%3DWikipedia:Underprosjekter%2FOslobilder.kml%26action%3Draw&amp;sll=59.940448,10.785484&amp;sspn=0.177473,0.511551&amp;ie=UTF8&amp;ll=59.935236,10.759735&amp;spn=0.088751,0.255775&amp;z=12">Google Maps</a> som en oversikt og arbeidsliste for alle som deltar, har jeg hatt lyst til å automatisere denne jobben litt. Siden jeg har lesetilgang til databasene til Wikipedia skulle det i utgangspunktet være lett å få hentet ut informasjon om alle kartkoordinatene, og hvorvidt artikkelen har noen bilder.</p>
+<p>Prosjektet er nå endelig klar for offentligheten: <a title="Wikipedia-artikler som trenger bilde" href="http://kamfjord.org/wikipedia-artikler-som-trenger-bilde/">Wikipedia-artikler som trenger bilder</a>.</p>
+<p>&nbsp;</p>
+<p>Jeg bruker følgende spørring mot wikipedia-databasen for no.wikipedia:</p>
+<blockquote><p>SELECT p.page_id,p.page_title,e.el_to,(SELECT COUNT(*) FROM imagelinks i WHERE i.il_from=p.page_id AND i.il_to NOT LIKE &#8216;%.svg&#8217;) AS antall FROM page p JOIN externallinks e ON p.page_id=e.el_from WHERE e.el_to LIKE &#8216;http://toolserver.org/~geohack/geohack.php%&#8217; AND p.page_namespace=0  AND p.page_title NOT IN (&#8216;Grunnlinje&#8217;) AND p.page_title NOT LIKE &#8216;Liste%&#8217; AND page_title NOT LIKE &#8216;Tettsteder%&#8217; LIMIT 0,20000</p></blockquote>
+<p>&nbsp;</p>
+<p>Jeg henter i utgangspunktet ut alle sider som lenker til http://toolserver.org/~geohack/geohack.php, siden det er lenken som brukes i malen <a href="http://no.wikipedia.org/wiki/Mal:Koord">Koord</a> som brukes bl.a. for å formatere koordinater riktig. Trolig hadde det vært bedre å finne alle de artikler som bruker malen <a href="http://no.wikipedia.org/wiki/Mal:Koord/vis/tittel">Koord/vis/tittel</a>, siden det er denne som faktisk viser koordinatene øverst til høyre på artiklene, men det får bli til en senere anledning (det blir en mye tyngre SQL-spørring, som tar vesentlig lenger tid å kjøre).</p>
+<p>For å kompensere for at jeg ikke bruker vis/tittel-malen, har jeg ekskludert alle artikler som begynner på &laquo;Liste&raquo; eller &laquo;Tettsteder&raquo;, siden disse artiklene har ganske mange koordinater, uten at det behøver å være et bilde i artikkelen.</p>
+<p>Når det gjelder bilder, så ekskluderer jeg bruk av SVG-bilder som &laquo;aktuelle&raquo; for at artikkelen har et bilde, siden dette ofte er kommunevåpen brukt i maler, eller kart over stedet &#8211; ingen av delene er gode representantive bilder for de forskjellige artiklene.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2011/12/13/hjelp-wikipedia-ved-a-ta-bilder-i-ditt-naermiljo/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Tilbake fra Wikimania, oppsummering og refleksjoner</title>
+		<link>https://kamfjord.org/2010/07/24/tilbake-fra-wikimania-oppsummering-og-refleksjoner/</link>
+					<comments>https://kamfjord.org/2010/07/24/tilbake-fra-wikimania-oppsummering-og-refleksjoner/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Sat, 24 Jul 2010 15:17:07 +0000</pubDate>
+				<category><![CDATA[Wikimedia Foundation]]></category>
+		<category><![CDATA[wikitreff]]></category>
+		<category><![CDATA[Wikimania]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=186</guid>
+
+					<description><![CDATA[Da har man endelig kommet seg hjem fra Gdansk, Polen og i normal rytme igjen etter en kjempebra konferanse. For første gang var det flere nordmenn enn Jon Harald tilstede; vi var tilsammen 4 nordmenn (+ en fra Finland som &#8230; <a href="https://kamfjord.org/2010/07/24/tilbake-fra-wikimania-oppsummering-og-refleksjoner/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Da har man endelig kommet seg hjem fra Gdansk, Polen og i normal rytme igjen etter en kjempebra konferanse.</p>
+<p>For første gang var det flere nordmenn enn <a href="http://no.wikipedia.org/wiki/Bruker:Jon_Harald_S%C3%B8by">Jon Harald</a> tilstede; vi var tilsammen 4 nordmenn (+ en fra Finland som for tiden bor i Norge), og vi tilbragte mye tid sammen med en gjeng svensker som tok båt fra Stockholm. Det ble en veldig hyggelig opplevelse, og vi fikk pratet mye (spesielt om språk og forskjellige kulturer i forskjellige land).</p>
+<h3>Før Wikimania</h3>
+<p>Kjetil, Jon Harald og jeg kom til Gdansk på onsdag, mens konferansen begynte på fredag morgen. Jon Harald kom sammen med svenskene med båt (etter en imponerende haiketur fra Trondheim), mens Kjetil og jeg var kjedelige og tok flyet. Etter at vi hadde fått sjekket inn på forskjellige sovesteder, ble vi sittende sammen med svenskene på en resturant, og prøvde litt tradisjonell polsk mat. Veldig sterk mat (mye bruk av løk og andre grønnsaker med sterk smak), men godt.</p>
+<p>Torsdag tok Kjetil og jeg en tur rundt i byen med kamera, og ble litt kjent i byen. Endte til slutt opp på en gammel festning med god utsikt over byen (se mine bilder på <a href="http://picasaweb.google.com/laaknor/Wikimania2010#">Picasa</a>). På kvelden var det på nytt resturantbesøk med svenskene, men vi fikk også med oss Effeietsanders fra Nederland og Waldir fra Kapp Verde.</p>
+<h3>Konferansestart: fredag</h3>
+<p>Konferansen åpnet med et foredrag av Foundations daglige leder; Sue Gardner. Hun kunne fortelle litt om året som har gått, spesielt i forhold til <a href="http://usability.wikimedia.org">Usability</a> og <a href="http://strategy.wikimedia.org">Strategic Planning</a>, planene om å ansette 44 nye mennesker (i hovedsak teknisk, men også endel relatert til chapter-utvikling), og planer om å jobbe hardt med å få Wikipedia utbygd i den sørlige delen av planeten.</p>
+<p>Etter Sue Gardner kom hele styret i stiftelsen frem, og fortalte litt om utskiftningene i styret (Michael Snow ble ikke gjenvalgt som chapterrepresentant, en plass som ble overlatt til <a href="http://meta.wikimedia.org/wiki/User:Phoebe">Phoebe Ayers</a>, og <a href="http://meta.wikimedia.org/wiki/User:Wing">Ting Chen</a> overtok som styrets leder). Det var litt høytidlig takking av Michael Snow for innsatsen han har gjort, samt noen spørsmål fra publikum som ble besvart av forskjellige styremedlemmer.</p>
+<h3>Paralellsesjoner</h3>
+<p>Etter åpningen var det paralellsesjoner. Første sesjonen jeg deltok på var &laquo;Chapters: Collaboration and Coordination&raquo;, hvor først Creative Commons holdt litt introduksjon til sitt arbeid med å bygge en organisasjon over hele verden. Det andre foredraget på denne sesjonen var en introduksjon til Wikimedia Asia, hvor flere asiatiske land bygger samarbeid i Asia.</p>
+<p>Den neste sesjonen jeg deltok på var MultiWikiMedia, hvor først Michael Snow brukte 40 minutter på å informere om hva Wikimedia Commons er for noe; noe de fleste andre nok kunne klart på 5 minutter&#8230; Det neste foredraget var av Guillaume Paumier, som jobber for Wikimedias Usability-prosjekt (prosjektet som nå har rullet ut nytt design på Wikipedia, og flere andre forbedringer rettet mot nybegynnere som skal komme). Han informerte om undersøkelsene som var gjort om brukervennligheten i Wikipedia, og om endringer som kommer; spesielt den <a href="http://commons.prototype.wikimedia.org/wiki/Main_Page">nye prototypen til Wikimedia Commons</a> som trenger testing og tilbakemeldinger.</p>
+<p>På slutten av MultiWikiMedia-sesjonen kom det et lite foredrag av en av arrangørene av Wikimania, som omhandlet et prosjekt han jobbet med på 3D, og han viste oss et ganske spennende prosjekt med <a href="http://copernicus.deri.ie/Articles/Article_NE_PolishHeritagePark.xbap">3D-basert navigering</a> &laquo;i wikien&raquo;.</p>
+<p>Neste sesjon var Usability Initative &amp; Informing Design with data, hvor det var flere foredrag + en spørsmål og svar-sesjon rundt Usability Initative.</p>
+<h3>Lørdag</h3>
+<p>Lørdag morgen begynte dagen med &laquo;Chapters: The Good, The Bad and the Ugly&raquo;. Denne begynte med en paneldebatt (litt feil begrep, siden publikum var minst like mye med som de som satt i panelet), om hvordan Wikimedia kan vokse, og hvilken rolle chapterne kan spille i denne prosessen. En ting som er verdt å legge merke til her, og som gikk igjen gjennom hele diskusjonen, var at Erik Möller (visedirektør(?) i Foundation) sa at han mente at chapterne som medlemsorganisasjoner var et feilsteg, og at det hadde vært bedre om chapterne &laquo;bare var en juridisk enhet som representerte Wikipedia og de andre prosjektene&raquo;, i stedenfor at man skal fokusere på tradisjonelle aktiviteter som medlemsverving og konkurrering i å ha flest mulig medlemmer. Det å måtte ha en bevist holdning til en innmelding, og byråkratiet med medlemsskap er i utgangspunktet i strid med Wikimedia/Wikipedias grunnprinsipper om at alle kan delta, så lenge de prøver å gjøre noe postivt.</p>
+<p>Etter paneldebatten hadde Harel fra Israel et ganske spennende foredrag om konflikter mellom chaptere og nettsamfunn, og størstedelen av salen kjente seg igjen i karakteriseringer av &laquo;motparten&raquo;, når han kom med &laquo;hva sier nettsamfunnet om chapteret&raquo; og &laquo;hva sier chapter(styret) om nettsamfunnet&raquo;.</p>
+<p>Neste sesjon var for meg en introduksjon til Semantisk MediaWiki, et system som jeg tror kan gjøre mye for å gjøre systematisere data på Wikipedia; data vi i dag &laquo;kun&raquo; har i ren tekst, og ikke i et automatisk og søkbart format.</p>
+<p>Etter lunsj ble det for meg sesjonen &laquo;Ortega &amp; Möller&raquo;, hvor først Felipe Ortega informerte hvordan prosessen med Flagged Revisions på tysk Wikipedia hadde fungert, med visning av forskjellig statistikk. Etterpå hadde Erik Möller et eget foredrag om hva han mente statusen på de forskjellige prosjektene var, hvilke utviklingsmuligheter de hadde, og hvilke feller man måtte unngå. Et veldig spennende foredrag, som viser ganske tydelig at det er Wikipedia som driver WMF fremover, og at de andre prosjektene mer eller mindre blir støtteprosjekter for Wikipedia.</p>
+<p>Etter dette ble det sosialisering med endel forskjellige folk fra det internasjonale miljøet for min del, før det ble premiere av dokumentaren <a href="http://www.truthinnumbersthemovie.com/">Truth in Numbers?</a>, en film på omtrent halvannen time, med en Q&amp;A-sesjon med Jimmy Wales og hovedpersonene bak filmen etterpå. Filmen var i mine øyne veldig spennende, og jeg gleder meg til den kommer ut på DVD.</p>
+<h3>Søndag</h3>
+<p>Dagen begynte med Jimmy Wales&#8217;s foredrag &laquo;State of the Wiki&raquo;, hvor han i hovedsak fortalte om satsningen på utvikling av Wikipedia i den tredje verden, og for å opprettholde språk som er på vei til å forsvinne, til fordel for de større språkene. Han hadde intervjuet endel folk via Skype, og ba om å få tilbakemeldinger på tekniske og organisatoriske problemer for dems språk. Til slutt spurte han de han intervjuet om det var noe han personlig kunne bidra med, hvor alle var fullstendig enige om at Jimmy var fullstendig ubrukelig, men at de gjerne ville ha han på besøk.</p>
+<p>På søndagens første paralellsesjon dro jeg på &laquo;From WMF with Love: Update for developers&raquo;. Første foredrag her var av Tomasz Finc, og handlet om satsningen på mobil og offline visning av Wikipedia, bl.a. <a href="http://thewikireader.com/">WikiReader</a>, og betydningen av dette for utberedelse av Wikipedia i den tredje verden, hvor strøm og internett er mangelvare. Etter dette holdt Roan Kattouw et foredrag om &laquo;Why your extension will not be enabled on Wikimedia wikis in its current state and what you can do about it; performance, scalability and security for extension developers&raquo;, som omhandlet kriteriene for hva som skulle til før utvidelser etc. blir aktivert på Wikimedia Foundations prosjekter. Et veldig spennende foredrag for de som driver med MediaWiki og utvikling, selv om mye av det som ble sagt sier seg selv: med flere hundre millioner besøkende i måneden, så installerer man ikke hva som helst uten grundig testing, testing, og mer testing; en prosess som tar tid.</p>
+<p>På mitt siste foredrag holdt Multichill et foredrag om masseopplastning av filer til Commons, og litt teori om hvordan man programmerte dette.</p>
+<p>Resten av tiden på søndag ble for min del tilbragt med møte mellom stewards, og vi diskuterte mye om hvordan utvikle WMF-prosjektene videre. Et av resultatene fra disse diskusjonene var at stewards fremmet forslag om en <a href="http://meta.wikimedia.org/wiki/Requests_for_comment/Global_Arbitration_Committee">Global Arbitration Comitee</a> på meta, i et håp om å få bedret konflikthåndtering, spesielt på små wikier/små språk.</p>
+<p>I alt var Wikimania i Gdansk en veldig spennende konferanse, og jeg håper å få dratt tilbake når det neste år skal arrangeres i Israel. Jeg håper også at flere nordmenn har lyst til å være med da, og at vi kan få dratt en større gjeng (selv om det i år var den største delegasjonen som har dratt til nå)</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/07/24/tilbake-fra-wikimania-oppsummering-og-refleksjoner/feed/</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Kjør Wikipedia uten internett-tilgang</title>
+		<link>https://kamfjord.org/2010/05/25/kj%c3%b8r-wikipedia-uten-internett-tilgang/</link>
+					<comments>https://kamfjord.org/2010/05/25/kj%c3%b8r-wikipedia-uten-internett-tilgang/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Tue, 25 May 2010 21:15:31 +0000</pubDate>
+				<category><![CDATA[Jobb]]></category>
+		<category><![CDATA[Wikipedia]]></category>
+		<category><![CDATA[Eksamen]]></category>
+		<category><![CDATA[WikiTaxi]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=181</guid>
+
+					<description><![CDATA[Har fått et par spørsmål om hvordan man kan ha tilgang til Wikipedia uten å ha internett-tilgang. Nye regler i forbindelse med avvikling av eksamen i ungdomsskolen og videregående skole gir elevene mulighet til å bruke alle virkemidler, så lenge &#8230; <a href="https://kamfjord.org/2010/05/25/kj%c3%b8r-wikipedia-uten-internett-tilgang/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Har fått et par spørsmål om hvordan man kan ha tilgang til Wikipedia uten å ha internett-tilgang. Nye regler i forbindelse med avvikling av eksamen i ungdomsskolen og videregående skole gir elevene mulighet til å bruke alle virkemidler, så lenge de ikke kan kommunisere med hverandre, og den metoden jeg beskriver er dermed fult lovlig å bruke, men jeg vil anbefale at IT-ansvarlig på skolen gjennomfører den, og ikke at hver enkelt elev gjør dette på egenhånd, fordi det kan være relativt store datamengder som tar mye plass.</p>
+<h3>Last ned databasedump av Wikipedia</h3>
+<p><a href="http://www.wikimediafoundation.org">Wikimedia Foundation</a> som er stiftelsen som står bak Wikipedia gjør alt innhold fra Wikipedia tilgjengelig på <a href="http://download.wikimedia.org">download.wikimedia.org</a>. Velg ut de databasene du er interessert i, og last ned filen &laquo;pages-articles.xml.bz2&raquo; i den siste databasedumpen som er gjort tilgjengelig:</p>
+<ul>
+<li>Wikipedia på bokmål/riksmål: <a href="http://download.wikimedia.org/nowiki/">nowiki</a></li>
+<li>Wikipedia på nynorsk: <a href="http://dumps.wikimedia.org/nnwiki/">nnwiki</a></li>
+<li>Wikipedia på engelsk: <a href="http://dumps.wikimedia.org/enwiki/">enwiki</a></li>
+</ul>
+<h3>Last ned WikiTaxi</h3>
+<p>WikiTaxi er en offline reader som kan lese databasedumpene som du akkurat har lastet ned. Den kan finnes på <a href="http://www.wikitaxi.org">www.wikitaxi.org</a>.</p>
+<h3>Konverter XML til WikiTaxi-database</h3>
+<p>XML er et veldig fleksibelt format, men det er tungvindt å gjøre søkbart. Derfor må databasedumpen konverteres til WikiTaxi-database. Dette gjøres med programmet wikitaxi_import.exe som følger med WikiTaxi. Fyll inn hvor du har lagret xml&#8217;en du vil konvertere i første feltet, hvor du vil at databasen skal lagres i det andre feltet, og trykk på Import. Programmet vil nå jobbe en stund med å konvertere dataen (for meg brukte den ca. 5 minutter på Wikipedia på bokmål)</p>
+<h3>Start WikiTaxi.exe</h3>
+<p>Dersom du bare trykker på WikiTaxi.exe vil du få opp en bruksanvisning med beskrivelse av programmet og hvordan du bruker det, i begynnelsen av denne vil du også få en lenke for å åpne en ny fil, hvor du kan bla deg frem til hvor du har lagret den konverterte databasen i forrige steg. Åpne filen og du får opp teksten fra Wikipedia, med søkefelt for å finne artikler.</p>
+<p>Du kan også spesifisere hvor databasen ligger direkte ved å skrive adressen til .taxi-fila som en parameter til wikitaxi.exe slik:</p>
+<p><em>p:\Applikasjoner\Wikipedia\WikiTaxi.exe p:\Applikasjoner\Wikipedia\nowiki\nowiki.taxi</em></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/05/25/kj%c3%b8r-wikipedia-uten-internett-tilgang/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Spennende uke neste uke</title>
+		<link>https://kamfjord.org/2010/04/14/spennende-uke-neste-uke/</link>
+					<comments>https://kamfjord.org/2010/04/14/spennende-uke-neste-uke/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Wed, 14 Apr 2010 15:26:36 +0000</pubDate>
+				<category><![CDATA[Jobb]]></category>
+		<category><![CDATA[Personlig]]></category>
+		<category><![CDATA[Wikimedia]]></category>
+		<category><![CDATA[Wikipedia]]></category>
+		<category><![CDATA[Årsmøte]]></category>
+		<category><![CDATA[foredrag]]></category>
+		<category><![CDATA[GoOpen]]></category>
+		<category><![CDATA[Wikimedia Norge]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=161</guid>
+
+					<description><![CDATA[Jeg må si jeg gleder meg til neste uke. Mandag 19. april begynner konferansen GoOpen i Oslo, Norges største konferanse om åpen kildekode (jeg har selvfølgelig vært med der hvert år), og jeg får mulighet til å møte mange andre &#8230; <a href="https://kamfjord.org/2010/04/14/spennende-uke-neste-uke/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Jeg må si jeg gleder meg til neste uke. Mandag 19. april begynner konferansen <a href="http://www.goopen.no">GoOpen</a> i Oslo, Norges største konferanse om åpen kildekode (jeg har selvfølgelig vært med der hvert år), og jeg får mulighet til å møte mange andre i miljøet i Norge (er ofte kjente navn fra et eller annet prosjekt jeg har vært borti). På kvelden skal det være årsmøte i <a href="http://no.wikimedia.org/wiki/Kategori:Årsmøte 2010">Wikimedia Norge</a>, hvor jeg har blitt innstilt som <a href="http://no.wikimedia.org/wiki/%C3%85rsm%C3%B8te_2010/Valg-_og_kontrollkomiteen_sin_innstilling_til_styre">ny nestleder</a>, en post jeg virkelig har lyst på, siden jeg har mange prosjekter jeg kunne tenke meg å få gjennomført, og som nestleder har jeg god mulighet til å få gjennomført disse på en god måte. Etter årsmøtet blir det wikitreff, noe som trolig betyr muligheten til å prate med masse nye folk jeg ikke har møtt annet enn på Wikipedia.</p>
+<p>Dagen etter, tirsdag 20. april, skal jeg <a href="http://www.goopen.no/foredragsholdere/zimbra-pa-8500-brukere/">holde foredrag på GoOpen</a>, noe som trolig blir det største foredraget jeg har holdt til nå (men forhåpentligvis ikke det siste :P). Har endelig fått satt meg ned og skrevet litt på foredraget mitt i dag (gått med mye tid for å forberede årsmøtet i Wikimedia Norge de siste ukene), og tror nok det skal gå bra.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/04/14/spennende-uke-neste-uke/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>En preferansepolitikk for åpen kildekode som fungerer</title>
+		<link>https://kamfjord.org/2010/03/16/en-preferansepolitikk-for-apen-kildekode-som-fungerer/</link>
+					<comments>https://kamfjord.org/2010/03/16/en-preferansepolitikk-for-apen-kildekode-som-fungerer/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Tue, 16 Mar 2010 11:52:12 +0000</pubDate>
+				<category><![CDATA[IT-politikk]]></category>
+		<category><![CDATA[Opphavsrett]]></category>
+		<category><![CDATA[lisenser]]></category>
+		<category><![CDATA[programvare]]></category>
+		<category><![CDATA[ZenWorks]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=156</guid>
+
+					<description><![CDATA[For skolenettet i Tønsberg og Nøtterøy kommuner har vi siden samarbeidet om felles plattform begynte i 2004 hatt en preferansepolitikk for åpen kildekode. Ikke fordi åpen kildekode er så mye bedre enn annen  programvare (vi mener jo selvfølgelig at den &#8230; <a href="https://kamfjord.org/2010/03/16/en-preferansepolitikk-for-apen-kildekode-som-fungerer/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>For skolenettet i Tønsberg og Nøtterøy kommuner har vi siden samarbeidet om felles plattform begynte i 2004 hatt en preferansepolitikk for åpen kildekode. Ikke fordi åpen kildekode er så mye bedre enn annen  programvare (vi mener jo selvfølgelig at den er bedre som prinsipp, men det kommer helt ann på produkt til produkt også), men fordi vi ikke ønsker at tilgang til programvare skal hindre tilgang til maskinvare.</p>
+<p>Vår preferansepolitikk for åpen kildekode kan oppsummeres slik: Tilgangen til programvare skal ikke sette en begrensning på antall maskiner vi kan ha tilgjengelig for lærere og elever.</p>
+<p>Med utgangspunkt i dette, så prioriterer vi lisenser til programvare slik:</p>
+<ol>
+<li>Fri programvare/åpen kildekode &#8211; Ingen begrensninger på antall maskiner/antall brukere. Er produktet bra, så betaler vi for produktet, enten symbolsk sum, eller &laquo;noen lisenser&raquo;.</li>
+<li>Gratisprogrammer (er gratis, så vi prøver å få lagt det inn, siden kommuneøkonomien ikke er den feteste i verden, men kan ofte ha endel problemer i forhold til lisensen, f.eks. hvis lisensen gir forbud mot å vidredistribuere eller konvertere en setup.exe til MSI-format for automatisk installasjon&#8230; Opphavsrett er vanskelige greier!)</li>
+<li>Lisens for hele kommunen/alle skolene i kommunen.</li>
+<li>Lisens for enkeltskoler (vi aktiverer kun programmet for de skolene som betaler for det)</li>
+<li>Lisens per bruker (antall innbyggere/elever/lærere i kommunene er ganske statisk), eller lisens for samtidige brukere (vi har kontroll på samtidige brukere via ZenWorks)</li>
+<li>Lisens per maskin</li>
+</ol>
+<p>Stort sett alle programmene vi har tilgjengelig for skolene, ligger på de tre første lisenstypene, og det vi har av programmer på de to siste lisenstypene er stort sett Novell eDirectory/Zenworks, og antivirus. Hadde vi hatt en større andel av de to siste lisenstypene, hadde vi fått endel problemer; hver gang skolene skulle kjøpe inn nye datamaskiner (skolene betaler for maskinene selv, mens det aller meste av programvaren betales av IT-avdelingen), så hadde hver eneste satsning på IT fra enkeltskoler, betydd problemer på IT-budsjettet. Alternativet hadde vært at skolene ble overført betalingen av programvaren også, noe som mest sannsynlig ville medført at skolene skulle spare penger ved å droppe tilknytning til eDirectory/Zenworks (og dermed få frittstående maskiner som ikke ble driftet av IT-avdelingen) eller antivirusen.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/03/16/en-preferansepolitikk-for-apen-kildekode-som-fungerer/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Store Norskes siste sleivspark?</title>
+		<link>https://kamfjord.org/2010/03/13/store-norskes-siste-sleivspark/</link>
+					<comments>https://kamfjord.org/2010/03/13/store-norskes-siste-sleivspark/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Sat, 13 Mar 2010 18:14:22 +0000</pubDate>
+				<category><![CDATA[IT-politikk]]></category>
+		<category><![CDATA[SNL]]></category>
+		<category><![CDATA[Wikipedia]]></category>
+		<category><![CDATA[download.wikimedia.org]]></category>
+		<category><![CDATA[fagfolk]]></category>
+		<category><![CDATA[Kulturdepartementet]]></category>
+		<category><![CDATA[Kunnskapforlaget]]></category>
+		<category><![CDATA[Redaksjonen]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=154</guid>
+
+					<description><![CDATA[Ja, da har nyheten endelig kommet; Store Norske Leksikon legger ned fra 1. juli (merk at pressemeldingen er kvalitetssikret&#8230;), fordi Kulturdepartementet ikke vil finansiere produktet deres, som har feilet ganske kraftig. At Store Norske kan greie å skrive en pressemelding &#8230; <a href="https://kamfjord.org/2010/03/13/store-norskes-siste-sleivspark/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Ja, da har nyheten endelig kommet;<a href="http://snl.no/Pressemelding"> Store Norske Leksikon legger ned fra 1. juli</a> (merk at pressemeldingen er kvalitetssikret&#8230;), fordi Kulturdepartementet ikke vil finansiere produktet deres, som har feilet ganske kraftig.</p>
+<p>At Store Norske kan greie å skrive en pressemelding som de har gjort syns jeg er ganske kvalmt. De har i lang tid sliti med å konkurrere med Wikipedia og internett forøvrig, og når de fortsatt ikke er villig til å innse at forretningsmodellen dems har feilet, og fortsetter med sleivspark mot konkurrentene, syns jeg ikke de fortjener bedre.</p>
+<p><a href="http://no.wikimedia.org">Wikimedia Norge</a> har i lang tid forsøkt å samarbeide, og å finne samarbeidsprosjekter som Kunnskapsforlaget og Wikimedia/Wikipedia kan samarbeide om, men Kunnskapsforlaget har alltid vært rimelig ensporet i sine tanker om samarbeid (som f.eks. at Wikipedia skal linke til SNL som kilde, mens SNL ikke skal linke tilbake til Wikipedia). Hadde SNL vært villig til å samarbeide tidligere, i stedenfor å være stolte over sin døende forretningsmodell, så hadde vi aldri kommet til denne situasjonen; Vi kunne hatt en god konkurranse og et godt samarbeid i det norske leksikonmiljøet.</p>
+<p>I stedenfor har vi nå en situasjon, hvor SNLs siste krampetrekninger, er å sende ut en pressemelding, som både skader dem selv, Wikipedia og leksikontradisjonen i Norge. Fortsatt har de ikke forstått hvorfor Wikipedia er mer populært, og hvorfor brukerne ikke kommer til SNL. Spesielt tenker jeg på tilleggene som følger med pressemeldingen:</p>
+<blockquote><p><em><strong>Hvorfor trenger Norge et nasjonalt leksikon med synlige fagfolk også i fremtiden?</strong></em></p>
+<p><em>Wikipedia er en verdenssuksess med sitt prinsipp om at alle kan bidra fritt og usignert, og ingen enkelt står ansvarlig. De nasjonale fagfolk-leksikonene har dermed mistet sitt økonomiske grunnlag og går mot nedleggelse. Store norske leksikon står nå for tur. Norge trenger et Wikipedia i fremtiden, men også et Store norske med synlige fagfolk som går god for og kan stilles til ansvar for innholdet. Som nasjonal institusjon er fagfolk-leksikonet viktig:</em></p></blockquote>
+<p>Spesielt den siste biten her syns jeg er interessant. Det skal ikke mye til for å kalles fagfolk. Alt som i realiteten skal til for å bli &laquo;fagansvarlig&raquo; hos Store Norske er at du er identifisert; ikke at du har en formell utdannelse innen faget. F.eks. er de fagansvarlige for de forskjellige kommunene stort sett mennesker som bor i kommunen eller en nabokommune, og ikke en som har mye mer kunnskap enn de fleste lokale mennesker kan forventes å ha. Systemet med fagansvarlige har også feilet, da det i mange tilfeller er foreslått endringer på artikler for opptil et år tilbake i tid, men endringene blir ikke håndtert. Brukerne kommer med tilbakemelding om faktafeil, og fagfolkene lar feilene stå eller gidder ikke fikse dem? Hvorfor skal du holde noen ansvarlig for innholdet, når de ikke vil ta ansvaret?</p>
+<blockquote><p><em><strong>For skoleverk, læresteder og forskning</strong>, for å oppfylle grunnleggende krav til sitering og kildehenvisning &#8211; at man vet hvem avsender er.</em></p></blockquote>
+<p>For skoleverket kan stort sett hvilken som helst kilde brukes til sitering, men innen forskning er ingen leksikon god kilde for noenting. Der bør man gå til orginalkilder. Det viktigste er ikke hvem kilden der, men hvordan man tolker den informasjonen som er oppgitt.</p>
+<blockquote><p><em><strong>For fagforfatterne og fagmiljøene</strong>, som formidlingsplattform med honorering og synlig kreditering.</em></p></blockquote>
+<p>Fagforfatterne og fagmiljøene bør se på hva som gir mest effekt, og sprer faget til flest mulig mennesker. Per dags dato er ikke dette Store Norske, men Wikipedia, og Wikipedia ønsker dem velkomne. Dersom kreditering er viktig for enkeltpersoner, så ville jeg personlig ha lagt ut informasjonen på egen hjemmeside i tillegg, men den store effekten kommer av publisering på Wikipedia.</p>
+<blockquote><p><em><strong>For biblioteksektoren</strong>, som trenger kvalitetssikrede autoritative kilder.</em></p></blockquote>
+<p>Nå er ikke et leksikon en autorativ kilde for noenting, siden all informasjon i et leksikon nødvendigvis må bli andrehåndsinformasjon, men poenget om kvalitetssikrede hjelper lite når SNL ikke har greid, og med dagens modell ikke kan bli i stand til, å gå god for at informasjonen er 100% korrekt.</p>
+<blockquote><p><em><strong>For norsk fagspråk</strong>, og norsk som språk. Det er god språkpolitikk ikke å overlate valg og definisjon av norske fagtermer til en anonym brukermasse.</em></p></blockquote>
+<p>Personlig er jeg tilhenger av at språket skal være levende, og at skriftspråket skal gjenspeile hva som brukes i den store befolkningen (og sist jeg sjekket er den norske befolkningen en stor anonym brukermasse). Norsk språkråd gjør mye bra de, men jeg er riv ruskende uenig i endel av valgene de tar, som er stikk i strid med hva noen i den norske befolkningen bruker (sørver om server? Måltidet lønsj? hvor kommer de definisjonene fra?)</p>
+<blockquote><p><em><strong>For nasjonens identitet</strong>, for å omtale det som er nasjonalt viktig, ikke minst for å fange opp et multikulturelt Norge i rask endring. Denne oppgaven bør ligge hos synlige ansvarlige og ikke det store kollektivet. Det kan også vise seg problematisk i lengden for kollektiv-leksikonets norske vinkling at det utgår fra en internasjonal plattform med hovedbase i USA.</em></p></blockquote>
+<p>Selvmotsigelse? Å fange opp det multikulturelle Norge bør ligge hos enkeltpersoner? Og til den siste biten, så kan hvem som helst forke Wikipedia, ved å laste ned hele databasen fra <a href="http://download.wikimedia.org">download.wikimedia.org</a>. Å spekulere i hvilken retning Wikipedia kommer til å ta, er unødvendig i en slik pressemelding, da Wikipedia har mulighet til å ta begge veier (noe det også har gjort tidligere, i Spania når det begynte å bli snakk om å ha reklame på Wikipedia, startet en gruppe opp et konkurrerende prosjekt, som siden har funnet veien tilbake i Wikipedia.)</p>
+<blockquote><p><em><strong>For synliggjøring av makt</strong>. Et leksikon er en maktfaktor. Fagfolk-leksikonet synliggjør menneskene bak, det kollektive dugnadsleksikonet tilslører dem, med risiko for skjult maktkamp. Norges eventuelle eneste storleksikon i fremtiden må ikke være styrt av usynlige krefter inngitt autoritet på ukjente premisser.</em></p></blockquote>
+<p>Når Store Norske Leksikon er villig til å innrømme hvem som skjuler seg bak &laquo;<a href="http://snl.no/.users/2247">Redaksjonen</a>&raquo; på SNL som har ansvaret for det store flertallet av artikler på SNL, så kan vi vurdere å diskutere denne&#8230;</p>
+<blockquote><p><em><strong>For å oppfylle grunnleggende krav til en nasjonal institusjon</strong>. Hvis Internetts mekanismer alene får rå, vil vi om kort tid stå igjen &#8211; i Norge som i andre land &#8211; med ett leksikon, Wikipedia, som er en rik kilde til detaljert oppdatert informasjon, men som ikke oppfyller grunnleggende krav til en nasjonal kultur- og kunnskapsinstitusjon.</em></p></blockquote>
+<p>Hvis SNL er villig til å informere om hva som er &laquo;grunnleggende krav til en nasjonal kultur- og kunnskapsinstitusjon&raquo;, så er jeg villig til å fortelle dem hvorfor Wikipedia tilfredsstiller disse kravene (evt. hvorfor det er feil i kravene). Forøvrig ville en slik setning *ALDRI* fått lov til å stå på Wikipedia, for den er alt for grov til å stå uten en referanse..</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/03/13/store-norskes-siste-sleivspark/feed/</wfw:commentRss>
+			<slash:comments>4</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Perfekt GPS for OpenStreetMap</title>
+		<link>https://kamfjord.org/2010/02/23/perfekt-gps-for-openstreetmap/</link>
+					<comments>https://kamfjord.org/2010/02/23/perfekt-gps-for-openstreetmap/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Tue, 23 Feb 2010 22:46:00 +0000</pubDate>
+				<category><![CDATA[OpenStreetMap]]></category>
+		<category><![CDATA[Garmin]]></category>
+		<category><![CDATA[NUUG]]></category>
+		<category><![CDATA[TomTom]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/2010/02/23/perfekt-gps-for-openstreetmap/</guid>
+
+					<description><![CDATA[Har de siste årene brukt endel tid på å kartlegge og tegne veikart for Tønsberg og Vestfold hos OpenStreetMap. Det å lage kart i seg selv er en grei jobb, men den blir enda bedre om man kan bruke kartene &#8230; <a href="https://kamfjord.org/2010/02/23/perfekt-gps-for-openstreetmap/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Har de siste årene brukt endel tid på å kartlegge og tegne veikart for Tønsberg og Vestfold hos <a href="http://www.openstreetmap.org">OpenStreetMap</a>. Det å lage kart i seg selv er en grei jobb, men den blir enda bedre om man kan bruke kartene også. Har til nå brukt en billig TomTom for å lage GPS-tracks, men den har ingen mulighet til å bruke noen andre kart enn de offisielle fra TomTom, og de er ikke spesielt billige.</p>
+<p>Har lenge tenkt på at jeg skulle kjøpe en ny GPS, som har støtte for å vise OSM-karter, slik at jeg kan ha gleden av å bruke kartene jeg selv er med å lage, men har sliti med å finne en versjon som noen faktisk har anbefalt, og “denne fungerer veldig bra”. Når jeg endelig har fått noen som sier “jeg bruker denne, og den fungerer greit nok for meg”, så har det ofte vært dyre GPSer, eller GPSer ikke beregnet på bilbruk.</p>
+<p>Etter et møte NUUG hadde om OpenStreetMap tok jeg opp dette prosjektet mitt igjen, og leitet igjennom OSM-wikien og fant ut at det var noen av de billige Nuvi-modellene til Garmin som var <a href="http://wiki.openstreetmap.org/wiki/Garmin#N.C3.BCvi_series">støttet</a>. Tenkte jeg kunne ta å kjøpe meg en Nuvi 200, siden den så ut til å ligge ute til en relativt billig penge (betalte ca. en tusenlapp for den, inkludert en 2GB eksternt minne), og det eneste negative OSM-wikien hadde å si om den, var at GPS-logginga måtte konverteres til GPX i etterkant (noe jeg må med TomTomen også, og det er ikke store jobben)</p>
+<p>Når jeg endelig fikk GPSen, oppdaget jeg at jeg hadde bestilt feil, og hadde glemt å lese ett 1-tall i produktnummeret, og hadde kjøpt en Nuvi 1200. Jeg ble litt bekymret for om det kom til å gå, men oppdaget kjapt at den var den beste jeg kunne kjøpe. Innebygget i systemet har den GPX-logging, som lett lar seg aktivere. Den har også innebygget støtte for å visning av kart fra forskjellige leverandører, og første gangen jeg startet opp GPSen etter å ha overført Norgeskart fra <a href="http://www.frikart.no">frikart.no</a>, så sto det søren meg “Copyright Openstreetmap.org contributors” (hey, “copyright meg selv” tenkte jeg da :P). I innstillingene på selve GPSen var det lett å aktivere og deaktivere de forskjellige kartene (jeg hadde i utgangspunktet tenkt til å slette alle kartene fra Garmin, og kun bruke denne GPSen til OSM, men det behøvde jeg ikke da; så skal jeg reise på tur, så har jeg fortsatt GPS med “offisielle” karter).</p>
+<p>&#160;</p>
+<p>Har nå hatt Nuvi 1200’en i to uker, og må si meg fornøyd. Har vært ute noen kvelder, bare for å kjøre en tur, og når jeg ser at det er en gate jeg kjører forbi som ikke ligger i kartet på GPSen, så tar jeg turen innom for å ha GPS-koordinatene til den. Veldig behagelig måte å jobbe på. Vil absolutt anbefale andre som er interessert i OSM og frie kartdata om å kjøpe en slik en.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/02/23/perfekt-gps-for-openstreetmap/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Wikimedias Forvaltervalg for 2010 er i gang</title>
+		<link>https://kamfjord.org/2010/02/07/wikimedias-forvaltervalg-for-2010-er-i-gang/</link>
+					<comments>https://kamfjord.org/2010/02/07/wikimedias-forvaltervalg-for-2010-er-i-gang/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Sun, 07 Feb 2010 00:56:12 +0000</pubDate>
+				<category><![CDATA[Wikimedia]]></category>
+		<category><![CDATA[Stewards]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=148</guid>
+
+					<description><![CDATA[Forvaltervalget for Wikimedia Foundation er i gang, og samtidig også bekreftelse av eksisterende forvaltere (hvor jeg selvfølgelig er spent på hva folk mener om min jobb som forvalter siden jeg ble valgt for et år siden.. Jeg har ikke bestemt &#8230; <a href="https://kamfjord.org/2010/02/07/wikimedias-forvaltervalg-for-2010-er-i-gang/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Forvaltervalget for Wikimedia Foundation er i gang, og samtidig også bekreftelse av eksisterende forvaltere (hvor jeg selvfølgelig er spent på hva <a href="http://meta.wikimedia.org/wiki/Stewards/confirm/2010/Laaknor">folk mener om min jobb</a> som forvalter siden jeg ble valgt for et år siden..</p>
+<p>Jeg har ikke bestemt meg for hva jeg kommer til å stemme på alle kandidatene ennå, men jeg vet at endel kommer til å få en motstemme, fordi de ikke aner hva en steward er engang (vi har alt for mange kandidater som egentlig er <a href="http://en.wikipedia.org/wiki/WP:SNOWBALL">snøballer</a>). Det kan nok være en negativ ting med å bruke centralnotice for å gi meldinger til alle wikier samtidig, i stedenfor å gå på administratorene som nok er de mest aktuelle kandidatene.</p>
+<p>Av de stemmene jeg har avgitt til nå, er det folk jeg har jobbet tett med, eller hatt endel med å gjøre, så der er jeg rimelig trygg på stemmen min, resten må jeg lese meg mer opp på, så de kommer i løpet av de neste dagene.</p>
+<p>De jeg har stemt på er:</p>
+<ul>
+<li><a href="http://meta.wikimedia.org/wiki/Stewards/elections_2010/votes/Thekohser">Thekohser</a>, vært kandidat til WMFs styre flere ganger, og havnet desidert dårligst ut. Sterk kritiker av Wikipedia, Jimmy Wales, og troller på de offentlige mailinglistene om stort sett hver eneste sak styret eller Jimmy gjør. Blitt utestengt fra engelsk Wikipedia på ubestemt tid en god stund, og det ble for kort tid siden oppdaget at han hadde greid å få tak i en administrator-konto (mistanker om at han har kjøpt eller fått den av en annen bruker) på enwiki, noe som skapte mye styr. Stemmer <strong>mot</strong> da ikke tror at han er en person som kan samarbeide med andre stewards eller med alle de forskjellige wikiene.</li>
+<li><a href="http://meta.wikimedia.org/wiki/Stewards/elections_2010/votes/EivindJ">EivindJ</a>, norsk Wikipedianer, med god språkkunnskap og vært involvert i mange av WMFs forskjellige wikier. En av de mest effektive administratorene vi har hatt på nowiki, og dessverre vært uten administrator-rettigheter en stund, men som jeg håper er tilbake for godt. En selvfølge at jeg stemmer <strong>for</strong> denne personen (og jeg lurer på om ikke han skylder meg en øl fra et eller annet jeg gjorde i 2008)</li>
+<li><a href="http://meta.wikimedia.org/wiki/Stewards/elections_2010/votes/Dferg">Dferg</a>, bl.a. checkuser på meta, og aktiv i mye av arbeidet på meta. Jobbet godt sammen med han på et par CU-saker, og en selvfølge at han gis mulighet til å fortsette det bra crosswiki-arbeidet han gjør som steward.</li>
+<li><a href="http://meta.wikimedia.org/wiki/Stewards/elections_2010/votes/J.delanoy">J.Delanoy</a>, checkuser på enwiki, og en av de mest aktive SWMT-folka jeg har jobbet med. Har stadig vekk gitt han admin-rettigheter på forskjellige wikier for at han skal få rydda opp i en eller annen vandals masseoppretting av masse artikler. Ryddig og effektiv person. Har engelsk Wikipedia som sin hjemmewiki, og med nesten 300 000 redigeringer siden 2006, så har han fått gjort sin del med rydding til å kunne stoles på.</li>
+<li><a href="http://meta.wikimedia.org/wiki/Stewards/elections_2010/votes/Razorflame">Razorflame</a> er en person jeg var veldig usikker på hva jeg kom til å stemme før de siste timene før valget åpnet. Han er en utrolig hyggelig person, og jeg har jobbet bra med han på endel saker, men han har en tendens til å gjøre veldig forhastede beslutninger, noe som ofte ikke er bra, spesielt ikke for stewards. Mens alle ting administratorer kan gjøre lett kan omgjøres av en annen administrator (og forsåvidt også byråkrater, selv om administrator-utnevnelser må omgjøres av en steward), så kan man ikke omgjøre at det blir kjørt en checkuser på en bruker, og utnevnelser av administratorer/fjerning av rettigheter setter veldig fort presedens som er vanskelig å få omgjort, og forhastede beslutninger er noe som er dumt, og man må tenke nøye igjennom før man gjør ting. Razorflame har flere konkrete saker som har gjort meg (og mange andre) bekymret. Han var blandt annet administrator og byråkrat på en wiki, men la inn en forespørsel om å få fjernet begge rettighetene etter en krangel på wikien, og kom på IRC og ba om at denne forespørselen skulle håndteres fort, noe den da ble. 5 minutter etterpå angret han, og ba om å få rettighetene tilbake. Han har også greid å komme seg opp i 12 forespørsler om å få administrator-rettigheter på en annen wiki.</li>
+</ul>
+<p>Det er en svensk administrator, <a href="http://meta.wikimedia.org/wiki/Stewards/elections_2010/votes/Evalowyn">Evalowyn</a>, som har stilt til valg. Har ikke helt bestemt meg for hva jeg har lyst til å stemme når det gjelder henne. Det har vært etterlyst flere skandinaviske forvaltere, da det er relativt stor brukermasse og artikkelmasse på de skandinaviske wikiene, men hun har dessverre ikke spesielt mye erfaring (ikke vært registrert på svwiki i et helt år engang, og ble administrator først i september 2009, med lite bidrag på andre wikier enn svensk Wikipedia). Samtidig kan det nevnes at jeg ikke hadde så veldig mye mer fartstid som administrator før jeg selv stilte til valg som forvalter (hadde vel ~9 måneder, men var aktiv på mange wikier, og var kjent i steward-kretser da jeg hang på IRC-kanalen).</p>
+<p>Ellers kan jeg nevne at <a href="http://meta.wikimedia.org/wiki/User:Erwin">Erwin</a> har laget et veldig fint script for å holde styr på hvordan det går med de forskjellige kandidatene, som han har lagt ut på<a href="http://toolserver.org/~stewardbots/elections.php"> toolserver</a>.</p>
+<p>Regner med at det kommer litt mer info fra meg om forvaltervalget etterhvert.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/02/07/wikimedias-forvaltervalg-for-2010-er-i-gang/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Hvem var anonyme sa du?</title>
+		<link>https://kamfjord.org/2010/01/19/hvem-var-anonyme-sa-du/</link>
+					<comments>https://kamfjord.org/2010/01/19/hvem-var-anonyme-sa-du/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Tue, 19 Jan 2010 16:35:49 +0000</pubDate>
+				<category><![CDATA[SNL]]></category>
+		<category><![CDATA[Wikipedia]]></category>
+		<category><![CDATA[Aftenposten]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=146</guid>
+
+					<description><![CDATA[Aftenposten har i dag en leder om Store Norske Leksikon/Wikipedia hvor det bl.a. hevdes: Et brukerbasert nettleksikon som Wikipedia, der bidragsyterne er anonyme, er imidlertid bare et supplement til et kvalitetssikret leksikon der navngitte fagpersoner kan stilles til ansvar for &#8230; <a href="https://kamfjord.org/2010/01/19/hvem-var-anonyme-sa-du/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Aftenposten har i dag en <a href="http://www.aftenposten.no/meninger/leder/article3472989.ece">leder</a> om Store Norske Leksikon/Wikipedia hvor det bl.a. hevdes:</p>
+<p><em>Et brukerbasert nettleksikon som Wikipedia, der bidragsyterne er anonyme, er imidlertid bare et supplement til et kvalitetssikret leksikon der navngitte fagpersoner kan stilles til ansvar for innholdet.</em></p>
+<p>Og da må jeg spørre: Hvem er &laquo;Redaksjonen&raquo; som dukker opp på de fleste artikler på Store Norske? Hvordan kan man stille fagpersoner i Store Norske til ansvar for det de har skrevet som er galt (og jeg kan garantere deg at det er mye galt der)? SNL-Redaksjonen er ikke noe mer enn det samme som Wikipedia-administratorene; personer som kan kildekritikk; ikke (nødvendigvis) faget de skriver om.</p>
+<p>Jeg kan love deg at jeg kan fortelle deg mye mer om de såkalte &laquo;anonyme&raquo; bidragsyterne på Wikipedia enn de &laquo;navngitte fagpersonene&raquo; på Store Norske (som ofte ikke er fagpersoner heller, bare navngitte, hvis de ikke tilhører Redaksjonen).</p>
+<p>Når skal norske redaktører og Wikipedia-kritikere  lære seg at det ikke finnes noen absolutte sannheter; bare kilder med større eller mindre troverdighet&#8230;</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/01/19/hvem-var-anonyme-sa-du/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Grunner til ikke å bli administrator</title>
+		<link>https://kamfjord.org/2010/01/05/grunner-til-ikke-a-bli-administrator/</link>
+					<comments>https://kamfjord.org/2010/01/05/grunner-til-ikke-a-bli-administrator/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Tue, 05 Jan 2010 16:36:15 +0000</pubDate>
+				<category><![CDATA[administratornominasjoner]]></category>
+		<category><![CDATA[Wikimedia]]></category>
+		<category><![CDATA[Wikipedia]]></category>
+		<category><![CDATA[administratorrollen]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=28</guid>
+
+					<description><![CDATA[Dette er en liten notatliste over grunner jeg kan finne på for at brukere ikke bør bli administratorer på Wikipedia&#8230; Med mindre de har lyst da selvfølgelig (jeg mener at alle som har lyst, og som har vist at de &#8230; <a href="https://kamfjord.org/2010/01/05/grunner-til-ikke-a-bli-administrator/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Dette er en liten notatliste over grunner jeg kan finne på for at brukere ikke bør bli administratorer på Wikipedia&#8230; Med mindre de har lyst da selvfølgelig (jeg mener at alle som har lyst, og som har vist at de kan stoles på, bør få verktøyene, selv om det er noen negative sider som jeg har beskrevet under). Anser det ikke som en fullstendig liste, og oppdaterer den litt tilfeldig når jeg kommer på flere grunner. Kom gjerne med flere</p>
+<ul>
+<li>Konstant kritisert av andre brukere</li>
+<li>Bruker mer tid på å debattere ting enn på å faktisk gjøre noe produktivt</li>
+<li>Telefoner og e-post fra tilfeldige brukere som er uenig i noe du har gjort</li>
+<li>Vanskelig å ta en pause fra Wikipedia-arbeidet og gjøre noe annet en periode for ikke å gå lei, uten å bli kritisert for å ikke gjøre administrator-jobben</li>
+<li>Folk legger mye i statusen når det gjelder debatter av negativ art, mens det i positiv art &laquo;bare er noen ekstra knapper og ingenting viktig&raquo;</li>
+<li>Ikke kunne ta igjen hvis noen er slemme/prater stygt mot deg</li>
+<li>Dødstrusler (Hvorfor gjør så mange ting på internett de aldri ville funnet på å gjøre IRL?)</li>
+</ul>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/01/05/grunner-til-ikke-a-bli-administrator/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>IT-politikk &#8211; Lars Åges tanker</title>
+	<atom:link href="https://kamfjord.org/category/politikk/it-politikk/feed/" rel="self" type="application/rss+xml" />
+	<link>https://kamfjord.org/</link>
+	<description>Politikk og teknologi</description>
+	<lastBuildDate>Sun, 19 Jun 2011 20:57:07 +0000</lastBuildDate>
+	<language>nb-NO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.4.2</generator>
+	<item>
+		<title>Endelig gikk Telenor ned!</title>
+		<link>https://kamfjord.org/2011/06/19/endelig-gikk-telenor-ned/</link>
+					<comments>https://kamfjord.org/2011/06/19/endelig-gikk-telenor-ned/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Sun, 19 Jun 2011 20:57:07 +0000</pubDate>
+				<category><![CDATA[IT-politikk]]></category>
+		<category><![CDATA[Teknisk]]></category>
+		<category><![CDATA[Nedetid]]></category>
+		<category><![CDATA[Samfunnssikkerhet]]></category>
+		<category><![CDATA[Telenor]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=242</guid>
+
+					<description><![CDATA[Ingenting er så lite perfekt som datasystemer. Ja, de effektiviserer mye, men sikkerheten (først og fremst samfunnssikkerheten, ikke datasikkerheten) er elendig. Alle datasystemer har en stor risiko for at ting går til helvette. Telenor-problemet som var forrige uke var ikke uventet. &#8230; <a href="https://kamfjord.org/2011/06/19/endelig-gikk-telenor-ned/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Ingenting er så lite perfekt som datasystemer. Ja, de effektiviserer mye, men sikkerheten (først og fremst samfunnssikkerheten, ikke datasikkerheten) er elendig. Alle datasystemer har en stor risiko for at ting går til helvette.</p>
+<p>Telenor-problemet som var <a href="http://www.vg.no/nyheter/innenriks/artikkel.php?artid=10095156">forrige uke</a> var ikke uventet. Selv har jeg hver gang jeg har vurdert kritisk mobilutstyr (f.eks. system for å sende ut SMS-melding/ringe alle på avdelingen dersom datarommet går ned), vurdert løsninger med støtte for to eller flere SIM-kort, og dermed mulighet for å bruke både Telenor og Netcom. At direktoratet med ansvar for samfunnssikkerhet ikke har <a href="http://tb.no/nyheter/mobilbrudd-blottla-nasjonalt-beredskapshull-1.6297740">tatt den risikovurderingen</a> er derfor mildt sagt skremmende, og i mine øyne innebærer det at de har hatt litt for få personer med teknologisk innsikt når de har satt opp beredskapsplanleggingen sin. Alle nødsentralene (brann/politi/ambulanse) har flere redundante backupløsninger for telefonsystemene, noe som DSB også bør ha.</p>
+<p>Problemet med teknologien er ikke først og fremst at ting blir ødelagt &#8211; det går det ann å beskytte seg for relativt lett med å ha to eller tre enheter som er i stand til å ta over &#8211; enten manuelt (ved at man skrur på enheten når den første dør) eller automatisk. Problemet med slike løsninger er dog at kompleksiteten på systemet øker når man skal ha redundans. Og som en følge av kompleksiteten, øker også muligheten for de vanligste feilene &#8211; brukerfeil (i dette tilfellet burde det kanskje være greit å spesifisere at jeg anser brukeren som IT-konsulenten som sitter å jobber med å gjøre en eller annen endring på systemet). De aller fleste feil som skjer i datasystemer er det et eller annet menneske som er årssaken til, og ikke datamaskinen i seg selv.</p>
+<p>Som et eksempel på feil jeg selv har gjort  (mer enn en gang), som har medført nedetid, kan jeg nevne en veldig vanlig feil på datanettverk. Litt avanserte switcher settes gjerne opp med tilgang til flere forskjellige nettverk (f.eks. med forskjellige sikkerhetsnivåer) på samme switchen. For å fordele riktige nettverk til riktige switcher setter man opp begrensninger på hvilke nettverk som får lov til å gå fra en switch til en annen. På Cisco-switcher (som er en av de vanligste leverandørene) skrives denne konfigurasjonen slik:</p>
+<p><em>switchport trunk allowed vlan 2,4,6,8</em></p>
+<p>Dette tillater nettverk 2, 4, 6 og 8. Dersom man skal legge til nettverk 5 skrives det slik:</p>
+<p><em>switchport trunk allowed vlan add 5</em></p>
+<p>Altså legger til &laquo;add 5&raquo;. Dersom man glemmer å legge til &laquo;add&raquo;, vil man i stedenfor få følgende konfigurasjon:</p>
+<p><em>switchport trunk allowed vlan 5</em></p>
+<p>Eller med andre ord, nettverk 2,4,6 og 8 vil slutte å virke (siden man erstatter hele linja slik den var), og kun nettverk 5 vil stå igjen&#8230;</p>
+<p>Vi vil aldri kunne beskytte oss 100% mot alle mulige feil &#8211; det vil alltid være en viss margin for at ting slutter å virke. Samfunnssikkerheten er i stor grad avhengig av hurtigst mulig respons når noe skjer, og når noe skjer, er det stor sannsynlighet for at ting har sluttet å virke. Det er vanskelig å  forutse hva som skal til, men jeg tror ikke vi kan ta som utgangspunkt i at Telenor Mobil skal kunne løse samfunnets problemer for sikkerhet &#8211; en enkelt aktør er ikke i stand til å løse det &#8211; uansett hvor mange milliarder du putter inn i det. Det er derimot en fordel med fri konkurranse, i stedenfor at alle bruker samme leverandør.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2011/06/19/endelig-gikk-telenor-ned/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>En preferansepolitikk for åpen kildekode som fungerer</title>
+		<link>https://kamfjord.org/2010/03/16/en-preferansepolitikk-for-apen-kildekode-som-fungerer/</link>
+					<comments>https://kamfjord.org/2010/03/16/en-preferansepolitikk-for-apen-kildekode-som-fungerer/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Tue, 16 Mar 2010 11:52:12 +0000</pubDate>
+				<category><![CDATA[IT-politikk]]></category>
+		<category><![CDATA[Opphavsrett]]></category>
+		<category><![CDATA[lisenser]]></category>
+		<category><![CDATA[programvare]]></category>
+		<category><![CDATA[ZenWorks]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=156</guid>
+
+					<description><![CDATA[For skolenettet i Tønsberg og Nøtterøy kommuner har vi siden samarbeidet om felles plattform begynte i 2004 hatt en preferansepolitikk for åpen kildekode. Ikke fordi åpen kildekode er så mye bedre enn annen  programvare (vi mener jo selvfølgelig at den &#8230; <a href="https://kamfjord.org/2010/03/16/en-preferansepolitikk-for-apen-kildekode-som-fungerer/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>For skolenettet i Tønsberg og Nøtterøy kommuner har vi siden samarbeidet om felles plattform begynte i 2004 hatt en preferansepolitikk for åpen kildekode. Ikke fordi åpen kildekode er så mye bedre enn annen  programvare (vi mener jo selvfølgelig at den er bedre som prinsipp, men det kommer helt ann på produkt til produkt også), men fordi vi ikke ønsker at tilgang til programvare skal hindre tilgang til maskinvare.</p>
+<p>Vår preferansepolitikk for åpen kildekode kan oppsummeres slik: Tilgangen til programvare skal ikke sette en begrensning på antall maskiner vi kan ha tilgjengelig for lærere og elever.</p>
+<p>Med utgangspunkt i dette, så prioriterer vi lisenser til programvare slik:</p>
+<ol>
+<li>Fri programvare/åpen kildekode &#8211; Ingen begrensninger på antall maskiner/antall brukere. Er produktet bra, så betaler vi for produktet, enten symbolsk sum, eller &laquo;noen lisenser&raquo;.</li>
+<li>Gratisprogrammer (er gratis, så vi prøver å få lagt det inn, siden kommuneøkonomien ikke er den feteste i verden, men kan ofte ha endel problemer i forhold til lisensen, f.eks. hvis lisensen gir forbud mot å vidredistribuere eller konvertere en setup.exe til MSI-format for automatisk installasjon&#8230; Opphavsrett er vanskelige greier!)</li>
+<li>Lisens for hele kommunen/alle skolene i kommunen.</li>
+<li>Lisens for enkeltskoler (vi aktiverer kun programmet for de skolene som betaler for det)</li>
+<li>Lisens per bruker (antall innbyggere/elever/lærere i kommunene er ganske statisk), eller lisens for samtidige brukere (vi har kontroll på samtidige brukere via ZenWorks)</li>
+<li>Lisens per maskin</li>
+</ol>
+<p>Stort sett alle programmene vi har tilgjengelig for skolene, ligger på de tre første lisenstypene, og det vi har av programmer på de to siste lisenstypene er stort sett Novell eDirectory/Zenworks, og antivirus. Hadde vi hatt en større andel av de to siste lisenstypene, hadde vi fått endel problemer; hver gang skolene skulle kjøpe inn nye datamaskiner (skolene betaler for maskinene selv, mens det aller meste av programvaren betales av IT-avdelingen), så hadde hver eneste satsning på IT fra enkeltskoler, betydd problemer på IT-budsjettet. Alternativet hadde vært at skolene ble overført betalingen av programvaren også, noe som mest sannsynlig ville medført at skolene skulle spare penger ved å droppe tilknytning til eDirectory/Zenworks (og dermed få frittstående maskiner som ikke ble driftet av IT-avdelingen) eller antivirusen.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/03/16/en-preferansepolitikk-for-apen-kildekode-som-fungerer/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Store Norskes siste sleivspark?</title>
+		<link>https://kamfjord.org/2010/03/13/store-norskes-siste-sleivspark/</link>
+					<comments>https://kamfjord.org/2010/03/13/store-norskes-siste-sleivspark/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Sat, 13 Mar 2010 18:14:22 +0000</pubDate>
+				<category><![CDATA[IT-politikk]]></category>
+		<category><![CDATA[SNL]]></category>
+		<category><![CDATA[Wikipedia]]></category>
+		<category><![CDATA[download.wikimedia.org]]></category>
+		<category><![CDATA[fagfolk]]></category>
+		<category><![CDATA[Kulturdepartementet]]></category>
+		<category><![CDATA[Kunnskapforlaget]]></category>
+		<category><![CDATA[Redaksjonen]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=154</guid>
+
+					<description><![CDATA[Ja, da har nyheten endelig kommet; Store Norske Leksikon legger ned fra 1. juli (merk at pressemeldingen er kvalitetssikret&#8230;), fordi Kulturdepartementet ikke vil finansiere produktet deres, som har feilet ganske kraftig. At Store Norske kan greie å skrive en pressemelding &#8230; <a href="https://kamfjord.org/2010/03/13/store-norskes-siste-sleivspark/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Ja, da har nyheten endelig kommet;<a href="http://snl.no/Pressemelding"> Store Norske Leksikon legger ned fra 1. juli</a> (merk at pressemeldingen er kvalitetssikret&#8230;), fordi Kulturdepartementet ikke vil finansiere produktet deres, som har feilet ganske kraftig.</p>
+<p>At Store Norske kan greie å skrive en pressemelding som de har gjort syns jeg er ganske kvalmt. De har i lang tid sliti med å konkurrere med Wikipedia og internett forøvrig, og når de fortsatt ikke er villig til å innse at forretningsmodellen dems har feilet, og fortsetter med sleivspark mot konkurrentene, syns jeg ikke de fortjener bedre.</p>
+<p><a href="http://no.wikimedia.org">Wikimedia Norge</a> har i lang tid forsøkt å samarbeide, og å finne samarbeidsprosjekter som Kunnskapsforlaget og Wikimedia/Wikipedia kan samarbeide om, men Kunnskapsforlaget har alltid vært rimelig ensporet i sine tanker om samarbeid (som f.eks. at Wikipedia skal linke til SNL som kilde, mens SNL ikke skal linke tilbake til Wikipedia). Hadde SNL vært villig til å samarbeide tidligere, i stedenfor å være stolte over sin døende forretningsmodell, så hadde vi aldri kommet til denne situasjonen; Vi kunne hatt en god konkurranse og et godt samarbeid i det norske leksikonmiljøet.</p>
+<p>I stedenfor har vi nå en situasjon, hvor SNLs siste krampetrekninger, er å sende ut en pressemelding, som både skader dem selv, Wikipedia og leksikontradisjonen i Norge. Fortsatt har de ikke forstått hvorfor Wikipedia er mer populært, og hvorfor brukerne ikke kommer til SNL. Spesielt tenker jeg på tilleggene som følger med pressemeldingen:</p>
+<blockquote><p><em><strong>Hvorfor trenger Norge et nasjonalt leksikon med synlige fagfolk også i fremtiden?</strong></em></p>
+<p><em>Wikipedia er en verdenssuksess med sitt prinsipp om at alle kan bidra fritt og usignert, og ingen enkelt står ansvarlig. De nasjonale fagfolk-leksikonene har dermed mistet sitt økonomiske grunnlag og går mot nedleggelse. Store norske leksikon står nå for tur. Norge trenger et Wikipedia i fremtiden, men også et Store norske med synlige fagfolk som går god for og kan stilles til ansvar for innholdet. Som nasjonal institusjon er fagfolk-leksikonet viktig:</em></p></blockquote>
+<p>Spesielt den siste biten her syns jeg er interessant. Det skal ikke mye til for å kalles fagfolk. Alt som i realiteten skal til for å bli &laquo;fagansvarlig&raquo; hos Store Norske er at du er identifisert; ikke at du har en formell utdannelse innen faget. F.eks. er de fagansvarlige for de forskjellige kommunene stort sett mennesker som bor i kommunen eller en nabokommune, og ikke en som har mye mer kunnskap enn de fleste lokale mennesker kan forventes å ha. Systemet med fagansvarlige har også feilet, da det i mange tilfeller er foreslått endringer på artikler for opptil et år tilbake i tid, men endringene blir ikke håndtert. Brukerne kommer med tilbakemelding om faktafeil, og fagfolkene lar feilene stå eller gidder ikke fikse dem? Hvorfor skal du holde noen ansvarlig for innholdet, når de ikke vil ta ansvaret?</p>
+<blockquote><p><em><strong>For skoleverk, læresteder og forskning</strong>, for å oppfylle grunnleggende krav til sitering og kildehenvisning &#8211; at man vet hvem avsender er.</em></p></blockquote>
+<p>For skoleverket kan stort sett hvilken som helst kilde brukes til sitering, men innen forskning er ingen leksikon god kilde for noenting. Der bør man gå til orginalkilder. Det viktigste er ikke hvem kilden der, men hvordan man tolker den informasjonen som er oppgitt.</p>
+<blockquote><p><em><strong>For fagforfatterne og fagmiljøene</strong>, som formidlingsplattform med honorering og synlig kreditering.</em></p></blockquote>
+<p>Fagforfatterne og fagmiljøene bør se på hva som gir mest effekt, og sprer faget til flest mulig mennesker. Per dags dato er ikke dette Store Norske, men Wikipedia, og Wikipedia ønsker dem velkomne. Dersom kreditering er viktig for enkeltpersoner, så ville jeg personlig ha lagt ut informasjonen på egen hjemmeside i tillegg, men den store effekten kommer av publisering på Wikipedia.</p>
+<blockquote><p><em><strong>For biblioteksektoren</strong>, som trenger kvalitetssikrede autoritative kilder.</em></p></blockquote>
+<p>Nå er ikke et leksikon en autorativ kilde for noenting, siden all informasjon i et leksikon nødvendigvis må bli andrehåndsinformasjon, men poenget om kvalitetssikrede hjelper lite når SNL ikke har greid, og med dagens modell ikke kan bli i stand til, å gå god for at informasjonen er 100% korrekt.</p>
+<blockquote><p><em><strong>For norsk fagspråk</strong>, og norsk som språk. Det er god språkpolitikk ikke å overlate valg og definisjon av norske fagtermer til en anonym brukermasse.</em></p></blockquote>
+<p>Personlig er jeg tilhenger av at språket skal være levende, og at skriftspråket skal gjenspeile hva som brukes i den store befolkningen (og sist jeg sjekket er den norske befolkningen en stor anonym brukermasse). Norsk språkråd gjør mye bra de, men jeg er riv ruskende uenig i endel av valgene de tar, som er stikk i strid med hva noen i den norske befolkningen bruker (sørver om server? Måltidet lønsj? hvor kommer de definisjonene fra?)</p>
+<blockquote><p><em><strong>For nasjonens identitet</strong>, for å omtale det som er nasjonalt viktig, ikke minst for å fange opp et multikulturelt Norge i rask endring. Denne oppgaven bør ligge hos synlige ansvarlige og ikke det store kollektivet. Det kan også vise seg problematisk i lengden for kollektiv-leksikonets norske vinkling at det utgår fra en internasjonal plattform med hovedbase i USA.</em></p></blockquote>
+<p>Selvmotsigelse? Å fange opp det multikulturelle Norge bør ligge hos enkeltpersoner? Og til den siste biten, så kan hvem som helst forke Wikipedia, ved å laste ned hele databasen fra <a href="http://download.wikimedia.org">download.wikimedia.org</a>. Å spekulere i hvilken retning Wikipedia kommer til å ta, er unødvendig i en slik pressemelding, da Wikipedia har mulighet til å ta begge veier (noe det også har gjort tidligere, i Spania når det begynte å bli snakk om å ha reklame på Wikipedia, startet en gruppe opp et konkurrerende prosjekt, som siden har funnet veien tilbake i Wikipedia.)</p>
+<blockquote><p><em><strong>For synliggjøring av makt</strong>. Et leksikon er en maktfaktor. Fagfolk-leksikonet synliggjør menneskene bak, det kollektive dugnadsleksikonet tilslører dem, med risiko for skjult maktkamp. Norges eventuelle eneste storleksikon i fremtiden må ikke være styrt av usynlige krefter inngitt autoritet på ukjente premisser.</em></p></blockquote>
+<p>Når Store Norske Leksikon er villig til å innrømme hvem som skjuler seg bak &laquo;<a href="http://snl.no/.users/2247">Redaksjonen</a>&raquo; på SNL som har ansvaret for det store flertallet av artikler på SNL, så kan vi vurdere å diskutere denne&#8230;</p>
+<blockquote><p><em><strong>For å oppfylle grunnleggende krav til en nasjonal institusjon</strong>. Hvis Internetts mekanismer alene får rå, vil vi om kort tid stå igjen &#8211; i Norge som i andre land &#8211; med ett leksikon, Wikipedia, som er en rik kilde til detaljert oppdatert informasjon, men som ikke oppfyller grunnleggende krav til en nasjonal kultur- og kunnskapsinstitusjon.</em></p></blockquote>
+<p>Hvis SNL er villig til å informere om hva som er &laquo;grunnleggende krav til en nasjonal kultur- og kunnskapsinstitusjon&raquo;, så er jeg villig til å fortelle dem hvorfor Wikipedia tilfredsstiller disse kravene (evt. hvorfor det er feil i kravene). Forøvrig ville en slik setning *ALDRI* fått lov til å stå på Wikipedia, for den er alt for grov til å stå uten en referanse..</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/03/13/store-norskes-siste-sleivspark/feed/</wfw:commentRss>
+			<slash:comments>4</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Hvor er redigeringsknappen på &#171;kvalitetssikrede&#187; artikler!</title>
+		<link>https://kamfjord.org/2009/07/17/hvor-er-redigeringsknappen-pa-kvalitetssikrede-artikler/</link>
+					<comments>https://kamfjord.org/2009/07/17/hvor-er-redigeringsknappen-pa-kvalitetssikrede-artikler/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Fri, 17 Jul 2009 20:13:33 +0000</pubDate>
+				<category><![CDATA[IT-politikk]]></category>
+		<category><![CDATA[Opphavsrett]]></category>
+		<category><![CDATA[Wikimedia Foundation]]></category>
+		<category><![CDATA[Wikipedia]]></category>
+		<category><![CDATA[Commons]]></category>
+		<category><![CDATA[NPG]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=103</guid>
+
+					<description><![CDATA[Som jeg tidliger har skrevet om er det problemer med et mulig søksmål. Dette har nå dukket opp som en artikkel på VG og ComputerWorld, men det er noen alvorlige faktafeil i artiklene som er rimelig like. 1) Wikimedia Foundation &#8230; <a href="https://kamfjord.org/2009/07/17/hvor-er-redigeringsknappen-pa-kvalitetssikrede-artikler/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Som jeg tidliger har <a href="http://blog.kamfjord.org/2009/07/11/problemer-med-opphavsrettslov-pa-tvers-av-land-som-om-ikke-vi-viste-det/">skrevet om</a> er det problemer med et mulig søksmål. Dette har nå dukket opp som en artikkel på <a href="http://www.vg.no/teknologi/artikkel.php?artid=563676">VG</a> og <a href="http://www.idg.no/computerworld/vg/article138522.ece">ComputerWorld</a>, men det er noen alvorlige faktafeil i artiklene som er rimelig like.</p>
+<p>1) Wikimedia Foundation har svart på forespørsel fra NPG. Svaret var at i følge amerikansk lov er det ikke foregått noen lovbrudd. NPG har svart på dette ved å varsle om et mulig søksmål/anmeldelse i England.</p>
+<p>2) Det er ikke snakk om at &laquo;bare man legger ut et bilde på internett&raquo;, så forsvinner opphavsretten, men hvorvidt et det er opphavsrett på et fotografi av et maleri, hvor maleriet i seg selv ikke er beskyttet av opphavsrett lenger. Engelsk lov sier at bildet er beskyttet av opphavsrett; amerikansk lov (og rettspraksis) er at det ikke er beskyttet.</p>
+<p>Forøvrig kan det nevnes at Wikipedia er ekstremt nøye på opphavsrettslovene, og i hvertfall den norske versjonen har fått skryt fra norske rettighetshavere. Man kan nok på de engelske prosjektene glemme at det finnes flere land som prater engelsk enn USA, men å begynne å prate om seriøse lovbrudd er nok vanskelig.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2009/07/17/hvor-er-redigeringsknappen-pa-kvalitetssikrede-artikler/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Problemer med opphavsrettslov på tvers av land (som om ikke vi viste det)</title>
+		<link>https://kamfjord.org/2009/07/11/problemer-med-opphavsrettslov-pa-tvers-av-land-som-om-ikke-vi-viste-det/</link>
+					<comments>https://kamfjord.org/2009/07/11/problemer-med-opphavsrettslov-pa-tvers-av-land-som-om-ikke-vi-viste-det/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Sat, 11 Jul 2009 17:30:45 +0000</pubDate>
+				<category><![CDATA[IT-politikk]]></category>
+		<category><![CDATA[Opphavsrett]]></category>
+		<category><![CDATA[Wikimedia Foundation]]></category>
+		<category><![CDATA[Wikipedia]]></category>
+		<category><![CDATA[Commons]]></category>
+		<category><![CDATA[markedsføring]]></category>
+		<category><![CDATA[Wikimedia]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=99</guid>
+
+					<description><![CDATA[En amerikansk bruker på Wikimedia Commons er nå i søkelyset fra det engelske National Portrait Gallery for å ha lastet opp bilder de hadde på sin hjemmeside av kunstverk som ikke lenger er beskyttet av opphavsrett til Wikimedia Commons. NPG &#8230; <a href="https://kamfjord.org/2009/07/11/problemer-med-opphavsrettslov-pa-tvers-av-land-som-om-ikke-vi-viste-det/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>En amerikansk bruker på <a href="http://commons.wikimedia.org">Wikimedia Commons</a> er nå i søkelyset fra det engelske<a href="http://www.npg.org.uk/"> <span><span>National Portrait Gallery</span></span></a> for å ha lastet opp bilder de hadde på sin hjemmeside av kunstverk som ikke lenger er beskyttet av opphavsrett til Wikimedia Commons. NPG forsøkte først å få Wikimedia Foundation til å slette bildene som de mener å ha opphavsrett på i henhold til engelsk lov, men Wikimedia Foundation har ikke gjort som NPG ønsket.</p>
+<p>Problemene i denne saken er mange. Engelsk lov har ikke noe krav til &laquo;verkshøyde&raquo; (som det heter i norsk lov) for å kunne beskyttes av opphavsrett. Verkshøyde vil si at det skal være noe kreativt og orginalt med det som skapes (i dette tilfelle bildene de har tatt av kunst). Derimot har amerikansk lov (og forøvrig også norsk lov) denne klausulen. Det som det dermed krangles om, er om en amerikansk borger har brutt engelsk lov; uten å oppholde seg i England og kan personen forventes å måtte forholde seg til den engelske loven på ett nettsted han besøker.</p>
+<p>Dette kan bli en veldig spennende sak. På hvilken måte skal enkeltpersoner underlegges alle verdens lover utenom det landet personen fysisk oppholder seg i, og hvordan skal de forskjellige statene forholde seg til internasjonal lov (som ikke eksisterer) når det ikke er snakk om brudd på straffelover, men sivile søksmål på bakgrunn av opphavsrettslovene (og sivile søksmål skjer primært fordi politiet ikke har ressurser til å etterforske en &laquo;uprioritert&raquo; åndsverkslov).</p>
+<p>Det har tidligere vært forsøkt å gå til rettslige skritt mot Wikipedia, bl.a. når en tysk politiker fikk <a href="http://www.techcrunch.com/2008/11/16/german-politician-blocks-local-wikipedia/">sperret wikipedia.de</a> (men ikke de.wikipedia.org siden den ligger under amerikansk jurisdiksjon, og det er der innholdet faktisk ligger), og når engelske ISPer <a href="http://news.bbc.co.uk/2/hi/uk_news/7770456.stm">blokkerte Wikipedia for visning av barnepornografi</a>. Begge disse sakene medførte enorme debatter, masse pengestøtte til Wikimedia Foundation og de nasjonale interesseorganisasjonene, og at de som gikk til skritt for å hindre ytringsfriheten på Wikipedia måtte beklage i løpet av få dager. Hvis NPG dermed går til juridiske skritt i denne saken, kan en forvente at Wikimedia Foundation (og helt sikkert <a href="http://en.wikipedia.org/wiki/Electronic_Frontier_Foundation">Electronic Frontier Foundation</a> som kommer til å støtte Wikimedia i denne saken) har ubegrensede med økonomiske midler til rådighet. I tillegg kan man snakke om en juridisk sak som kommer til å følges av hele verden, og har potensiale til å forme opphavsrettslovene i alle de vestlige landene. I såfall er spørsmålet om NPG har gjennomføringskraften til å kjøre denne prosessen like langt som Wikimedia har; og i hvilken grad Wikimedia Foundation og de nasjonale organisasjonene greier å forme sitt budskap i riktig retning for å påvirke opphavsrettslovene internasjonalt.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2009/07/11/problemer-med-opphavsrettslov-pa-tvers-av-land-som-om-ikke-vi-viste-det/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Avgifter er ikke løsningen på kommersielt problem med fildeling!</title>
+		<link>https://kamfjord.org/2009/06/18/avgifter-er-ikke-l%c3%b8sningen-pa-kommersielt-problem-med-fildeling/</link>
+					<comments>https://kamfjord.org/2009/06/18/avgifter-er-ikke-l%c3%b8sningen-pa-kommersielt-problem-med-fildeling/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Thu, 18 Jun 2009 09:39:37 +0000</pubDate>
+				<category><![CDATA[IT-politikk]]></category>
+		<category><![CDATA[Politikk]]></category>
+		<category><![CDATA[Bård Vegar Solhjell]]></category>
+		<category><![CDATA[NRK-lisens]]></category>
+		<category><![CDATA[piratkopiering]]></category>
+		<category><![CDATA[Spotify]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=92</guid>
+
+					<description><![CDATA[Kunnskapsministeren har i dag vært ute å sagt at spleiselag eller &#171;NRK-lisens&#187; kan løse fildelingsproblematikken. Dette er jeg sterkt uenig i! Problemet er kommersielt (ser i hvertfall ikke store problemet med piratkopiering av offentlige dokumenter; mange av dem er jo &#8230; <a href="https://kamfjord.org/2009/06/18/avgifter-er-ikke-l%c3%b8sningen-pa-kommersielt-problem-med-fildeling/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p><a href="http://www.bardvegar.no">Kunnskapsministeren</a> har i dag vært ute å sagt at <a href="http://www.digi.no/816436/antyder-%ABnrk-lisens%BB-paa-internett">spleiselag eller &laquo;NRK-lisens&raquo;</a> kan løse fildelingsproblematikken. Dette er jeg sterkt uenig i!</p>
+<p>Problemet er kommersielt (ser i hvertfall ikke store problemet med piratkopiering av offentlige dokumenter; mange av dem er jo heller ikke ilagt opphavsrett), og det bør være de kommersielle kreftene som løser problemet. Å politianmelde alle kunder og potensielle kunder vil aldri lønne seg, og vil bare skape mer problemer. I mine øyne er det eneste som noensinne kan fungere, at plate og film-bransjen tilbyr bedre tjenester, til en billigere penge&#8230; Jeg vet i hvertfall at jeg ikke gidder å gå hele veien til byen for å kjøpe en CD eller en DVD, når jeg har lyst til å se filmen eller høre sangen &laquo;nå&raquo;.</p>
+<p>Konseptet til <a href="http://www.spotify.com/en/">Spotify</a> er nok noe av det som kan hjelpe til å løse problemet. Fastpris (eller reklamefinansert) og bruk så mye du vil , og velg selv det du vil høre på. Er ikke ofte jeg hører på musikk/bruker Spotify, men konseptet er så bra at jeg betaler månedsprisen uansett om jeg bruker det den måneden eller ei. Forhåpentligvis vil det komme flere leverandører som konkurrerer med Spotify etterhvert, og da kan vi håpe at prisen går ned; i tillegg til bedre tjenester. Og jeg venter fortsatt på samme muligheten til film og TV-serier, men det er vistnok under utvikling&#8230; Jeg gleder meg!</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2009/06/18/avgifter-er-ikke-l%c3%b8sningen-pa-kommersielt-problem-med-fildeling/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Nagios er forket, og med god grunn</title>
+		<link>https://kamfjord.org/2009/05/07/nagios-er-forket-og-for-god-grunn/</link>
+					<comments>https://kamfjord.org/2009/05/07/nagios-er-forket-og-for-god-grunn/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Thu, 07 May 2009 08:48:05 +0000</pubDate>
+				<category><![CDATA[IT-politikk]]></category>
+		<category><![CDATA[Nagios]]></category>
+		<category><![CDATA[Opphavsrett]]></category>
+		<category><![CDATA[lisenser]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=77</guid>
+
+					<description><![CDATA[Fikk en kollega inn på kontoret til morgenen i dag, og fikk høre at Nagios var forket til ICINGA, noe som jeg var veldig overrasket over. Begynte øyeblikkelig å gå igjennom mailer som har kommet inn på Nagios-devel-lista det siste &#8230; <a href="https://kamfjord.org/2009/05/07/nagios-er-forket-og-for-god-grunn/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Fikk en kollega inn på kontoret til morgenen i dag, og fikk høre at Nagios var forket til <a href="http://www.icinga.org/">ICINGA</a>, noe som jeg var veldig overrasket over. Begynte øyeblikkelig å gå igjennom mailer som har kommet inn på Nagios-devel-lista det siste døgnet, og så rimelig kjapt at det var en god grunn for forkingen.</p>
+<p>Hovedutvikleren for Nagios, Ethan Galstad har jobbet med Nagios siden 1999, og produktet har vokst seg stort innen open source-bevegelsen, og er en så godt som standard for open source overvåking av tjenester. I løpet av disse ti årene har det blitt et kjempestort community med mange som jobber for å gjøre Nagios bedre, og prosjektet har blitt enormt mye større enn Ethan, men fortsatt er Ethan den eneste som har tilgang til å legge inn patcher og gjøre forbedringer på kildekoden. En slik lukking av  open source-prosessen gjør at man ikke kan overleve i lengden.</p>
+<p>I tillegg til en veldig lukket prosess, så har Ethan startet et eget selskap, <a href="http://www.nagios.com">Nagios Enterprises</a>, og har brukt det siste året til å tvinge andre Nagios-selskaper til å slutte å bruke navnet &laquo;Nagios&raquo;. Ethan har brukt tiden på å juridiske ting, i stedenfor å gjøre den jobben folk forventer at han skal gjøre; utvikle Nagios!</p>
+<p>Det har vært endel debatt på mailinglisten om hvorvidt ICINGA kommer til å lykkes eller ei, og foreløpig er jeg av den konklusjonen at de kommer til å lykkes, utelukkende på grunn av en enkelt mail fra Ethan, hvor han skriver at utviklingen ikke er død, fordi ting skjer &laquo;behind the scenes&raquo;, i form av supportkontrakter og &laquo;beskyttelse av varemerket Nagios&raquo;. Altså ingen svar på den faktiske kritikken av at programmeringen går for sakte.</p>
+<p>Nei Ethan, nå har du veldig kort tid på deg til å faktisk gjøre noe med kritikken, ellers skifter jeg til ICINGA. Det er svært sjeldent at noen forker et open source-prosjekt, men når det gjøres, er det stort sett fordi ting ikke fungerer lenger, og det er ikke ofte det er relatert til at produktet er for dårlig!</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2009/05/07/nagios-er-forket-og-for-god-grunn/feed/</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Amerikanske Senatet tilgjengeligjør detaljert informasjon om avstemminger i XML-format</title>
+		<link>https://kamfjord.org/2009/05/06/amerikanske-senatet-tilgjengeligj%c3%b8r-detaljert-informasjon-om-avstemminger-i-xml-format/</link>
+					<comments>https://kamfjord.org/2009/05/06/amerikanske-senatet-tilgjengeligj%c3%b8r-detaljert-informasjon-om-avstemminger-i-xml-format/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Wed, 06 May 2009 14:20:21 +0000</pubDate>
+				<category><![CDATA[IT-politikk]]></category>
+		<category><![CDATA[Opphavsrett]]></category>
+		<category><![CDATA[Politikk]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=75</guid>
+
+					<description><![CDATA[En gledelig nyhet dukket opp hos Digi i dag. Leste igjennom XMLene som er lagt ut (oversikt over alle dagens avstemminger og hva hver enkelt representant stemte), og må si at dette er veldig gledelige nyheter. Litt hastearbeid ser det &#8230; <a href="https://kamfjord.org/2009/05/06/amerikanske-senatet-tilgjengeligj%c3%b8r-detaljert-informasjon-om-avstemminger-i-xml-format/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>En gledelig nyhet dukket opp hos <a href="http://www.digi.no/812628/senatet-aapner-seg-med-xml">Digi</a> i dag. Leste igjennom XMLene som er lagt ut (<a href="http://www.senate.gov/legislative/LIS/roll_call_lists/vote_menu_111_1.xml">oversikt over alle dagens avstemminger</a> og <a href="http://www.senate.gov/legislative/LIS/roll_call_votes/vote1111/vote_111_1_00177.xml">hva hver enkelt representant stemte</a>), og må si at dette er veldig gledelige nyheter. Litt hastearbeid ser det ut til at det har vært, jeg kan nemlig ikke se at det er lagt ut noen ordentlig lisens på det. Antar at amerikanske senatorene som har vært involvert i dette antar at alt blir brukt under <a href="http://en.wikipedia.org/wiki/Fair use">Fair Use</a>, noe som ikke er en spesielt bra frigjøring. Håper virkelig noen tar på seg jobben med å sørge for at det blir klistrert på <a href="http://www.creativecommons.no/">CC-BY-SA</a> på denne dataen&#8230;</p>
+<p>Ellers er det jo virkelig noe å glede seg til at det norske Stortinget gjør noe av det samme&#8230; Ikke det at det har så veldig mye å si, siden det norske politiske systemet er mye merbygd opp rundt de politiske partiene som stemmer sammen, i motsetning til USA hvor de enkelte representantene stemmer selvstendig, og kanskje finner på å stemme sammen med partifellene sine, men for demokratibyggingen og etterprøvbarheten for de valg våre folkevalgte gjør. <a href="http://www.stortinget.no">Stortinget.no</a> er ikke den beste kilden til å finne ut hvordan de politiske partiene stemmer i forskjellige saker, men om alle avisene får mulighet til å sette sammen resultatene på forskjellige måter, så kan man nok finne mye spennende&#8230;</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2009/05/06/amerikanske-senatet-tilgjengeligj%c3%b8r-detaljert-informasjon-om-avstemminger-i-xml-format/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Nok en bommert for musikk- og filmindustrien</title>
+		<link>https://kamfjord.org/2009/04/28/nok-en-bommert-for-musikk-og-filmindustrien/</link>
+					<comments>https://kamfjord.org/2009/04/28/nok-en-bommert-for-musikk-og-filmindustrien/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Tue, 28 Apr 2009 07:23:43 +0000</pubDate>
+				<category><![CDATA[IT-politikk]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=72</guid>
+
+					<description><![CDATA[Digi rapporterer i dag at  Tele2 omgår &#171;piratloven&#187;, ved å slette trafikkdata så fort de kan. Loven sier i utgangspunktet at nettleverandørene må utlevere personinformasjon etter en domsavgjørelse, men den gjør det alt for enkelt for rettighetshaverne å få en &#8230; <a href="https://kamfjord.org/2009/04/28/nok-en-bommert-for-musikk-og-filmindustrien/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Digi rapporterer i dag at <a href="http://www.digi.no/811878/tele2-omgaar-piratloven"> Tele2 omgår &laquo;piratloven&raquo;</a>, ved å slette trafikkdata så fort de kan. <a href="http://sv.wikipedia.org/wiki/Ipred-lagen">Loven</a> sier i utgangspunktet at nettleverandørene må utlevere personinformasjon etter en domsavgjørelse, men den gjør det alt for enkelt for rettighetshaverne å få en domsavgjørelse, og har potensiale til å gjøre domsavgjørelsen til en pro-forma-sak ved å ikke inkludere politiet.</p>
+<p>Det kan ikke være enkeltaktørenes oppgave å sørge for at lovene blir fulgt. Begynner vi først å tillate rettighetshaverne å etterforske &laquo;sine&raquo; forbrytelser, er det ikke langt før vi tillater butikkene å etterforske butikkertyveri, sjefene å etterforske underslag hos ansatte og familien til offeret å etterforske drap. Og hva gjør vi når rettsvesenet ikke greier å dømme fort nok når sakene er &laquo;ferdig&raquo; etterforsket? Skal vi overlate til offeret å dømme også?</p>
+<p>Den svenske piratjegerloven er en katastrofe og en trussel mot samfunnets sikkerhet og alvorlige forbrytelser. Når ISPene ikke lenger logger hvem som har hatt en IP-adresse (for mange kunder vil nok det være et konkurransefortrinn, og sikkert noe man er villige til å betale ekstra for), så har man heller ingen idé om hvem som surfer på barneporno eller planlegger terrorisme.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2009/04/28/nok-en-bommert-for-musikk-og-filmindustrien/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Open source er kapitalistisk!</title>
+		<link>https://kamfjord.org/2009/04/17/open-source-er-kapitalistisk/</link>
+					<comments>https://kamfjord.org/2009/04/17/open-source-er-kapitalistisk/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Thu, 16 Apr 2009 23:36:17 +0000</pubDate>
+				<category><![CDATA[IT-politikk]]></category>
+		<category><![CDATA[Jobb]]></category>
+		<category><![CDATA[GoOpen]]></category>
+		<category><![CDATA[open source]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=47</guid>
+
+					<description><![CDATA[I kveld har vært med på noe jeg anser som noe av det største som har skjedd i mitt liv til nå: Paneldebatt/techtalk på GoOpen med noen av de største menneskene innen open source-bevegelsen; Larry Wall (laget scriptingspråket Perl), Simon &#8230; <a href="https://kamfjord.org/2009/04/17/open-source-er-kapitalistisk/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>I kveld har vært med på noe jeg anser som noe av det største som har skjedd i mitt liv til nå: Paneldebatt/techtalk på GoOpen med noen av de største menneskene innen open source-bevegelsen; <a href="http://en.wikipedia.org/wiki/Larry_Wall">Larry Wall</a> (laget scriptingspråket Perl), <a href="http://www.webmink.net/">Simon Phipps</a> (Chief Open Source Officer hos Sun Microsystems), <a href="http://en.wikipedia.org/wiki/Jon_Hall_(programmer)">Jon &laquo;maddog&raquo; Hall </a>(bl.a. leder av Linux International) og <a href="http://en.wikipedia.org/wiki/Bruce_Perens">Bruce Perens</a> (forfattet definisjonen av hva open source var for noe for Open Source Initative, samt tidligere prosjektleder for Debian-prosjektet). I tillegg ble dette ledet av <a href="http://no.wikipedia.org/wiki/H%C3%A5kon_Wium_Lie">Håkon Wium Lie</a>, som ikke er helt ukjent for sitt arbeid med å være med å skape World Wide Web, og spesielt CSS-spesifikasjonen.</p>
+<p>Og på første rad foran alle disse menneskene satt jeg og fulgte med&#8230;</p>
+<p>Bet meg spesielt godt merke til en kommentar som kom fra Simon Phipps etter at det kom opp spørsmål om &laquo;Er open source kommunistisk, og kan det fungere i en kapitalistisk verden&raquo;. Et spørsmål jeg har tenkt på mye selv i det siste. Mange open source-tilhengere er sosialister, mens jeg selv ikke er det (sosialist altså, jeg er absolutt open source-tilhenger :P), og mye av ideologien om å dele godene passer opp mot kommunismen.</p>
+<p>Phipps sa da at (fritt oversatt av meg) &laquo;De som taper ofte snur om på rollene de selv har, mot den rollen som motstanderen har. I dette tilfellet handler kommunismen om sentral styring av noen få på vegne av de mange, mens kapitalismen handler om fri konkurranse. Sentral styring av noen få på vegne av de mange er i dette tilfellet de som lager produsenteid programvare, og fri konkurranse kommer som en naturlig del av open source&raquo;.</p>
+<p>Må si meg veldig enig i denne definisjonen&#8230; Mer konkurranse, spesielt i offentlig sektor; mer open source!</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2009/04/17/open-source-er-kapitalistisk/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

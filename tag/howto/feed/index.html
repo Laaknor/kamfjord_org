@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>HOWTO &#8211; Lars Åges tanker</title>
+	<atom:link href="https://kamfjord.org/tag/howto/feed/" rel="self" type="application/rss+xml" />
+	<link>https://kamfjord.org/</link>
+	<description>Politikk og teknologi</description>
+	<lastBuildDate>Sun, 19 Apr 2009 13:40:50 +0000</lastBuildDate>
+	<language>nb-NO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.4.2</generator>
+	<item>
+		<title>Automatic network graphing with Cacti</title>
+		<link>https://kamfjord.org/2009/04/19/automatic-network-graphing-with-cacti/</link>
+					<comments>https://kamfjord.org/2009/04/19/automatic-network-graphing-with-cacti/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Sun, 19 Apr 2009 13:40:50 +0000</pubDate>
+				<category><![CDATA[Cacti]]></category>
+		<category><![CDATA[HOWTO]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=54</guid>
+
+					<description><![CDATA[I love graphs and statistics, and have used Cacti for some years for this. However, I&#8217;ve got a network that is larger than what can be set up manually in the GUI, and I often don&#8217;t have the time to &#8230; <a href="https://kamfjord.org/2009/04/19/automatic-network-graphing-with-cacti/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>I love graphs and statistics, and have used <a href="http://cacti.net">Cacti</a> for some years for this. However, I&#8217;ve got a network that is larger than what can be set up manually in the GUI, and I often don&#8217;t have the time to update cacti whenever I setup a new switch, and forget it later. As such, it has to be automated.</p>
+<p>What I do is set it up with the discovery-plugin for automatic discovery of all hosts on a network, and autocreate graphs for all interfaces. This is how I&#8217;ve done it.</p>
+<h2>Cacti installation</h2>
+<pre><em>aptitude install snmp
+cd /var/www
+wget http://www.cacti.net/downloads/cacti-0.8.7d.tar.gz
+tar zxfv cacti-0.8.7d.tar.gz
+mv cacti-0.8.7d cacti &amp;&amp; cd cacti</em></pre>
+<p>Get the latest version of cactiplugin from <a href="http://cactiusers.org">cactiusers.org</a>:</p>
+<pre><em>wget http://mirror.cactiusers.org/downloads/plugins/cacti-plugin-0.8.7d-PA-v2.4.zip
+unzip cacti-plugin-0.8.7d-PA-v2.4.zip
+patch -p1 -N &lt; cacti-plugin-0.8.7d-PA-v2.4.diff</em></pre>
+<p>If you get some rejected files, view what couldn&#8217;t be applied and edit those files manually. I got an error in include/global_constants.php and have to insert that part manually</p>
+<div id="attachment_55" style="width: 268px" class="wp-caption alignleft"><a href="http://blog.kamfjord.org/wp-content/uploads/2009/04/patch-rejected.png"><img aria-describedby="caption-attachment-55" class="size-full wp-image-55" title="patch-rejected" src="http://blog.kamfjord.org/wp-content/uploads/2009/04/patch-rejected.png" alt="Cacti Patch-install" width="258" height="232" srcset="https://kamfjord.org/wp-content/uploads/2009/04/patch-rejected.png 681w, https://kamfjord.org/wp-content/uploads/2009/04/patch-rejected-300x269.png 300w" sizes="(max-width: 258px) 100vw, 258px" /></a><p id="caption-attachment-55" class="wp-caption-text">Cacti Patch-install</p></div>
+<p>The three lines marked with a + has to be inserted manually in include/global_contants.php around line 175 (just remember to not cut&#8217;n&#8217; paste and include the + as I did once :P)</p>
+<p>Edit include/global.php and change $database_default to your database name, $database_hostname, $database_username and$database_password to your database credentials.<br />
+Also, you need to change the path to the base of your cacti installation in <em>$config[&#8216;url_path&#8217;] to &#8216;/cacti/&#8217;;</em></p>
+<p><em>mysql -u root -p<br />
+Password: &lt;insert your password here&gt;<br />
+CREATE DATABASE cacti;<br />
+GRANT ALL PRIVILEGES ON cacti.* TO &#8216;cactiuser&#8217;@&#8217;localhost&#8217; IDENTIFIED BY &#8216;cactiuser&#8217;;<br />
+source cacti.sql;</em></p>
+<p>Go too http://your.server.address/cacti/ and complete the installation, and login as admin/admin. If everything looks OK, go back to your shell download discovery from <a href="http://cactiusers.org">cactiusers.org</a>.</p>
+<p><em>cd plugins<br />
+wget http://cactiusers.org/downloads/discovery.tar.gz<br />
+tar zxfv discovery-0.8.5.tar.gz<br />
+cd ../include</em></p>
+<p>Edit global.php and around $plugins, add a new line for discovery:<br />
+<em>$plugins[] = &#8216;discovery&#8217;;</em></p>
+<p><em></em>And last, but not least; add poller.php to your crontab:<br />
+<em>crontab -e<br />
+</em>Add the line:</p>
+<p><em>*/5 * * * * php /var/www/cacti/poller.php &amp;&gt;/dev/null</em></p>
+<p>That should make your cacti-installation ready, and your hosts checked every 5 minutes.</p>
+<h2>Configuring Cacti Discovery</h2>
+<p><strong> </strong><br />
+In Cacti, go to Settings -&gt; Misc<br />
+Add your subnets to <em>Subnet to scan</em>, in my example, I run it against 10.0.4.0/25<br />
+Add your SNMP community name to SNMP Community. The first community you enter will be the first tested, so you should probably add your there, and have public as a backup and last.<br />
+I usually set <em>Poller Frequency</em> to once every week, but for testing, it might good to have it <em>every 1 hour.</em></p>
+<p>Rerun Data Queries should be set on, so that changes to your switches gets updated<br />
+Create Graphs for Up Interfaces Only is something you would have to find out yourself if you want. If you put it on, you will only graph interfaces that are actually up, and if you are mostly interested in your uplinks or haven&#8217;t got a lot of bandwidth to your switches, you should check it, but you want to know the bandwidth usage on your clients, you should leave it unchecked.</p>
+<p>In the menu, go to Discovery Templates, and add a new template.</p>
+<p>New hosts doesn&#8217;t automatically come into Cacti because Cacti needs to know what kind of device it is (server, switch, coffee-machine, etc.).<br />
+In the new template, select <em>Host Template</em> and choose <em>Generic SNMP-enabled Host</em>.<br />
+In <em>SNMP Version</em>, choose the SNMP-version in use on your network (I use version 1, as that works on most units).<br />
+In <em>System Description</em>, write something you expect to find in all your switches (I have all Ciscos in my network, so I&#8217;d expect to find &laquo;Cisco&raquo; in the description).</p>
+<p>You should now get hosts showing up in your Device-list, after the time specified in Poller Frequency. However if you are like me, you are too lazy to wait an hour before the devices show up.<br />
+Instead, you can run the command to discover manually:<br />
+<em>php plugins/discovery/findhosts.php -f -d</em></p>
+<h2>Changing graph names</h2>
+<p>When findhosts.php has run, you should have some automatically created graphs. However, they show up in the name of &laquo;host &#8211; Traffic &#8211; interface number&raquo;</p>
+<div id="attachment_56" style="width: 310px" class="wp-caption alignleft"><a href="http://blog.kamfjord.org/wp-content/uploads/2009/04/graph-names-unwanted.png"><img aria-describedby="caption-attachment-56" class="size-medium wp-image-56" title="Cacti-graph-names-unwanted" src="http://blog.kamfjord.org/wp-content/uploads/2009/04/graph-names-unwanted-300x138.png" alt="Names of Cacti graphs after they are automatically created" width="300" height="138" srcset="https://kamfjord.org/wp-content/uploads/2009/04/graph-names-unwanted-300x138.png 300w, https://kamfjord.org/wp-content/uploads/2009/04/graph-names-unwanted.png 898w" sizes="(max-width: 300px) 100vw, 300px" /></a><p id="caption-attachment-56" class="wp-caption-text">Names of Cacti graphs after they are automatically created from findhosts</p></div>
+<p>This really doesn&#8217;t help much, as I usually don&#8217;t know what&#8217;s on every port in my network. I do however know some of the ports, and have written what they are in the description of all ports that are uplinks or have servers/other special devices.</p>
+<p>To change this, you can go to <em>Data Queries</em> -&gt; <em>SNMP &#8211; Interface Statistics</em> -&gt; <em>In/Out Bits</em></p>
+<p>Suggested Values are the prioritized list of names for graphs (name), and the graph title (title) displayed inside the graph.</p>
+<p>Here you might have to experiment a little with what you want, but what I&#8217;ve used fits my equipment very good.</p>
+<div id="attachment_57" style="width: 404px" class="wp-caption alignright"><img aria-describedby="caption-attachment-57" class="size-full wp-image-57" title="graph-names-wanted" src="http://blog.kamfjord.org/wp-content/uploads/2009/04/graph-names-wanted.png" alt="Graph names I use" width="394" height="342" srcset="https://kamfjord.org/wp-content/uploads/2009/04/graph-names-wanted.png 548w, https://kamfjord.org/wp-content/uploads/2009/04/graph-names-wanted-300x259.png 300w" sizes="(max-width: 394px) 100vw, 394px" /><p id="caption-attachment-57" class="wp-caption-text">Graph names I use</p></div>
+<p>If one of the variables in the line is not set, that line will not be used, and the next line will be tested instead. You should experiment a little with how your own network does this. After changes in suggested values, you should run the command</p>
+<p><em>php cli/poller_graphs_reapply_names.php -id=All</em></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2009/04/19/automatic-network-graphing-with-cacti/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

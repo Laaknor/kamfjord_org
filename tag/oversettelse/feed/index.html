@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>oversettelse &#8211; Lars Åges tanker</title>
+	<atom:link href="https://kamfjord.org/tag/oversettelse/feed/" rel="self" type="application/rss+xml" />
+	<link>https://kamfjord.org/</link>
+	<description>Politikk og teknologi</description>
+	<lastBuildDate>Wed, 05 May 2010 13:23:46 +0000</lastBuildDate>
+	<language>nb-NO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.4.2</generator>
+	<item>
+		<title>Norske språkfiler på Zimbra</title>
+		<link>https://kamfjord.org/2010/05/05/norske-sprakfiler-pa-zimbra/</link>
+					<comments>https://kamfjord.org/2010/05/05/norske-sprakfiler-pa-zimbra/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Wed, 05 May 2010 13:23:01 +0000</pubDate>
+				<category><![CDATA[Zimbra]]></category>
+		<category><![CDATA[oversettelse]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=174</guid>
+
+					<description><![CDATA[Dessverre har ikke de norske språkfilene til Zimbra blitt tatt med i den offisielle versjonen av Zimbra ennå, men de eksisterer takket være Philip Gabrielsen og Roy Sigurd Karlsbakk. De siste oppdateringene er gjort av Roy Sigurd, og Philip har &#8230; <a href="https://kamfjord.org/2010/05/05/norske-sprakfiler-pa-zimbra/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Dessverre har ikke de norske språkfilene til <a href="http://www.zimbra.com">Zimbra</a> blitt tatt med i den offisielle versjonen av Zimbra ennå, men de eksisterer takket være <a href="http://flums.net/">Philip Gabrielsen</a> og <a href="http://karlsbakk.net/src/zimbra/nb_NO/">Roy Sigurd Karlsbakk</a>. De siste oppdateringene er gjort av Roy Sigurd, og Philip har tilgang til SVN-repositoryet til <a href="http://zimbra-xtras.sourceforge.net/">Zimbra-xtras på SourceForge</a></p>
+<p>For å laste ned språkfilene første gangen har jeg gjort følgende på min server:</p>
+<blockquote><p><em>mkdir -p /opt/ZmTranslations<br />
+cd /opt/ZmTranslations<br />
+svn co https://zimbra-xtras.svn.sourceforge.net/svnroot/zimbra-xtras/trunk/ZimbraTranslations/data/Norwegian_no/messages SVN_NO</em></p></blockquote>
+<p>Deretter at jeg lagt inn følgende script i /opt/ZmTranslations/update_translations.sh</p>
+<blockquote><p><em>#!/bin/bash<br />
+cd SVN_NO<br />
+svn update<br />
+#cp *.properties /opt/zimbra/jetty-6.1.5/webapps/zimbra/WEB-INF/classes/messages/<br />
+#cp *.properties /opt/zimbra/jetty-6.1.5/webapps/zimbraAdmin/WEB-INF/classes/messages/<br />
+#cp ZsMsg*.properties /opt/zimbra/conf/msgs/</em></p>
+<p><em>cp *Msg*.properties /opt/zimbra/jetty/webapps/zimbra/WEB-INF/classes/messages/<br />
+cp *Msg*.properties /opt/zimbra/jetty/webapps/zimbraAdmin/WEB-INF/classes/messages/<br />
+#cp *Keys*.properties /opt/zimbra/jetty/webapps/zimbra/WEB-INF/classes/keys/<br />
+#cp *Keys*.properties /opt/zimbra/jetty/webapps/zimbraAdmin/WEB-INF/classes/keys/<br />
+#cp *ZsMsg*.properties /opt/zimbra/conf/msgs/</em></p>
+<p><em>su &#8211; zimbra -c &#8216;zmprov fc locale&#8217;<br />
+su &#8211; zimbra -c &#8216;zmprov fc config&#8217;<br />
+su &#8211; zimbra -c &#8216;zmprov fc domain&#8217;<br />
+su &#8211; zimbra -c &#8216;zmprov fc server&#8217;<br />
+su &#8211; zimbra -c &#8216;zmprov fc skin&#8217;<br />
+su &#8211; zimbra -c &#8216;zmprov fc zimlet&#8217;<br />
+</em></p></blockquote>
+<p>Hver gang jeg kjører dette scriptet, så oppdateres oversettelsene til siste versjon, filene kopieres ut i riktige mapper, og det kjøres en flush av oversettelsescachen på serveren (merk at jeg kjører flushcache på flere ting enn bare locale, siden jeg kjører dette scriptet manuelt hver gang jeg trenger å gjøre flush av noen av enkeltkomponentene som jeg gjør endringer på).</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/05/05/norske-sprakfiler-pa-zimbra/feed/</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

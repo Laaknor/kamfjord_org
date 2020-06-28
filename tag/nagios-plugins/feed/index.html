@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Nagios plugins &#8211; Lars Åges tanker</title>
+	<atom:link href="https://kamfjord.org/tag/nagios-plugins/feed/" rel="self" type="application/rss+xml" />
+	<link>https://kamfjord.org/</link>
+	<description>Politikk og teknologi</description>
+	<lastBuildDate>Mon, 18 Jul 2011 07:44:58 +0000</lastBuildDate>
+	<language>nb-NO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.4.2</generator>
+	<item>
+		<title>Nagios plugin for DNS roundrobin checks</title>
+		<link>https://kamfjord.org/2009/04/24/nagios-plugin-for-dns-roundrobin-checks/</link>
+					<comments>https://kamfjord.org/2009/04/24/nagios-plugin-for-dns-roundrobin-checks/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Fri, 24 Apr 2009 17:51:09 +0000</pubDate>
+				<category><![CDATA[Nagios]]></category>
+		<category><![CDATA[Nagios plugins]]></category>
+		<category><![CDATA[own software]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=63</guid>
+
+					<description><![CDATA[We use DNS roundrobin to give students access to diffrent Windows terminal servers. One of the people in my department wrote a perlscript to check which servers are currently in production by checking what servers has a A-record in &#171;tscluster.ped.local&#187;. &#8230; <a href="https://kamfjord.org/2009/04/24/nagios-plugin-for-dns-roundrobin-checks/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>We use DNS roundrobin to give students access to diffrent Windows terminal servers. One of the people in my department wrote a perlscript to check which servers are currently in production by checking what servers has a A-record in &laquo;tscluster.ped.local&raquo;. I&#8217;ve rewritten parts of this small script to be able to use it as a <a href="http://nagios.org">Nagios</a> plugin. No more problems with nobody actually fixing problems with servers after they have been taken out of production because of testing, reinstallation or errors.</p>
+<p><a href="http://kamfjord.org/wp-content/uploads/2009/04/check_dnscluster.pl">check_dnscluster</a> &#8212; download</p>
+<p>These are the nagios configuration defintions I use:</p>
+<pre>define service {
+use            generic-service
+hostgroups        skole-windows-terminalserver-group
+check_command        check_dnscluster!tscluster.ped.local!10.5.48.44
+service_description    Skole-WTS innmeldt i cluster
+servicegroups           skole-tscluster-servicegroup
+check_interval        30
+}
+
+define command {
+#./check_dnscluster.pl -s 10.5.48.44 -A tscluster.ped.local -H 10.5.49.32
+command_name        check_dnscluster
+command_line        $USER1$/check_dnscluster.pl -H $HOSTADDRESS$ -A $ARG1$ -s $ARG2$
+}
+
+define servicegroup
+servicegroup_name    skole-tscluster-servicegroup
+alias            Alle servere i tscluster
+}</pre>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2009/04/24/nagios-plugin-for-dns-roundrobin-checks/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

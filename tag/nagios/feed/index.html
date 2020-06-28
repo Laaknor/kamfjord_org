@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Nagios &#8211; Lars Åges tanker</title>
+	<atom:link href="https://kamfjord.org/tag/nagios/feed/" rel="self" type="application/rss+xml" />
+	<link>https://kamfjord.org/</link>
+	<description>Politikk og teknologi</description>
+	<lastBuildDate>Tue, 11 Feb 2014 10:40:07 +0000</lastBuildDate>
+	<language>nb-NO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.4.2</generator>
+	<item>
+		<title>Monitoring Citrix Presentation Server/XenApp load in Nagios</title>
+		<link>https://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/</link>
+					<comments>https://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Wed, 18 Dec 2013 20:28:36 +0000</pubDate>
+				<category><![CDATA[Nagios]]></category>
+		<category><![CDATA[Citrix]]></category>
+		<category><![CDATA[Icinga]]></category>
+		<category><![CDATA[load]]></category>
+		<category><![CDATA[Presentation Server]]></category>
+		<category><![CDATA[qfarm]]></category>
+		<category><![CDATA[qfarm /load]]></category>
+		<category><![CDATA[XenApp]]></category>
+		<guid isPermaLink="false">http://kamfjord.org/?p=459</guid>
+
+					<description><![CDATA[I&#8217;m currently running two diffrent Citrix farms, one on Presentation Server 4, and one on XenApp 6.5. Since I&#8217;m currently in the process of moving from one farm to another, I have to have very good control over how many &#8230; <a href="https://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>I&#8217;m currently running two diffrent Citrix farms, one on Presentation Server 4, and one on XenApp 6.5. Since I&#8217;m currently in the process of moving from one farm to another, I have to have very good control over how many servers I have in each farm, to always have enough resources on both farms. I really love qfarm /load and use it all the time, but I needed to automate it with our monitoring solution Nagios/Icinga. To do this, I&#8217;ve created the following powershellscript to monitor my farms, and get to know whenever there are missing resources.</p>
+<p>&nbsp;</p>
+<p><strong>citrix_load.ps1</strong></p>
+<p>(Put in c:\program files\nsclient++\scripts\ )</p>
+<pre># Copyright Lars Age Kamfjord &lt;lars(at)kamfjord.org&gt;
+
+# The latest version of this can be found on <a href="http://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/">http://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/</a>
+
+$object = Get-WmiObject -Namespace "root\citrix" -Class MetaFrame_Server_LoadLevel | Select-Object LoadLevel
+if($object.LoadLevel -ge 9000) {
+ Write-Host "Error: Extremly high load: "$object.LoadLevel
+ exit 2
+}
+
+ElseIf ($object.LoadLevel -gt 7500) {
+ Write-Host "Warning: High load: "$object.LoadLevel
+ exit 1
+}
+
+ElseIf($object.LoadLevel -lt 1) {
+ Write-Host "Unknown: Server not in production?"$object.LoadLevel
+ exit 3
+}
+
+else {
+ Write-Host "OK: Load "$object.LoadLevel
+ exit 0
+}
+&nbsp;
+</pre>
+<p><strong>NSclient.ini</strong></p>
+<p>(Add line in nsclient.ini under NRPE/external scripts)</p>
+<pre>check_citrix_load=cmd /c echo scripts\citrix_load.ps1; exit($lastexitcode) | powershell.exe -command -
+</pre>
+<p><strong>nagios service-definition</strong></p>
+<pre>define service {
+use generic-service
+hostgroups admnett-windows-terminal-servers
+service_description Citrix Load
+check_command check_nrpe!check_citrix_load
+check_interval 5
+max_check_attempts 3
+}
+</pre>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Nagios er forket, og med god grunn</title>
+		<link>https://kamfjord.org/2009/05/07/nagios-er-forket-og-for-god-grunn/</link>
+					<comments>https://kamfjord.org/2009/05/07/nagios-er-forket-og-for-god-grunn/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Thu, 07 May 2009 08:48:05 +0000</pubDate>
+				<category><![CDATA[IT-politikk]]></category>
+		<category><![CDATA[Nagios]]></category>
+		<category><![CDATA[Opphavsrett]]></category>
+		<category><![CDATA[lisenser]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=77</guid>
+
+					<description><![CDATA[Fikk en kollega inn på kontoret til morgenen i dag, og fikk høre at Nagios var forket til ICINGA, noe som jeg var veldig overrasket over. Begynte øyeblikkelig å gå igjennom mailer som har kommet inn på Nagios-devel-lista det siste &#8230; <a href="https://kamfjord.org/2009/05/07/nagios-er-forket-og-for-god-grunn/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Fikk en kollega inn på kontoret til morgenen i dag, og fikk høre at Nagios var forket til <a href="http://www.icinga.org/">ICINGA</a>, noe som jeg var veldig overrasket over. Begynte øyeblikkelig å gå igjennom mailer som har kommet inn på Nagios-devel-lista det siste døgnet, og så rimelig kjapt at det var en god grunn for forkingen.</p>
+<p>Hovedutvikleren for Nagios, Ethan Galstad har jobbet med Nagios siden 1999, og produktet har vokst seg stort innen open source-bevegelsen, og er en så godt som standard for open source overvåking av tjenester. I løpet av disse ti årene har det blitt et kjempestort community med mange som jobber for å gjøre Nagios bedre, og prosjektet har blitt enormt mye større enn Ethan, men fortsatt er Ethan den eneste som har tilgang til å legge inn patcher og gjøre forbedringer på kildekoden. En slik lukking av  open source-prosessen gjør at man ikke kan overleve i lengden.</p>
+<p>I tillegg til en veldig lukket prosess, så har Ethan startet et eget selskap, <a href="http://www.nagios.com">Nagios Enterprises</a>, og har brukt det siste året til å tvinge andre Nagios-selskaper til å slutte å bruke navnet &laquo;Nagios&raquo;. Ethan har brukt tiden på å juridiske ting, i stedenfor å gjøre den jobben folk forventer at han skal gjøre; utvikle Nagios!</p>
+<p>Det har vært endel debatt på mailinglisten om hvorvidt ICINGA kommer til å lykkes eller ei, og foreløpig er jeg av den konklusjonen at de kommer til å lykkes, utelukkende på grunn av en enkelt mail fra Ethan, hvor han skriver at utviklingen ikke er død, fordi ting skjer &laquo;behind the scenes&raquo;, i form av supportkontrakter og &laquo;beskyttelse av varemerket Nagios&raquo;. Altså ingen svar på den faktiske kritikken av at programmeringen går for sakte.</p>
+<p>Nei Ethan, nå har du veldig kort tid på deg til å faktisk gjøre noe med kritikken, ellers skifter jeg til ICINGA. Det er svært sjeldent at noen forker et open source-prosjekt, men når det gjøres, er det stort sett fordi ting ikke fungerer lenger, og det er ikke ofte det er relatert til at produktet er for dårlig!</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2009/05/07/nagios-er-forket-og-for-god-grunn/feed/</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Nagios plugin for DNS roundrobin checks</title>
+		<link>https://kamfjord.org/2009/04/24/nagios-plugin-for-dns-roundrobin-checks/</link>
+					<comments>https://kamfjord.org/2009/04/24/nagios-plugin-for-dns-roundrobin-checks/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Fri, 24 Apr 2009 17:51:09 +0000</pubDate>
+				<category><![CDATA[Nagios]]></category>
+		<category><![CDATA[Nagios plugins]]></category>
+		<category><![CDATA[own software]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=63</guid>
+
+					<description><![CDATA[We use DNS roundrobin to give students access to diffrent Windows terminal servers. One of the people in my department wrote a perlscript to check which servers are currently in production by checking what servers has a A-record in &#171;tscluster.ped.local&#187;. &#8230; <a href="https://kamfjord.org/2009/04/24/nagios-plugin-for-dns-roundrobin-checks/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>We use DNS roundrobin to give students access to diffrent Windows terminal servers. One of the people in my department wrote a perlscript to check which servers are currently in production by checking what servers has a A-record in &laquo;tscluster.ped.local&raquo;. I&#8217;ve rewritten parts of this small script to be able to use it as a <a href="http://nagios.org">Nagios</a> plugin. No more problems with nobody actually fixing problems with servers after they have been taken out of production because of testing, reinstallation or errors.</p>
+<p><a href="http://kamfjord.org/wp-content/uploads/2009/04/check_dnscluster.pl">check_dnscluster</a> &#8212; download</p>
+<p>These are the nagios configuration defintions I use:</p>
+<pre>define service {
+use            generic-service
+hostgroups        skole-windows-terminalserver-group
+check_command        check_dnscluster!tscluster.ped.local!10.5.48.44
+service_description    Skole-WTS innmeldt i cluster
+servicegroups           skole-tscluster-servicegroup
+check_interval        30
+}
+
+define command {
+#./check_dnscluster.pl -s 10.5.48.44 -A tscluster.ped.local -H 10.5.49.32
+command_name        check_dnscluster
+command_line        $USER1$/check_dnscluster.pl -H $HOSTADDRESS$ -A $ARG1$ -s $ARG2$
+}
+
+define servicegroup
+servicegroup_name    skole-tscluster-servicegroup
+alias            Alle servere i tscluster
+}</pre>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2009/04/24/nagios-plugin-for-dns-roundrobin-checks/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

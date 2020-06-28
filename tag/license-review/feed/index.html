@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>license review &#8211; Lars Åges tanker</title>
+	<atom:link href="https://kamfjord.org/tag/license-review/feed/" rel="self" type="application/rss+xml" />
+	<link>https://kamfjord.org/</link>
+	<description>Politikk og teknologi</description>
+	<lastBuildDate>Thu, 22 Sep 2016 08:53:45 +0000</lastBuildDate>
+	<language>nb-NO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.4.2</generator>
+	<item>
+		<title>SCCM SQL query list of computers with top users in a collection</title>
+		<link>https://kamfjord.org/2016/09/22/sccm-sql-query-list-of-computers-with-top-users-in-a-collection/</link>
+					<comments>https://kamfjord.org/2016/09/22/sccm-sql-query-list-of-computers-with-top-users-in-a-collection/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Thu, 22 Sep 2016 08:32:58 +0000</pubDate>
+				<category><![CDATA[Teknisk]]></category>
+		<category><![CDATA[2012]]></category>
+		<category><![CDATA[license review]]></category>
+		<category><![CDATA[Microsoft]]></category>
+		<category><![CDATA[primary user]]></category>
+		<category><![CDATA[SCCM]]></category>
+		<category><![CDATA[SQL]]></category>
+		<guid isPermaLink="false">https://kamfjord.org/?p=545</guid>
+
+					<description><![CDATA[My old employer (local goverment) got a message from Microsoft about an audit. Since they have an education and an enterprise agreement, they need to get a list of all computers that can go under education-agreement (since that is the &#8230; <a href="https://kamfjord.org/2016/09/22/sccm-sql-query-list-of-computers-with-top-users-in-a-collection/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>My old employer (local goverment) got a message from Microsoft about an audit. Since they have an education and an enterprise agreement, they need to get a list of all computers that can go under education-agreement (since that is the cheapest ) and everything else that goes under the enterprise agreement. When I was working there, I would have used which IP subnet the machine is from to sort the machines, but since they now have a lot of machines only reporting their IP from a shared wireless subnet, that&#8217;s harder. Instead, I figured out that we could use top console user to get a list, in addition to the AD Site.</p>
+<p>Created a user collection with all users that are considered educational (department groups or other access groups). The collection got the name CEN00XXX.</p>
+<p>&nbsp;</p>
+<p>Ran the following SQL-query to get a list of systems that had been online for the last 2 months.</p>
+<p>SELECT sys.Netbios_Name0,<br />
+um.TopConsoleUser0,<br />
+[Last_Logon_Timestamp0],<br />
+(SELECT CASE WHEN TopConsoleUser0 IS NULL THEN &#8216;False&#8217; ELSE &#8216;True&#8217; END AS IsSkole FROM <strong>_RES_COLL_CEN00XXX</strong> WHERE SMSID = um.TopConsoleUser0 ) AS userIsEdu,<br />
+CASE WHEN [AD_Site_Name0] LIKE &#8216;<strong>EducationSite</strong>&#8216; THEN &#8216;True&#8217; ELSE &#8216;False&#8217; END AS SiteIsEdu,</p>
+<p>FROM v_R_System sys<br />
+LEFT OUTER JOIN v_GS_SYSTEM_CONSOLE_USAGE_MAXGROUP um<br />
+ON um.ResourceID = sys.ResourceID<br />
+WHERE Last_Logon_Timestamp0 IS NOT NULL<br />
+AND Last_Logon_Timestamp0 &gt; DATEADD(<strong>month, -2</strong>, GETDATE())<br />
+ORDER BY Last_Logon_Timestamp0</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2016/09/22/sccm-sql-query-list-of-computers-with-top-users-in-a-collection/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

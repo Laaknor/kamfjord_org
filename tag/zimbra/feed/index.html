@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Zimbra &#8211; Lars Åges tanker</title>
+	<atom:link href="https://kamfjord.org/tag/zimbra/feed/" rel="self" type="application/rss+xml" />
+	<link>https://kamfjord.org/</link>
+	<description>Politikk og teknologi</description>
+	<lastBuildDate>Wed, 05 May 2010 13:23:46 +0000</lastBuildDate>
+	<language>nb-NO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.4.2</generator>
+	<item>
+		<title>Norske språkfiler på Zimbra</title>
+		<link>https://kamfjord.org/2010/05/05/norske-sprakfiler-pa-zimbra/</link>
+					<comments>https://kamfjord.org/2010/05/05/norske-sprakfiler-pa-zimbra/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Wed, 05 May 2010 13:23:01 +0000</pubDate>
+				<category><![CDATA[Zimbra]]></category>
+		<category><![CDATA[oversettelse]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=174</guid>
+
+					<description><![CDATA[Dessverre har ikke de norske språkfilene til Zimbra blitt tatt med i den offisielle versjonen av Zimbra ennå, men de eksisterer takket være Philip Gabrielsen og Roy Sigurd Karlsbakk. De siste oppdateringene er gjort av Roy Sigurd, og Philip har &#8230; <a href="https://kamfjord.org/2010/05/05/norske-sprakfiler-pa-zimbra/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Dessverre har ikke de norske språkfilene til <a href="http://www.zimbra.com">Zimbra</a> blitt tatt med i den offisielle versjonen av Zimbra ennå, men de eksisterer takket være <a href="http://flums.net/">Philip Gabrielsen</a> og <a href="http://karlsbakk.net/src/zimbra/nb_NO/">Roy Sigurd Karlsbakk</a>. De siste oppdateringene er gjort av Roy Sigurd, og Philip har tilgang til SVN-repositoryet til <a href="http://zimbra-xtras.sourceforge.net/">Zimbra-xtras på SourceForge</a></p>
+<p>For å laste ned språkfilene første gangen har jeg gjort følgende på min server:</p>
+<blockquote><p><em>mkdir -p /opt/ZmTranslations<br />
+cd /opt/ZmTranslations<br />
+svn co https://zimbra-xtras.svn.sourceforge.net/svnroot/zimbra-xtras/trunk/ZimbraTranslations/data/Norwegian_no/messages SVN_NO</em></p></blockquote>
+<p>Deretter at jeg lagt inn følgende script i /opt/ZmTranslations/update_translations.sh</p>
+<blockquote><p><em>#!/bin/bash<br />
+cd SVN_NO<br />
+svn update<br />
+#cp *.properties /opt/zimbra/jetty-6.1.5/webapps/zimbra/WEB-INF/classes/messages/<br />
+#cp *.properties /opt/zimbra/jetty-6.1.5/webapps/zimbraAdmin/WEB-INF/classes/messages/<br />
+#cp ZsMsg*.properties /opt/zimbra/conf/msgs/</em></p>
+<p><em>cp *Msg*.properties /opt/zimbra/jetty/webapps/zimbra/WEB-INF/classes/messages/<br />
+cp *Msg*.properties /opt/zimbra/jetty/webapps/zimbraAdmin/WEB-INF/classes/messages/<br />
+#cp *Keys*.properties /opt/zimbra/jetty/webapps/zimbra/WEB-INF/classes/keys/<br />
+#cp *Keys*.properties /opt/zimbra/jetty/webapps/zimbraAdmin/WEB-INF/classes/keys/<br />
+#cp *ZsMsg*.properties /opt/zimbra/conf/msgs/</em></p>
+<p><em>su &#8211; zimbra -c &#8216;zmprov fc locale&#8217;<br />
+su &#8211; zimbra -c &#8216;zmprov fc config&#8217;<br />
+su &#8211; zimbra -c &#8216;zmprov fc domain&#8217;<br />
+su &#8211; zimbra -c &#8216;zmprov fc server&#8217;<br />
+su &#8211; zimbra -c &#8216;zmprov fc skin&#8217;<br />
+su &#8211; zimbra -c &#8216;zmprov fc zimlet&#8217;<br />
+</em></p></blockquote>
+<p>Hver gang jeg kjører dette scriptet, så oppdateres oversettelsene til siste versjon, filene kopieres ut i riktige mapper, og det kjøres en flush av oversettelsescachen på serveren (merk at jeg kjører flushcache på flere ting enn bare locale, siden jeg kjører dette scriptet manuelt hver gang jeg trenger å gjøre flush av noen av enkeltkomponentene som jeg gjør endringer på).</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/05/05/norske-sprakfiler-pa-zimbra/feed/</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Foredraget mitt fra GoOpen 2010 om Zimbra</title>
+		<link>https://kamfjord.org/2010/04/20/foredraget-mitt-fra-goopen-2010-om-zimbra/</link>
+					<comments>https://kamfjord.org/2010/04/20/foredraget-mitt-fra-goopen-2010-om-zimbra/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Tue, 20 Apr 2010 19:57:11 +0000</pubDate>
+				<category><![CDATA[Zimbra]]></category>
+		<category><![CDATA[Presentasjon]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=168</guid>
+
+					<description><![CDATA[Da var foredraget mitt om Zimbra i Tønsberg og Nøtterøy kommuner gjennomført på GoOpen (nervene begynner å gi seg nå, 7 timer etterpå&#8230; Første gangen jeg har holdt et så stort foredrag) Film fra foredraget ligger ute hos Vimeo Selve &#8230; <a href="https://kamfjord.org/2010/04/20/foredraget-mitt-fra-goopen-2010-om-zimbra/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Da var foredraget mitt om <a href="http://www.zimbra.com">Zimbra</a> i Tønsberg og Nøtterøy kommuner gjennomført på <a href="http://www.goopen.no/foredragsholdere/zimbra-pa-8500-brukere/">GoOpen</a> (nervene begynner å gi seg nå, 7 timer etterpå&#8230; Første gangen jeg har holdt et så stort foredrag)</p>
+<p>Film fra foredraget ligger ute hos <a href="http://vimeo.com/11080790">Vimeo</a></p>
+<p>Selve foredraget har jeg gjort tilgjengelig her i <a href="http://blog.kamfjord.org/wp-content/uploads/2010/04/Presentasjon-på-GoOpen-2010-Zimbra.odp">ODF</a> og <a href="http://blog.kamfjord.org/wp-content/uploads/2010/04/Presentasjon-på-GoOpen-2010-Zimbra.pdf">PDF</a>-format. Selvfølgelig er det CC-BY-SA <img src="https://s.w.org/images/core/emoji/12.0.0-1/72x72/1f609.png" alt="😉" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Her er også et lite bilde av meg på scenen (Takk til kollega Lars Eik )</p>
+<p><a href="http://blog.kamfjord.org/wp-content/uploads/2010/04/IMG_3060.jpg"><img class="size-full wp-image-167 alignleft" title="Jeg holder foredrag om Zimbra på GoOpen 2010" src="http://blog.kamfjord.org/wp-content/uploads/2010/04/IMG_3060.jpg" alt="Foto: Lars Eik" width="451" height="299" /></a></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/04/20/foredraget-mitt-fra-goopen-2010-om-zimbra/feed/</wfw:commentRss>
+			<slash:comments>6</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Hvordan vi har satt opp Zimbra</title>
+		<link>https://kamfjord.org/2009/06/26/hvordan-vi-har-satt-opp-zimbra/</link>
+					<comments>https://kamfjord.org/2009/06/26/hvordan-vi-har-satt-opp-zimbra/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Fri, 26 Jun 2009 12:34:29 +0000</pubDate>
+				<category><![CDATA[Jobb]]></category>
+		<category><![CDATA[Teknisk]]></category>
+		<category><![CDATA[eDirectory]]></category>
+		<category><![CDATA[NetMail]]></category>
+		<category><![CDATA[PHP]]></category>
+		<category><![CDATA[Zimbra]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=94</guid>
+
+					<description><![CDATA[Nok en uke har gått, og i løpet av uka har jeg primært jobbet med å sette Zimbra i produksjon som nytt gruppevaresystem for skolene i Tønsberg og Nøtterøy kommuner. Vi kjører fra før av Novell eDirectory som katalogtjeneste og &#8230; <a href="https://kamfjord.org/2009/06/26/hvordan-vi-har-satt-opp-zimbra/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Nok en uke har gått, og i løpet av uka har jeg primært jobbet med å sette <a href="http://www.zimbra.com">Zimbra</a> i produksjon som nytt gruppevaresystem for skolene i Tønsberg og Nøtterøy kommuner. Vi kjører fra før av Novell eDirectory som katalogtjeneste og Novell NetMail som mailserver via IMAP, og vi måtte derfor ha på plass to ting.</p>
+<ul>
+<li>Synkronisering av brukerdatabase fra eDirectory til Zimbra, siden Zimbra har sin egen OpenLDAP-database</li>
+<li>Migrering av epost fra NetMail til Zimbra</li>
+</ul>
+<p>Den første biten gjorde jeg ganske enkel, med et PHP-script som går igjennom hele LDAP-katalogen og lager kommandoer som kan brukes til zmprov:</p>
+<pre>&lt;?php
+
+$defaultpassword = 'defaultpassword_for_user';
+
+$ldap1_con = ldap_connect("ldap://10.5.48.10");
+
+if($ldap1_con) $ldap1_bind = ldap_bind($ldap1_con, 'cn=admin,o=VESTFOLD', 'very_secret_password');
+
+if(!$ldap1_bind) die("LDAP1-bind failed...(".ldap_error($ldap1_con).")");
+
+$findattrs = array("cn", 'description',  'fullName', 'sn', 'mail', 'givenName', 'title', 'company');
+
+$search = ldap_search($ldap1_con, 'o=VESTFOLD', '(&amp;(objectClass=Person)(|(title=Elev)(title=Laerer)(company=IKT)))', $findattrs);
+
+if(!$search) {
+ // Search failed.
+ echo "LDAP-errno: ". ldap_errno($ldap1_con)."\n";
+ echo "LDAP-Error: " . ldap_error($ldap1_con)."\n";
+}
+$ldap = ldap_get_entries($ldap1_con, $search);
+$output = NULL;
+for($i=0;$i&lt;$ldap['count'];$i++) {
+ $mail = $ldap[$i]['mail'][0];
+ $splitmail = split("@", $mail);
+ if(strpos($mail, "nottkom.no")) $kommune = 'Notteroy';
+ elseif(strpos($mail, "notteroy.kommune.no")) $kommune = 'Notteroy';
+ elseif(strpos($mail, "tbgskole.no")) $kommune = 'Tonsberg';
+ elseif(strpos($mail, "tonsberg.kommune.no")) $kommune = 'Tonsberg';
+
+ if($kommune == 'Tonsberg') $maildomain = 'tbgskole.no';
+ elseif($kommune == 'Notteroy') $maildomain = 'nottkom.no';
+
+ if($ldap[$i]['company'][0] == 'IKT') $policy = 'iktpolicy'; // IKTpolicy
+ elseif($ldap[$i]['title'][0] == 'Laerer') $policy = 'laererpolicy'; // Laererpolicy
+ elseif($ldap[$i]['title'][0] == 'Elev') $policy = 'elevpolicy'; // Elevpolicy
+ else $policy = 'default';
+
+ $username = $ldap[$i]['cn'][0]."@".$maildomain;
+if(strpos($mail, $ldap[$i]['cn'][0])) $createalias = 0; // Mail contains username, do not create alias
+ else $createalias = 1;
+
+ $output .= "ca ".$username." $defaultpassword\n"; // Create account
+ $output .= "ma ".$username." displayName '".$ldap[$i]['givenname'][0]." ".$ldap[$i]['sn'][0]."'\n";
+ $output .= "ma ".$username." zimbraNotes 'Migrated ".date("Ymd H:i")."'\n";
+ $output .= "ma ".$username." sn '".$ldap[$i]['sn'][0]."'\n";
+ $output .= "ma ".$username." givenName '".$ldap[$i]['givenname'][0]."'\n";
+ $output .= "ma ".$username." ou '".$ldap[$i]['company'][0]."'\n";
+ $output .= "sac ".$username." '".$policy."'\n";
+ if($createalias) {
+ $output .= "aaa ".$username." ".$splitmail[0]."@".$maildomain."\n";
+ $output .= "ma ".$username." zimbraPrefFromAddress '".$splitmail[0]."@".$maildomain."\n";
+ }
+ $output .= "ma ".$username." zimbraPrefLocale no\n"; // Set default language to norwegian
+
+#       $output .= "aal -s SADM-MAIL02.ped.local ".$username." zimbra.soap debug\n";
+#       echo $ldap[$i]['cn'][0]."\n";
+}
+
+echo $output;</pre>
+<p>Lagre dette scriptet som eDir2Zimbra.php, og kjør det med php på kommandolinje (eller kjør det via en webserver og lagre teksten som kommer et sted på Zimbra-serveren</p>
+<pre>php eDir2Zimbra &gt; /tmp/add_zimbraaccounts</pre>
+<p>Deretter kan den fila brukes som input til zmprov</p>
+<pre>su - zimbra -c 'zmprov &lt; /tmp/add_zimbraaccounts'</pre>
+<p>Har ikke lagt inn muligheten for å deaktivere kontoer automatisk i Zimbra ennå, men scriptet kan trygt kjøres mange ganger. Må vel oppdatere scriptet rett over sommeren, når en god del av lærere og elever har sluttet &laquo;offisielt&raquo; i kildesystemene mine, slik at kontoene blir disablet i eDirectory.</p>
+<h3>Migrering av e-post</h3>
+<p>Denne biten trodde jeg at jeg hadde rimelig klar. NetMail kjører all mailen i <a href="http://en.wikipedia.org/wiki/Mbox">mbox-format</a>, og jeg tenkte derfor orginalt å kjøre denne metoden:</p>
+<ul>
+<li>Konvertere mbox til maildir via et av mange script for å gjøre det</li>
+<li>Deaktivere autentisering mot eDirectory for domenet, og dermed ha standardpassordet definert i scriptet over på alle brukerne</li>
+<li>Kjøre et av mange script for å flytte fra maildir til remote IMAP-server</li>
+</ul>
+<p>Fikk dette til å fungere rimelig greit, men oppdaget når jeg testet med et par elever, som i hovedsak hadde fått masseutsendte eposter, at NetMail for å spare plass flytter ut mailer som er over 4k og sendt til flere enn 5 mottagere til et eget felleslager. Alle referansene i mbox-fila til dette felleslageret skapte problemer, og mailene kunne ikke (i hvertfall ikke lett) flyttes over.</p>
+<p>Fordi NetMail lagret mailen i så sært format, så fant jeg ut at jeg for enkelthets skyld skulle bruke IMAP2IMAP-synkronisering. Testet litt med<a href="http://freshmeat.net/projects/imapsync/"> IMAPsync</a>, og den fungerte rimelig greit, men jeg måtte ha passordet til alle brukerne for å foreta migreringen. Jeg vurderte det til at jeg kunne nullstille passordet til alle 8000 brukere, men vi har akkurat hatt en sak med elever som har fått tilgang til læreres passord, og byttet sine egne karakterer/fravær, og en slik prosess må nødvendigvis gjøres ekstremt kontrollert. Bestemte meg derfor at jeg ville forsøke å sniffe passordet til alle brukerne i stedenfor&#8230; (Yeah, I know: ugly som bare det, men jeg har i hvertfall fått det til å fungere).</p>
+<p>Jeg kunne gjøre det på flere måter</p>
+<ul>
+<li>Sniffe brukernavn og passord på IMAP med ethercap mot den gamle NetWare-servere</li>
+<li>Sniffe brukernavn og passord på IMAP med ethercap mot den nye Zimbra-serveren</li>
+<li>Prøve å få Zimbra/webmailen til å gjøre passordet til brukeren tilgjengelig på en eller annen måte</li>
+</ul>
+<p>Å prøve å sniffe passordet via NetWare-serveren slo jeg ganske fort fra meg. Hovedønske er å få alle brukerne over på nytt system, og det ville være vanskelig å få bytta over brukerne til nytt system, hvis de må logge seg inn på det gamle, og noen skal flyttes over til det nye &laquo;etterhvert&raquo;.</p>
+<p>Å sniffe passordet mot IMAP på Zimbra-serveren kunne vært en mulighet, men jeg prioriterte det ned som løsning, da jeg ikke ønsker at brukerne skal bruke den gamle webmailen (integrert del av LMS-systemet vårt), men det nye å flotte webgrensesnittet til Zimbra. Det ville da være unaturlig å be brukerne om å &laquo;bruk den gamle et par ganger, og så benytt den nye etterpå&raquo;.</p>
+<p>Jeg begynte først å leke litt med muligheten for å lage en Zimlet som foretar import av mail fra den gamle serveren, men fant ikke noen gode howtoer på området, og jeg ikke orket å bruke lang tid på prosjektet, for å lære meg å kode Zimlet&#8217;er. Lekte også litt med å legge inn en javascript-prosess tok i mot passordet man logget på med, og sendte det videre til et separat system. Greide her ikke å bli fortrolig med kodestilen til Zimbras JSP-kode, så slo det også fra meg.</p>
+<p>Gikk til slutt videre med å titte på <a href="http://wiki.zimbra.com/index.php?title=Log_Files#mailbox.log_categories">debug-loggene</a> man kunne aktivere på en bruker, for å se om de hadde mulighet til å logge passordet til brukeren. Hverken IMAP eller POP-så ut til å logge passordene, men SOAP-interfacet logget disse ved pålogging på webmailen. Brukte derfor scriptet over til å lage en kommando fo å aktivere logging på alle brukere:</p>
+<pre>
+<pre> $output .= "aal -s SADM-MAIL02.ped.local ".$username." zimbra.soap debug\n";</pre>
+<p>Dette skal også kjøres via zmprov som over-</p>
+<p>Etter dette, skrev jeg et kjapt script for å lete igjennom loggene etter brukernavn og passord, logge dette til en database, og så kjøre sletting av loggingen på den aktuelle brukeren. Fra databasen lagde jeg et nytt separat script som startet opp imapsync med riktig brukernavn og passord, og da var det bare for brukerne å logge inn, og vente til den gamle mailen dems var flyttet over til det nye flotte gruppevaresystemet vårt.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2009/06/26/hvordan-vi-har-satt-opp-zimbra/feed/</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Har installert Zimbra gruppevare-system</title>
+		<link>https://kamfjord.org/2009/06/12/har-installert-zimbra-gruppevare-system/</link>
+					<comments>https://kamfjord.org/2009/06/12/har-installert-zimbra-gruppevare-system/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Fri, 12 Jun 2009 10:31:27 +0000</pubDate>
+				<category><![CDATA[Jobb]]></category>
+		<category><![CDATA[Programvaretesting]]></category>
+		<category><![CDATA[gruppevare]]></category>
+		<category><![CDATA[Zimbra]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=89</guid>
+
+					<description><![CDATA[På skolenettet i kommunen har vi Novell eDirectory, og har gratis-mailsystemet Novell hadde i 2004 kalt NetMail for alle elever og lærere, med IMAP-tilkobling og lesing i LMSen. Denne mailserveren har vi bare hatt mer og mer problemer med etterhvert &#8230; <a href="https://kamfjord.org/2009/06/12/har-installert-zimbra-gruppevare-system/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>På skolenettet i kommunen har vi Novell eDirectory, og har gratis-mailsystemet Novell hadde i 2004 kalt <a href="http://en.wikipedia.org/wiki/Novell NetMail">NetMail</a> for alle elever og lærere, med IMAP-tilkobling og lesing i <a href="http://en.wikipedia.org/wiki/Learning_management_system">LMSen</a>. Denne mailserveren har vi bare hatt mer og mer problemer med etterhvert som årene har gått, og det faktum at den kjører på <a href="http://en.wikipedia.org/wiki/NetWare">NetWare</a>, noe ingen av oss på avdelingen egentlig har peiling på, gjør ikke problemene noe mindre.</p>
+<p>Satte meg i forrige uke ned og testet mange forskjellige open source-gruppevaresystemer. I utgangspunktet hadde jeg et par små krav:</p>
+<ul>
+<li>Helst kjøre på Linux</li>
+<li>Bør være open source eller gratis (vi betaler ikke per-bruker-lisens for skoleelever ned til 6 år; muligens kommer vi også til å ha kontoer for barn i barnehager når vi bare finner ut av hvordan vi skal løse det med at de ikke kan lese).</li>
+<li>Bør ha et greit administrasjonsgrensesnitt</li>
+<li>Må fungere med brukerdatabasen fra eDirectory (og gjerne også ha støtte for Active Directory).</li>
+<li>Må fungere både som webbasert (for mest mulig funksjonalitet), og med IMAP (fortsatt mulighet til å bruke rett fra LMSen for de som ikke har behov for funksjonaliteten som kommer med å ha gruppevaresystemet.</li>
+</ul>
+<p>Hadde på forhånd blitt anbefalt om <a href="http://www.zimbra.com">Zimbra</a> fra en <a href="http://www.flums.net">bekjent</a>, som er utviklet av <a href="http://yahoo.com">Yahoo!</a>. Vi hadde sett litt på det på avdelingen, og var enige om at det AJAX-baserte grensesnittet var veldig bra, og at Zimbra løste mange (om ikke de fleste) problemene vi hadde hatt med LMSen og nåværende mailserverløsning.</p>
+<p>Satte i gang installasjonen av Zimbra, men slet lenge med å få til autentisering mot eDirectory. Ingen av dokumentasjonene jeg greide å finne viste noe relevant for problemene mine. Jeg ga til slutt opp, og begynte å labbe på noen andre løsninger. I forbindelse med testing av en av disse løsningene, fant jeg dokumentasjon som viste seg å være relevant. I NetMail har vi opprettet mange brukerkontoer, og for lærere har vi opprettet alias-objekter som fornavn.etternavn for å få disse som e-post-adresser. Disse alias-objektene ser ut som ordinære brukere når de listes opp i LDAP, og dermed ble problemet at uansett hvordan man søkte etter brukere, så fikk man to svar, og Zimbra og de andre gruppevareløsningene greide ikke å bestemme hvilken av disse brukerobjektene den skulle bruke, og ga feilmelding på det. Flyttet alle aliasene ut fra OUene for brukerne, og problemet var løst.</p>
+<p>Har nå satt opp Zimbra for test for endel skoler, og det ser ut til å fungere rimelig bra. Zimbra er en skalerbar løsning, og forhåpentligvis vil vi etterhvert få en veldig god e-post-løsning, med mye funksjonalitet. Gleder meg allerede til vi kan sette dette i produksjon.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2009/06/12/har-installert-zimbra-gruppevare-system/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

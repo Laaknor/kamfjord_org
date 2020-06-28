@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Michael Jackson &#8211; Lars Åges tanker</title>
+	<atom:link href="https://kamfjord.org/tag/michael-jackson/feed/" rel="self" type="application/rss+xml" />
+	<link>https://kamfjord.org/</link>
+	<description>Politikk og teknologi</description>
+	<lastBuildDate>Tue, 30 Jun 2009 16:14:25 +0000</lastBuildDate>
+	<language>nb-NO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.4.2</generator>
+	<item>
+		<title>Internett takler ikke nyheter</title>
+		<link>https://kamfjord.org/2009/06/30/internett-takler-ikke-nyheter/</link>
+					<comments>https://kamfjord.org/2009/06/30/internett-takler-ikke-nyheter/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Tue, 30 Jun 2009 16:14:25 +0000</pubDate>
+				<category><![CDATA[Wikipedia]]></category>
+		<category><![CDATA[Michael Jackson]]></category>
+		<category><![CDATA[PHP]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=96</guid>
+
+					<description><![CDATA[Noen dager har gått siden Michael Jackson døde, og det var mye rart som skjedde i løpet av veldig kort tid. Alle nettavisene begynte i full fart å publisere &#171;noen andre sier at Michael Jackson er død&#187;, og det var &#8230; <a href="https://kamfjord.org/2009/06/30/internett-takler-ikke-nyheter/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Noen dager har gått siden Michael Jackson døde, og det var mye rart som skjedde i løpet av veldig kort tid. Alle nettavisene begynte i full fart å publisere &laquo;noen andre sier at Michael Jackson er død&raquo;, og det var vanskelig å få noe bekreftet før det hadde gått flere timer. På Wikipedia ble artikkelen om Michael Jackson låst på alle de store språkene rimelig med en gang, fordi det ikke var kommet en offisiell uttalelse ennå. Minutter etter at de første rapporterene om popstjernens død kom, begynte alarmene også å gå på #wikimedia-tech; serverne for Wikipedia begynte å få <a href="http://techblog.wikimedia.org/2009/06/current-events/">belastningsproblemer.</a></p>
+<p>Det tok litt tid å finne ut hva problemet var, men til slutt viste det seg at artikkelen om Michael Jackson ble besøkt så mange ganger på kort tid, at serverene slet med å bygge opp cachen på nytt. Fiksen der ble da å kjøre et quick hack:</p>
+<pre>
+<pre>Index: ParserCache.php
+===================================================================
+--- ParserCache.php	(revision 52088)
++++ ParserCache.php	(working copy)
+@@ -63,6 +63,7 @@
+  if ( is_object( $value ) ) {
+    wfDebug( "Found.\n" );
+    # Delete if article has changed since the cache was made
+    // temp hack!
++   if( $article-&gt;mTitle-&gt;getPrefixedText() != 'Michael Jackson' ) {
+    $canCache = $article-&gt;checkTouched();
+    $cacheTime = $value-&gt;getCacheTime();
+    $touched = $article-&gt;mTouched;</pre>
+<p>Heldigvis var det ikke bare Wikipedia som <a href="http://www.tu.no/it/article215423.ece">ikke taklet nyhetene</a>, men med en million sidevisninger på en time på engelsk Wikipedia alene, så har man vel egentlig ikke testet MediaWiki for belastningen som kom&#8230;</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2009/06/30/internett-takler-ikke-nyheter/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

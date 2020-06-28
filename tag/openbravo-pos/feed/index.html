@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>OpenBravo. POS &#8211; Lars Åges tanker</title>
+	<atom:link href="https://kamfjord.org/tag/openbravo-pos/feed/" rel="self" type="application/rss+xml" />
+	<link>https://kamfjord.org/</link>
+	<description>Politikk og teknologi</description>
+	<lastBuildDate>Sun, 29 Sep 2013 10:15:45 +0000</lastBuildDate>
+	<language>nb-NO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.4.2</generator>
+	<item>
+		<title>Howto recompile Openbravopos to remove select customer-button</title>
+		<link>https://kamfjord.org/2013/09/29/howto-recompile-openbravopos-to-remove-select-customer-button/</link>
+					<comments>https://kamfjord.org/2013/09/29/howto-recompile-openbravopos-to-remove-select-customer-button/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Sun, 29 Sep 2013 10:15:45 +0000</pubDate>
+				<category><![CDATA[Teknisk]]></category>
+		<category><![CDATA[Årsmøte]]></category>
+		<category><![CDATA[OpenBravo. POS]]></category>
+		<category><![CDATA[select customer]]></category>
+		<guid isPermaLink="false">http://kamfjord.org/?p=454</guid>
+
+					<description><![CDATA[I&#8217;m running OpenBravo POS, and need to remove the select customer-button, so that only customers swiping their card can but debt on their account in OpenBravo POS. To do this, I have to remove the button in source code. This &#8230; <a href="https://kamfjord.org/2013/09/29/howto-recompile-openbravopos-to-remove-select-customer-button/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>I&#8217;m running OpenBravo POS, and need to remove the select customer-button, so that only customers swiping their card can but debt on their account in OpenBravo POS. To do this, I have to remove the button in source code. This is my howto:</p>
+<p>Install JDK 1.6</p>
+<p>Install Apache ANT</p>
+<p>Add the bin-directory of ANT to %PATH%</p>
+<p>Set %JAVA_HOME% to the JDK directory</p>
+<p>Set %ANT_HOME% to the ANT directory</p>
+<p>reboot</p>
+<p>Download source code of OpenBravo POS</p>
+<p>Go to the src-pos\com\openbravo\pos\sales\JPanelTicket.java file</p>
+<p>Around line 1226 (version 2.30) You&#8217;l find:</p>
+<p>btnCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource(&laquo;/com/openbravo/images/kuser.png&raquo;))); // NOI18N<br />
+btnCustomer.setFocusPainted(false);<br />
+btnCustomer.setFocusable(false);<br />
+btnCustomer.setMargin(new java.awt.Insets(8, 14, 8, 14));<br />
+btnCustomer.setRequestFocusEnabled(false);<br />
+btnCustomer.addActionListener(new java.awt.event.ActionListener() {<br />
+public void actionPerformed(java.awt.event.ActionEvent evt) {<br />
+btnCustomerActionPerformed(evt);<br />
+}<br />
+});<br />
+m_jButtons.add(btnCustomer);</p>
+<p>&nbsp;</p>
+<p>Set a comment before m_jButtons.add(btnCustomer); so that it looks like this:</p>
+<p>btnCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource(&laquo;/com/openbravo/images/kuser.png&raquo;))); // NOI18N<br />
+btnCustomer.setFocusPainted(false);<br />
+btnCustomer.setFocusable(false);<br />
+btnCustomer.setMargin(new java.awt.Insets(8, 14, 8, 14));<br />
+btnCustomer.setRequestFocusEnabled(false);<br />
+btnCustomer.addActionListener(new java.awt.event.ActionListener() {<br />
+public void actionPerformed(java.awt.event.ActionEvent evt) {<br />
+btnCustomerActionPerformed(evt);<br />
+}<br />
+});<br />
+//m_jButtons.add(btnCustomer);</p>
+<p>&nbsp;</p>
+<p>Start cmd, and go to the openbravopos root folder, type &laquo;ant dist&raquo;</p>
+<p>New .jar-file is in build\jar-folder, but into installed openbravopos-folder</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2013/09/29/howto-recompile-openbravopos-to-remove-select-customer-button/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

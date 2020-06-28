@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Eksamen &#8211; Lars Åges tanker</title>
+	<atom:link href="https://kamfjord.org/tag/eksamen/feed/" rel="self" type="application/rss+xml" />
+	<link>https://kamfjord.org/</link>
+	<description>Politikk og teknologi</description>
+	<lastBuildDate>Tue, 25 May 2010 21:27:26 +0000</lastBuildDate>
+	<language>nb-NO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.4.2</generator>
+	<item>
+		<title>Kjør Wikipedia uten internett-tilgang</title>
+		<link>https://kamfjord.org/2010/05/25/kj%c3%b8r-wikipedia-uten-internett-tilgang/</link>
+					<comments>https://kamfjord.org/2010/05/25/kj%c3%b8r-wikipedia-uten-internett-tilgang/#respond</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Tue, 25 May 2010 21:15:31 +0000</pubDate>
+				<category><![CDATA[Jobb]]></category>
+		<category><![CDATA[Wikipedia]]></category>
+		<category><![CDATA[Eksamen]]></category>
+		<category><![CDATA[WikiTaxi]]></category>
+		<guid isPermaLink="false">http://blog.kamfjord.org/?p=181</guid>
+
+					<description><![CDATA[Har fått et par spørsmål om hvordan man kan ha tilgang til Wikipedia uten å ha internett-tilgang. Nye regler i forbindelse med avvikling av eksamen i ungdomsskolen og videregående skole gir elevene mulighet til å bruke alle virkemidler, så lenge &#8230; <a href="https://kamfjord.org/2010/05/25/kj%c3%b8r-wikipedia-uten-internett-tilgang/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Har fått et par spørsmål om hvordan man kan ha tilgang til Wikipedia uten å ha internett-tilgang. Nye regler i forbindelse med avvikling av eksamen i ungdomsskolen og videregående skole gir elevene mulighet til å bruke alle virkemidler, så lenge de ikke kan kommunisere med hverandre, og den metoden jeg beskriver er dermed fult lovlig å bruke, men jeg vil anbefale at IT-ansvarlig på skolen gjennomfører den, og ikke at hver enkelt elev gjør dette på egenhånd, fordi det kan være relativt store datamengder som tar mye plass.</p>
+<h3>Last ned databasedump av Wikipedia</h3>
+<p><a href="http://www.wikimediafoundation.org">Wikimedia Foundation</a> som er stiftelsen som står bak Wikipedia gjør alt innhold fra Wikipedia tilgjengelig på <a href="http://download.wikimedia.org">download.wikimedia.org</a>. Velg ut de databasene du er interessert i, og last ned filen &laquo;pages-articles.xml.bz2&raquo; i den siste databasedumpen som er gjort tilgjengelig:</p>
+<ul>
+<li>Wikipedia på bokmål/riksmål: <a href="http://download.wikimedia.org/nowiki/">nowiki</a></li>
+<li>Wikipedia på nynorsk: <a href="http://dumps.wikimedia.org/nnwiki/">nnwiki</a></li>
+<li>Wikipedia på engelsk: <a href="http://dumps.wikimedia.org/enwiki/">enwiki</a></li>
+</ul>
+<h3>Last ned WikiTaxi</h3>
+<p>WikiTaxi er en offline reader som kan lese databasedumpene som du akkurat har lastet ned. Den kan finnes på <a href="http://www.wikitaxi.org">www.wikitaxi.org</a>.</p>
+<h3>Konverter XML til WikiTaxi-database</h3>
+<p>XML er et veldig fleksibelt format, men det er tungvindt å gjøre søkbart. Derfor må databasedumpen konverteres til WikiTaxi-database. Dette gjøres med programmet wikitaxi_import.exe som følger med WikiTaxi. Fyll inn hvor du har lagret xml&#8217;en du vil konvertere i første feltet, hvor du vil at databasen skal lagres i det andre feltet, og trykk på Import. Programmet vil nå jobbe en stund med å konvertere dataen (for meg brukte den ca. 5 minutter på Wikipedia på bokmål)</p>
+<h3>Start WikiTaxi.exe</h3>
+<p>Dersom du bare trykker på WikiTaxi.exe vil du få opp en bruksanvisning med beskrivelse av programmet og hvordan du bruker det, i begynnelsen av denne vil du også få en lenke for å åpne en ny fil, hvor du kan bla deg frem til hvor du har lagret den konverterte databasen i forrige steg. Åpne filen og du får opp teksten fra Wikipedia, med søkefelt for å finne artikler.</p>
+<p>Du kan også spesifisere hvor databasen ligger direkte ved å skrive adressen til .taxi-fila som en parameter til wikitaxi.exe slik:</p>
+<p><em>p:\Applikasjoner\Wikipedia\WikiTaxi.exe p:\Applikasjoner\Wikipedia\nowiki\nowiki.taxi</em></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2010/05/25/kj%c3%b8r-wikipedia-uten-internett-tilgang/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

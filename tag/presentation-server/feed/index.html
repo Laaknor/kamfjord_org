@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Presentation Server &#8211; Lars Åges tanker</title>
+	<atom:link href="https://kamfjord.org/tag/presentation-server/feed/" rel="self" type="application/rss+xml" />
+	<link>https://kamfjord.org/</link>
+	<description>Politikk og teknologi</description>
+	<lastBuildDate>Tue, 11 Feb 2014 10:40:07 +0000</lastBuildDate>
+	<language>nb-NO</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.4.2</generator>
+	<item>
+		<title>Monitoring Citrix Presentation Server/XenApp load in Nagios</title>
+		<link>https://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/</link>
+					<comments>https://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/#comments</comments>
+		
+		<dc:creator><![CDATA[Lars Åge Kamfjord]]></dc:creator>
+		<pubDate>Wed, 18 Dec 2013 20:28:36 +0000</pubDate>
+				<category><![CDATA[Nagios]]></category>
+		<category><![CDATA[Citrix]]></category>
+		<category><![CDATA[Icinga]]></category>
+		<category><![CDATA[load]]></category>
+		<category><![CDATA[Presentation Server]]></category>
+		<category><![CDATA[qfarm]]></category>
+		<category><![CDATA[qfarm /load]]></category>
+		<category><![CDATA[XenApp]]></category>
+		<guid isPermaLink="false">http://kamfjord.org/?p=459</guid>
+
+					<description><![CDATA[I&#8217;m currently running two diffrent Citrix farms, one on Presentation Server 4, and one on XenApp 6.5. Since I&#8217;m currently in the process of moving from one farm to another, I have to have very good control over how many &#8230; <a href="https://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/">Les videre <span class="meta-nav">&#8594;</span></a>]]></description>
+										<content:encoded><![CDATA[<p>I&#8217;m currently running two diffrent Citrix farms, one on Presentation Server 4, and one on XenApp 6.5. Since I&#8217;m currently in the process of moving from one farm to another, I have to have very good control over how many servers I have in each farm, to always have enough resources on both farms. I really love qfarm /load and use it all the time, but I needed to automate it with our monitoring solution Nagios/Icinga. To do this, I&#8217;ve created the following powershellscript to monitor my farms, and get to know whenever there are missing resources.</p>
+<p>&nbsp;</p>
+<p><strong>citrix_load.ps1</strong></p>
+<p>(Put in c:\program files\nsclient++\scripts\ )</p>
+<pre># Copyright Lars Age Kamfjord &lt;lars(at)kamfjord.org&gt;
+
+# The latest version of this can be found on <a href="http://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/">http://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/</a>
+
+$object = Get-WmiObject -Namespace "root\citrix" -Class MetaFrame_Server_LoadLevel | Select-Object LoadLevel
+if($object.LoadLevel -ge 9000) {
+ Write-Host "Error: Extremly high load: "$object.LoadLevel
+ exit 2
+}
+
+ElseIf ($object.LoadLevel -gt 7500) {
+ Write-Host "Warning: High load: "$object.LoadLevel
+ exit 1
+}
+
+ElseIf($object.LoadLevel -lt 1) {
+ Write-Host "Unknown: Server not in production?"$object.LoadLevel
+ exit 3
+}
+
+else {
+ Write-Host "OK: Load "$object.LoadLevel
+ exit 0
+}
+&nbsp;
+</pre>
+<p><strong>NSclient.ini</strong></p>
+<p>(Add line in nsclient.ini under NRPE/external scripts)</p>
+<pre>check_citrix_load=cmd /c echo scripts\citrix_load.ps1; exit($lastexitcode) | powershell.exe -command -
+</pre>
+<p><strong>nagios service-definition</strong></p>
+<pre>define service {
+use generic-service
+hostgroups admnett-windows-terminal-servers
+service_description Citrix Load
+check_command check_nrpe!check_citrix_load
+check_interval 5
+max_check_attempts 3
+}
+</pre>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://kamfjord.org/2013/12/18/monitoring-citrix-presentation-serverxenapp-in-nagios/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
